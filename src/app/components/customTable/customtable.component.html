@@ -1,0 +1,148 @@
+<div class="card">
+  <p-table
+    editMode="row"
+    dataKey="id"
+    [loading]="loading"
+    [columns]="columns"
+    #dt
+    [value]="tableData"
+    [rows]="initialRowsPerPage"
+    [paginator]="paginator"
+    [rowsPerPageOptions]="rowsPerPageOptions"
+    [globalFilterFields]="filterColumns"
+    styleClass="p-datatable-gridlines"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex flex-col md:flex-row md:justify-between">
+        <div>
+          <button
+            (click)="onAdd()"
+            pButton
+            label="Add"
+            class="p-button-outlined"
+            icon="pi pi-plus"
+          ></button>
+        </div>
+        <div style="text-align: left">
+          <p-button
+            icon="pi pi-external-link"
+            label="Export"
+            (onClick)="dt.exportCSV()"
+          />
+        </div>
+
+        <div>
+          <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              placeholder="Search keyword"
+              (input)="applyFilterGlobal($event, 'contains')"
+            />
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let cols of columns">{{ cols.header }}</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-editing="editing"
+      let-rowIndex="rowIndex"
+      let-rowData
+      let-columns="columns"
+    >
+      <tr [pEditableRow]="rowData">
+        <td *ngFor="let col of columns">
+          <ng-container *ngIf="col.field === 'index'">
+            {{ rowIndex + 1 }}
+          </ng-container>
+          <ng-container *ngIf="col.field === 'images'; else defaultCell">
+            <img
+              [src]="rowData[col.field][0]"
+              *ngIf="rowData[col.field] && rowData[col.field].length > 0"
+              alt="First Image"
+              style="width: 50px; height: 50px; border-radius: 50%"
+            />
+          </ng-container>
+          <ng-template #defaultCell>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input
+                  pInputText
+                  type="text"
+                  [(ngModel)]="rowData[col.field]"
+                />
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ rowData[col.field] }}
+              </ng-template>
+            </p-cellEditor>
+          </ng-template>
+        </td>
+        <td>
+          <i
+            *ngIf="!editing"
+            (click)="onRowView(rowData, rowIndex)"
+            class="pi pi-eye mx-2"
+          ></i>
+          <i
+            *ngIf="editing"
+            pSaveEditableRow
+            (click)="onRowEditSave(rowData)"
+            class="pi pi-check mx-2"
+          ></i>
+          <i
+            *ngIf="editing"
+            pCancelEditableRow
+            (click)="onRowEditCancel(rowData, rowIndex)"
+            class="pi pi-times mx-2"
+          ></i>
+          <i
+            *ngIf="!editing"
+            (click)="onRowDelete($event, rowData)"
+            class="pi pi-trash mx-2"
+          ></i>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-confirmDialog></p-confirmDialog>
+<p-toast position="bottom-center"></p-toast>
+<p-dialog
+  header="Row Details"
+  [(visible)]="displayDialog"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [maximizable]="true"
+  [baseZIndex]="10000"
+  [draggable]="false"
+>
+  <div *ngIf="selectedRow">
+    <div><strong>Sr.No:</strong> {{ selectedRowIndex + 1 }}</div>
+    <div *ngFor="let col of columns">
+      <ng-container
+        *ngIf="col.field !== 'images' && col.field !== 'index'; else imageField"
+      >
+        <strong>{{ col.header }}:</strong> {{ selectedRow[col.field] }}
+      </ng-container>
+      <ng-template #imageField>
+        <ng-container *ngIf="col.field === 'images'">
+          <strong>{{ col.header }}:</strong>
+          <img
+            *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0"
+            [src]="selectedRow[col.field][0]"
+            alt="Product Image"
+            style="width: 100px; height: 100px; object-fit: cover"
+          />
+        </ng-container>
+      </ng-template>
+    </div>
+  </div>
+</p-dialog>

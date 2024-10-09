@@ -1,0 +1,54 @@
+<div>
+    <p-panel header="Dashboard">
+
+        <div class="card grid grid-cols-1 md:grid-cols-3 justify-content-center">
+            <p-card header="Title" class="m-2">
+                <p class="m-0">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
+                    repudiandae numquam deserunt quisquam repellat libero
+                </p>
+            </p-card>
+            <p-card header="Title" class="m-2">
+                <p class="m-0">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
+                    repudiandae numquam deserunt quisquam repellat libero
+                </p>
+            </p-card>
+            <p-card header="Title" class="m-2">
+                <p class="m-0">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
+                    repudiandae numquam deserunt quisquam repellat libero
+                </p>
+            </p-card>
+        </div>
+        <div class="card flex justify-content-center">
+            <p-card header="Title" class="m-2">
+                <p class="m-0">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
+                    repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam
+                    perferendis esse, cupiditate neque quas!
+                </p>
+            </p-card>
+
+        </div>
+        <div class="card flex justify-content-center">
+            <!-- <p-card header="Title" class="m-2 w-full">
+                <app-custom-table [filterColumns]="filterColumns" [initialRowsPerPage]="initialRowsPerPage"
+                    [rowsPerPageOptions]="rowsPerPageOptions" [paginator]="paginator" [tableData]="tableData"
+                    [columns]="columns" style="width: 100%;">
+
+
+
+                </app-custom-table>
+            </p-card> -->
+            <app-custom-form (formSubmit)="onFormSubmit($event)" [title]="'Add New Product'"
+                [inputFields]="inputFields"></app-custom-form>
+
+        </div>
+        <ng-template pTemplate="icons">
+            <button class="p-panel-header-icon p-link mr-2">
+                <span routerLink="/login" class="pi pi-cog"></span>
+            </button>
+        </ng-template>
+    </p-panel>
+</div>

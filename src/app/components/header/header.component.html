@@ -1,0 +1,17 @@
+<p-toolbar [style]="{'padding':'0px 1rem'}">
+    <div class="p-toolbar-group-start">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="p-toolbar-group-end">
+        <i (click)="toggleTheme('lara-dark-blue')" *ngIf="isLight" style="font-size: 20px;padding: 15px;"
+            class="pi pi-sun"></i>
+        <i (click)="toggleTheme('lara-light-blue')" *ngIf="!isLight" style="font-size: 20px;padding: 15px;"
+            class="pi pi-moon"></i>
+        <p-splitButton styleClass="p-button-text" [model]="items">
+            <ng-template pTemplate="image">
+                <img src="https://cdn2.iconfinder.com/data/icons/avatars-60/5985/2-Boy-512.png" alt="Custom Image"
+                    style="height: 2rem; width: 2rem;">
+            </ng-template>
+        </p-splitButton>
+    </div>
+</p-toolbar>

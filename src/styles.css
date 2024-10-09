@@ -1,0 +1,54 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+@layer reset {
+    .p-tieredmenu {
+        width: auto;
+    }
+
+    .p-panel-header {
+        font-size: 25px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .p-splitbutton.p-button-text>.p-button {
+        padding: 0.75rem 0.35rem;
+    }
+
+    .p-input-icon-right>.p-inputtext,
+    .p-password {
+        width: 100%;
+    }
+
+    /* input[type='file'] {
+        display: none
+    } */
+    ::-webkit-file-upload-button {
+        margin: 0;
+        display: inline-flex;
+        cursor: pointer;
+        -webkit-user-select: none;
+        user-select: none;
+        align-items: center;
+        vertical-align: bottom;
+        text-align: center;
+        overflow: hidden;
+        position: relative;
+        background-color: transparent;
+        color: #60a5fa;
+        border: 1px solid;
+        box-sizing: border-box;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        border-radius: 6px;
+        font-weight: 700;
+    }
+}
+
+@tailwind components;
+@tailwind utilities;
