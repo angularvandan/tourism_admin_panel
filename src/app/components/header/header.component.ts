@@ -6,6 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
+import { ApiService } from '../../services/api/api.service';
 
 // import { EventEmitter } from 'stream';
 @Component({
@@ -28,7 +29,7 @@ export class HeaderComponent {
 
   storedTheme: any
 
-  constructor(private themeService: ThemeService) {
+  constructor(private themeService: ThemeService,private apiService:ApiService) {
   }
 
   ngOnInit() {
@@ -42,14 +43,17 @@ export class HeaderComponent {
     }
     this.items = [
       {
-        label: 'Profile',
-        icon: 'pi pi-user',
-      },
-      {
         label: 'Logout',
         icon: 'pi pi-power-off',
+        command: () => {
+          this.logout();  // Call the logout function when clicked
+        }
       },
     ];
+  }
+
+  logout(){
+    this.apiService.logOut();
   }
 
   toggleTheme(theme: string) {

@@ -45,6 +45,7 @@ import { FileUploadComponent } from '../fileUpload/fileupload.component';
 })
 export class CustomFormCompomemt implements OnInit {
   @Input() title: string = '';
+  @Input() dynamicForms: any[]=[];
   @Input() inputFields: any[] = [];
   @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('fileInput')
@@ -73,10 +74,12 @@ export class CustomFormCompomemt implements OnInit {
 
   submitForm() {
     // Send Form Data
+
     this.formSubmit.emit(this.formData.value);
     // Reset Form
     this.formData.reset()
     // Display toast message
     this.messageService.add(success('Added'));
   }
+  
 }

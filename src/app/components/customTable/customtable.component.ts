@@ -102,7 +102,7 @@ export class CustomTableComponent implements OnInit {
           summary: 'Confirmed',
           detail: 'Record deleted',
         });
-        this.deleteData.emit(rowData.id);
+        this.deleteData.emit(rowData._id);
       },
       reject: () => {
         this.messageService.add({
@@ -122,6 +122,7 @@ export class CustomTableComponent implements OnInit {
   // View Row Details
   onRowView(rowData: any, index: number) {
     this.selectedRow = rowData;
+    console.log(this.selectedRow);
     this.selectedRowIndex = index;
     this.displayDialog = true;
   }

@@ -1,7 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { ApiService } from '../api/api.service';
 
 export const customInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcwOTIwMDcwMX0.N-dPfDSYDttMSGbh4Q7N1cBm7g2G0haQ1s6U0nCl3X8'
+  const api=inject(ApiService);
+  let token =api.currentUser.token;
+  console.log(token);
   const customClone = req.clone({
     setHeaders: {
       Authorization: `${token}`

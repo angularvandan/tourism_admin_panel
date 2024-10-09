@@ -11,7 +11,7 @@
                 <div>
                     <form [formGroup]="loginForm">
 
-                        <div class="flex flex-col gap-2 my-4 sm:px-32">
+                        <div class="flex flex-col gap-2 my-4">
                             <label for="username">Email</label>
                             <input formControlName="email" placeholder="Enter email" pInputText id="email"
                                 aria-describedby="email-help" />
@@ -23,7 +23,7 @@
                                     email format.</small>
                             </div>
                         </div>
-                        <div class="flex flex-col gap-2 my-4 sm:px-32">
+                        <div class="flex flex-col gap-2 my-4 ">
                             <label for="username">Password</label>
                             <p-password formControlName="password" class="w-full" placeholder="Enter password"
                                 [feedback]="false" [toggleMask]="true"></p-password>
@@ -37,7 +37,7 @@
                         </div>
                         <div class="flex justify-center -mx-3">
                             <div class="w-auto px-3 mb-5">
-                                <p-button (onclick)="onSubmit()" label="Submit"></p-button>
+                                <p-button (onClick)="onSubmit()" label="Submit"></p-button>
                             </div>
                         </div>
                     </form>

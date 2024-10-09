@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
@@ -24,9 +24,23 @@ import { CustomTableComponent } from './components/customTable/customtable.compo
 export class AppComponent {
   title = 'frontend';
 
-  submitForm(formData: any): void {
-    // Handle form submission
-    console.log('Form Data:', formData);
-    // You can call an API service to submit the form data here
+  showHeader: boolean = true;
+
+  constructor(private router: Router) {
+    // Subscribe to router events to check for the active route
+    this.router.events.subscribe(() => {
+      this.checkRoute();
+    });
   }
+
+  checkRoute() {
+    // Hide header on specific routes
+    const currentRoute = this.router.url;
+    if (currentRoute === '/login' || currentRoute === '/register') {
+      this.showHeader = false;
+    } else {
+      this.showHeader = true;
+    }
+  }
+
 }

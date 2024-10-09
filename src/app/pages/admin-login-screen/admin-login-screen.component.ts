@@ -3,8 +3,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { ApiService } from '../../services/api/api.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-login-screen',
   standalone: true,
@@ -25,7 +26,12 @@ export class AdminLoginScreenComponent {
 
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder,private apiService:ApiService) {
+  constructor(private fb: FormBuilder,private apiService:ApiService,private router:Router ) {
+
+    if (this.apiService.currentUser.token) {
+      this.router.navigate(['/dashboard']);
+    }
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -40,6 +46,7 @@ export class AdminLoginScreenComponent {
       this.apiService.loginUser(formData).subscribe({
         next:(res:any)=>{
           console.log(res);
+          this.router.navigate(['/dashboard']);
         },error:(err:any)=>{
           console.log(err);
         }

@@ -12,7 +12,7 @@
                                 formControlName="{{ field.fields.name }}" />
 
                             <!-- TextArea -->
-                            <textarea formControlName="{{ field.fields.name }}" *ngSwitchCase="'textarea'"
+                            <textarea formControlName="{{ field.fields.name }}" *ngSwitchCase="'textarea'" rows="3"
                                 class="form-control" [placeholder]="field.fields.placeholder" pInputTextarea></textarea>
 
                             <!-- Number Input -->
@@ -59,12 +59,14 @@
                             </p-calendar>
 
                             <!-- File -->
-                            <input id="file" type="file" *ngSwitchCase="'file'" formControlName="{{field.fields.name}}">
+                            <input id="file" type="file" *ngSwitchCase="'file'"formControlName="{{field.fields.name}}"
+                                accept="image/*" multiple>
                         </ng-container>
                     </div>
                 </ng-container>
             </div>
-            <p-button [disabled]="formData.invalid" type="submit" label="Submit" class="btn btn-primary"></p-button>
+            <ng-content></ng-content>
+            <p-button [disabled]="formData.invalid " type="submit" label="Submit" class="btn btn-primary"></p-button>
         </form>
     </div>
 </p-panel>
