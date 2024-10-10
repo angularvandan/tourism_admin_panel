@@ -10,13 +10,13 @@
         <div class="text-left mb-2 md:mb-0">
           <p-button icon="pi pi-external-link" label="Export" (onClick)="dt.exportCSV()" />
         </div>
-        <div class="mb-2 md:mb-0">
+        <!-- <div class="mb-2 md:mb-0">
           <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
             <input pInputText type="text" placeholder="Search keyword" (input)="applyFilterGlobal($event, 'contains')"
               class="border rounded-md px-2 py-1" />
           </span>
-        </div>
+        </div> -->
       </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -27,20 +27,39 @@
     </ng-template>
     <ng-template pTemplate="body" let-editing="editing" let-rowIndex="rowIndex" let-rowData let-columns="columns">
       <tr [pEditableRow]="rowData" class="hover:bg-gray-100">
-        <td *ngFor="let col of columns" class="py-2 px-4">
+        <td *ngFor="let col of columns" class="py-2 px-4 min-w-[250px]">
           <ng-container [ngSwitch]="col.field">
             <ng-container *ngSwitchCase="'index'">
               {{ rowIndex + 1 }}
             </ng-container>
             <ng-container *ngSwitchCase="'images'">
               <img [src]="rowData[col.field][0]" *ngIf="rowData[col.field]?.length > 0" alt="First Image"
-                class="w-12 h-12 rounded-full" />
+                class="w-[200px] " />
+            </ng-container>
+            <ng-container *ngSwitchCase="'image'">
+              <img [src]="rowData[col.field]" *ngIf="rowData[col.field]?.length > 0" alt="First Image"
+                class="w-[200px] " />
             </ng-container>
             <ng-container *ngSwitchCase="'tips'">
               <div *ngFor="let tip of rowData.tips">
-                <span class="font-bold">{{ tip.title }}:</span>
-                <span>{{ tip.desc1 }}, {{ tip.desc2 }} {{ tip.icon }}</span>
+                <span class="">{{ tip.title }}</span>
+                <!-- <span *ngIf="tip.desc1">{{ tip.desc1 }}, {{ tip.desc2 }} {{ tip.icon1 }} {{ tip.icon2 }}</span>
+                <span *ngIf="tip.desc">{{ tip.desc }},{{ tip.icon }}</span> -->
               </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'tour_id'">
+              <span class="">{{rowData.tour_id._id}}</span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'spot_id'">
+              <span class="">{{rowData.spot_id._id}}</span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'quote'">
+              <span class="">{{rowData.quote.content}}</span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'content'">
+              <span class="">
+                {{rowData.content[0].desc}}
+              </span>
             </ng-container>
             <ng-container *ngSwitchDefault>
               <p-cellEditor>
@@ -71,9 +90,70 @@
   [maximizable]="true" [baseZIndex]="10000" [draggable]="false">
   <div *ngIf="selectedRow">
     <div><strong>Sr.No:</strong> {{ selectedRowIndex + 1 }}</div>
-    
+
     <div *ngFor="let col of columns">
-      <ng-container *ngIf="col.field !== 'images' && col.field !== 'index'; else imageField">
+      <ng-container [ngSwitch]="col.field">
+
+        <ng-container *ngSwitchCase="'images'">
+          <strong>{{ col.header }}:</strong>
+          <ng-container *ngFor="let img of selectedRow.images;let i=index">
+
+            <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field][i]"
+              alt="Product Image" class="w-24 h-24 object-cover" />
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'image'">
+          <strong>{{ col.header }}:</strong>
+          <ng-container>
+
+            <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field]"
+              alt="Product Image" class="w-24 h-24 object-cover" />
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'tour_id'">
+          <span class=""><span class="font-bold">Tour Id:</span>>{{selectedRow.tour_id._id}}</span>
+        </ng-container>
+        <ng-container *ngSwitchCase="'spot_id'">
+          <span class=""><span class="font-bold">Spot Id:</span>{{selectedRow.spot_id._id}}</span>
+        </ng-container>
+        <ng-container *ngSwitchCase="'content'">
+          <span class="">Content:
+            <span class="font-bold" *ngFor="let data of selectedRow.content">
+              {{data.desc}}
+            </span>
+          </span>
+        </ng-container>
+        <ng-container *ngSwitchCase="'quote'">
+          <span class="font-bold" >Quote:
+            <span>
+              {{selectedRow.quote.content}}
+            </span>
+            <span class="font-bold" >
+              - {{selectedRow.quote.name}}
+            </span>
+          </span>
+        </ng-container>
+        <ng-container *ngSwitchCase="'tips'">
+          <div *ngFor="let tip of selectedRow.tips">
+            <div *ngIf="tip.desc1">
+              <span class="font-bold">{{ tip.title }}:</span>
+              <span>{{ tip.desc1 }}, {{ tip.desc2 }}</span>
+              <span> {{ tip.icon1 }} {{ tip.icon2 }}</span>
+            </div>
+            <div *ngIf="tip.desc">
+              <span class="font-bold">{{ tip.title }}:</span>
+              <span>{{ tip.desc }}</span>
+              <span> {{ tip.icon }}</span>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <strong>{{ col.header }}:</strong> {{ selectedRow[col.field] }}
+        </ng-container>
+      </ng-container>
+
+      <!-- <ng-container *ngIf="col.field !== 'images' && col.field !== 'index'; else imageField">
         <strong>{{ col.header }}:</strong> {{ selectedRow[col.field] }}
       </ng-container>
       <ng-template #imageField>
@@ -82,7 +162,7 @@
           <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field][0]"
             alt="Product Image" class="w-24 h-24 object-cover" />
         </ng-container>
-      </ng-template>
+      </ng-template> -->
     </div>
   </div>
 </p-dialog>

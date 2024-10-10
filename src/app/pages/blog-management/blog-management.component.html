@@ -1,1 +1,72 @@
-<p>blog-management works!</p>
+<div>
+    <p-panel header="Blogs Management">
+        <div class="card grid grid-cols-1 justify-content-center">
+            <div class="overflowx-x-auto"> <!-- Make the container scrollable -->
+                <app-custom-table (visible)="showDialog($event)" (deleteData)="deleteData($event)" [loading]="loading"
+                    [tableData]="toursData" [columns]="columns" [paginator]="paginator"
+                    [rowsPerPageOptions]="rowsPerPageOptions"
+                    [initialRowsPerPage]="initialRowsPerPage"></app-custom-table>
+            </div>
+        </div>
+    </p-panel>
+</div>
+<p-dialog class="w-full lg:w-9/12" header="Add User" [(visible)]="visible" [modal]="true" [draggable]="false"
+    [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
+    <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms" (formSubmit)="onSubmitAddForm($event)"(file)="onFileSelect($event)">
+        <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Loop through dynamic forms array to generate the input fields -->
+            <div *ngFor="let form of dynamicForms; let i = index" class="p-fluid p-mb-4">
+
+                
+
+                <!-- Description 1 Input -->
+                <div class="p-field p-grid">
+                    <label for="desc1-{{i}}" class="p-col-12 p-md-2">Description {{i+1}}</label>
+                    <div class="p-col-12 p-md-10">
+                        <textarea pInputText id="desc1-{{i}}" [(ngModel)]="form.desc" placeholder="Enter Description " ></textarea>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+        <!-- Button to Add More Forms -->
+        <div class="p-field p-grid">
+            <div class="p-col-12 p-md-10 p-md-offset-2">
+                <button pButton type="button" label="Add Description" icon="pi pi-plus" (click)="addNewForm()"></button>
+            </div>
+        </div>
+        <div class="p-field p-grid">
+            <div class="p-col-12 p-md-10 p-md-offset-2">
+                <button pButton type="button" label="Remove Description" icon="pi pi-minus" (click)="removeForm()"></button>
+            </div>
+        </div>
+    </app-custom-form>
+
+</p-dialog>
+
+<!-- this is for show details -->
+<!-- <p-dialog header="Row Details" [(visible)]="displayDialog" [modal]="true" [style]="{ width: '50vw' }"
+  [maximizable]="true" [baseZIndex]="10000" [draggable]="false">
+  <div *ngIf="selectedRowDetails">
+    <div><strong>Sr.No:</strong> {{ selectedRowDetails + 1 }}</div>
+    <div><strong>Name</strong> {{ selectedRowDetails?.name }}</div>
+    <div><strong>Sr.No:</strong> {{ selectedRowDetails.description }}</div>
+    <div><strong>Sr.No:</strong> {{ selectedRowIndex + 1 }}</div>
+    <div><strong>Sr.No:</strong> {{ selectedRowIndex + 1 }}</div>
+    
+    <div *ngFor="let col of columns">
+      <ng-container *ngIf="col.field !== 'images' && col.field !== 'index'; else imageField">
+        <strong>{{ col.header }}:</strong> {{ selectedRow[col.field] }}
+      </ng-container>
+      <ng-template #imageField>
+        <ng-container *ngIf="col.field === 'images'">
+          <strong>{{ col.header }}:</strong>
+          <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field][0]"
+            alt="Product Image" class="w-24 h-24 object-cover" />
+        </ng-container>
+      </ng-template>
+    </div>
+  </div>
+</p-dialog> -->

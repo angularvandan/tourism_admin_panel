@@ -12,7 +12,7 @@
 </div>
 <p-dialog class="w-full lg:w-9/12" header="Add User" [(visible)]="visible" [modal]="true" [draggable]="false"
     [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
-    <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms" (formSubmit)="onSubmitAddForm($event)">
+    <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms" (formSubmit)="onSubmitAddForm($event)"(file)="onFileSelect($event)">
         <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
             <!-- Loop through dynamic forms array to generate the input fields -->
@@ -59,19 +59,17 @@
                 </div>
 
             </div>
-
-            
             
         </div>
         <!-- Button to Add More Forms -->
         <div class="p-field p-grid">
             <div class="p-col-12 p-md-10 p-md-offset-2">
-                <button pButton type="button" label="Add Form" icon="pi pi-plus" (click)="addNewForm()"></button>
+                <button pButton type="button" label="Add Tips" icon="pi pi-plus" (click)="addNewForm()"></button>
             </div>
         </div>
         <div class="p-field p-grid">
             <div class="p-col-12 p-md-10 p-md-offset-2">
-                <button pButton type="button" label="Add Form" icon="pi pi-minus" (click)="removeForm()"></button>
+                <button pButton type="button" label="Remove Tips" icon="pi pi-minus" (click)="removeForm()"></button>
             </div>
         </div>
     </app-custom-form>

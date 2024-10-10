@@ -60,7 +60,7 @@
 
                             <!-- File -->
                             <input id="file" type="file" *ngSwitchCase="'file'"formControlName="{{field.fields.name}}"
-                                accept="image/*" multiple>
+                                accept="image/*"(change)="onFileSelected($event)" multiple>
                         </ng-container>
                     </div>
                 </ng-container>

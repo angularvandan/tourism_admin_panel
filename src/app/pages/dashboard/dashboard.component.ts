@@ -63,8 +63,6 @@ export class DashboardComponent implements OnInit {
       rating: 5,
     }
   ];
-  // Table Ends
-
   // Forms Array Example
   onFormSubmit(formData: any) {
     console.log(formData)
@@ -180,7 +178,6 @@ export class DashboardComponent implements OnInit {
       }
     };
 
-    // console.log(getError(errorWithMessage))
   }
 
 }

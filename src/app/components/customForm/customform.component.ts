@@ -48,6 +48,7 @@ export class CustomFormCompomemt implements OnInit {
   @Input() dynamicForms: any[]=[];
   @Input() inputFields: any[] = [];
   @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() file: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('fileInput')
   fileInput!: ElementRef;
   formData = this.fb.group({});
@@ -66,7 +67,7 @@ export class CustomFormCompomemt implements OnInit {
       if (controls.fields.required) {
         validators.push(Validators.required)
       }
-      console.log(validators)
+      // console.log(validators)
       this.formData.addControl(controls.fields.name, this.fb.control(controls.value, validators))
       console.log(this.formData)
     }
@@ -80,6 +81,15 @@ export class CustomFormCompomemt implements OnInit {
     this.formData.reset()
     // Display toast message
     this.messageService.add(success('Added'));
+  }
+  // When the user selects files
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      // Store selected files
+      let selectedFiles = Array.from(input.files);
+      this.file.emit(selectedFiles);
+    }
   }
   
 }

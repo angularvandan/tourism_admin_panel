@@ -36,6 +36,7 @@ export class ToursManagementComponent implements OnInit {
     private confirmationService: ConfirmationService
   ) { }
   columns = [
+    { field: '_id', header: 'Id' },
     { field: 'name', header: 'Name' },
     { field: 'title', header: 'Title' },
     { field: 'description', header: 'Description' },
@@ -142,6 +143,9 @@ export class ToursManagementComponent implements OnInit {
     }
   ];
 
+  selectedFileData:File[]=[];
+  imageUrl:any[]=[];
+
   // Add new form when user clicks "Add Form"
   addNewForm() {
     this.dynamicForms.push({
@@ -180,16 +184,45 @@ export class ToursManagementComponent implements OnInit {
       this.getTours();
     });
   }
+  //this is for file into url
+  onFileSelect(data:any){
+    console.log(data);
+    this.selectedFileData=data;
 
+    const formData = new FormData();
+      // Append each selected file to the FormData object
+      this.selectedFileData.forEach(file => {
+        formData.append('images', file);
+      });
+
+    this.api.getImageUrl(formData).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.imageUrl=res.data;
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
+  }
+  // create tours 
   onSubmitAddForm(formData: any) {
-    // this.api.createUser(formData).subscribe((res: any) => {
-    //   console.log(res);
-    //   this.getTours();
-    // });
+    
     console.log(formData);
     console.log(this.dynamicForms);
-    formData={...formData,tips:this.dynamicForms};
+    formData={...formData,tips:this.dynamicForms,images:this.imageUrl};
     console.log(formData);
+
+    this.api.createTours(formData).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.getTours();
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
+
   }
 
   confirm2(event: Event) {
