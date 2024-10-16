@@ -4,7 +4,7 @@
     [globalFilterFields]="filterColumns" styleClass="p-datatable-gridlines">
     <ng-template pTemplate="caption">
       <div class="flex flex-col md:flex-row md:justify-between mb-4">
-        <div class="mb-2 md:mb-0">
+        <div class="mb-2 md:mb-0" *ngIf="editingStatus">
           <button (click)="onAdd()" pButton label="Add" class="p-button-outlined" icon="pi pi-plus"></button>
         </div>
         <div class="text-left mb-2 md:mb-0">
@@ -61,6 +61,22 @@
                 {{rowData.content[0].desc}}
               </span>
             </ng-container>
+            <ng-container *ngSwitchCase="'tours_details'">
+              <span class="">
+                {{rowData.tours_details[0].address}}
+              </span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'priceDetails'">
+              <span class="">Adult:
+                {{rowData.priceDetails.adult.count}}
+              </span>
+              <span class="">Child:
+                {{rowData.priceDetails.child.count}}
+              </span>
+              <span class="">Infant:
+                {{rowData.priceDetails.infant.count}}
+              </span>
+            </ng-container>
             <ng-container *ngSwitchDefault>
               <p-cellEditor>
                 <ng-template pTemplate="input">
@@ -78,7 +94,8 @@
           <i *ngIf="editing" pSaveEditableRow (click)="onRowEditSave(rowData)" class="pi pi-check cursor-pointer"></i>
           <i *ngIf="editing" pCancelEditableRow (click)="onRowEditCancel(rowData, rowIndex)"
             class="pi pi-times cursor-pointer"></i>
-          <i *ngIf="!editing" (click)="onRowDelete($event, rowData)" class="pi pi-trash cursor-pointer"></i>
+          <i *ngIf="!editing && editingStatus" (click)="onRowDelete($event, rowData)"
+            class="pi pi-trash cursor-pointer"></i>
         </td>
       </tr>
     </ng-template>
@@ -123,12 +140,64 @@
             </span>
           </span>
         </ng-container>
+        <ng-container *ngSwitchCase="'tours_details'">
+          <span class="font-bold">ToursDetails: <br></span>
+          <span>
+            <span class="" *ngFor="let tour of selectedRow.tours_details;let i=index">
+              <ng-container *ngIf="i==0">
+                <span class=""><span class="font-bold">Tour Name: </span> {{tour.name}}</span><br>
+                <span class=""><span class="font-bold">Tour Address: </span> {{tour.address}}</span><br>
+              </ng-container>
+              <ng-container *ngIf="i>0">
+                <span class=""><span class="font-bold">Spots Name: </span>{{tour.spot_id.name}}</span><br>
+                <span class=""><span class="font-bold">Activity Name: </span>{{tour.name}}</span><br>
+
+              </ng-container>
+            </span>
+          </span>
+        </ng-container>
+        <ng-container *ngSwitchCase="'priceDetails'">
+          <span class="">Price Details with person:
+            <span class="font-bold" *ngIf="selectedRow.priceDetails.adult">
+              <p class="font-bold">Adult:</p>
+              <span>
+                <span class="font-semibold">Count:</span>
+                {{selectedRow.priceDetails.adult.count}}</span><br>
+              <span>
+                <span class="font-semibold">Total Price:</span>
+                {{selectedRow.priceDetails.adult.totalPrice}}
+              </span>
+            </span>
+            <span class="font-bold" *ngIf="selectedRow.priceDetails.child">
+              <p class="font-bold">Child:</p>
+              <span>
+                <span class="font-semibold">Count:</span>
+                {{selectedRow.priceDetails.child.count}}
+              </span><br>
+              <span>
+                <span class="font-semibold">Total Price:</span>
+                {{selectedRow.priceDetails.child.totalPrice}}
+              </span>
+            </span>
+            <span class="font-bold" *ngIf="selectedRow.priceDetails.infant">
+              <p class="font-bold">Infant:</p>
+              <span>
+                <span class="font-semibold">Count:</span>
+                {{selectedRow.priceDetails.infant.count}}
+              </span><br>
+              <span>
+                <span class="font-semibold">Total Price:</span>
+                {{selectedRow.priceDetails.infant.totalPrice}}
+              </span>
+            </span>
+          </span>
+        </ng-container>
         <ng-container *ngSwitchCase="'quote'">
-          <span class="font-bold" >Quote:
+          <span class="font-bold">Quote:
             <span>
               {{selectedRow.quote.content}}
             </span>
-            <span class="font-bold" >
+            <span class="font-bold">
               - {{selectedRow.quote.name}}
             </span>
           </span>

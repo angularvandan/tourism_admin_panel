@@ -51,6 +51,7 @@ export class CustomTableComponent implements OnInit {
   @Input() tableData?: any;
   @Input() paginator?: boolean;
   @Input() loading?: boolean;
+  @Input() editingStatus?: boolean=true;
   @Input() rowsPerPageOptions?: any[];
   @Input() initialRowsPerPage?: number;
   @Output() deleteData: EventEmitter<any> = new EventEmitter();

@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  backendUrl: 'https://tourism-backend-ubb8.onrender.com',
+  backendUrl: 'http://localhost:4000',
 };

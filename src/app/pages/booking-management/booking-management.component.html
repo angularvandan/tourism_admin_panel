@@ -1,1 +1,19 @@
-<p>booking-management works!</p>
+<div>
+    <p-panel header="Bookings Management">
+        <div class="card grid grid-cols-1 justify-content-center">
+            <div class="overflowx-x-auto"> <!-- Make the container scrollable -->
+                <app-custom-table (visible)="showDialog($event)"[editingStatus]="false" [loading]="loading"
+                    [tableData]="bookingData" [columns]="columns" [paginator]="paginator"
+                    [rowsPerPageOptions]="rowsPerPageOptions"
+                    [initialRowsPerPage]="initialRowsPerPage"></app-custom-table>
+            </div>
+        </div>
+    </p-panel>
+</div>
+<p-dialog class="w-full lg:w-9/12" header="Add User" [(visible)]="visible" [modal]="true" [draggable]="false"
+    [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
+    <app-custom-form [inputFields]="inputFields"(formSubmit)="onSubmitAddForm($event)">
+    </app-custom-form>
+
+</p-dialog>
+

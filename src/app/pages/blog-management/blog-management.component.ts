@@ -25,7 +25,8 @@ import { CustomTableComponent } from '../../components/customTable/customtable.c
     FormsModule,
     InputTextModule,
     ButtonModule,
-  ],  templateUrl: './blog-management.component.html',
+  ],
+  templateUrl: './blog-management.component.html',
   styleUrl: './blog-management.component.css'
 })
 export class BlogManagementComponent implements OnInit{

@@ -13,7 +13,6 @@ const USER_KEY = 'tourism_web';
 })
 export class ApiService {
 
-
   private userSubject = new BehaviorSubject<User>(this.getuserFromLocalStorage());
   public userObservable: Observable<User>;
   baseUrl = environment.backendUrl;
@@ -69,6 +68,18 @@ export class ApiService {
 
   deleteBlogById(id: any) {
     return this.http.delete(`${this.baseUrl}/api/blogs/${id}`);
+  }
+
+  getBookings(){
+    return this.http.get(`${this.baseUrl}/api/booking`);
+
+  }
+  getFeedbacks(){
+    return this.http.get(`${this.baseUrl}/api/feedback`);
+
+  }
+  getContacts(){
+    return this.http.get(`${this.baseUrl}/api/contact`);
   }
 
 

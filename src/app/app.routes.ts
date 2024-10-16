@@ -6,6 +6,9 @@ import { ToursManagementComponent } from './pages/tours-management/tours-managem
 import { SpotsManagementComponent } from './pages/spots-management/spots-management.component';
 import { ActivityManagementComponent } from './pages/activity-management/activity-management.component';
 import { BlogManagementComponent } from './pages/blog-management/blog-management.component';
+import { BookingManagementComponent } from './pages/booking-management/booking-management.component';
+import { FeedbackManagementComponent } from './pages/feedback-management/feedback-management.component';
+import { ContactManagementComponent } from './pages/contact-management/contact-management.component';
 
 export const routes: Routes = [
   { path: '', component: AdminLoginScreenComponent },
@@ -15,4 +18,7 @@ export const routes: Routes = [
   { path: 'spots', component: SpotsManagementComponent,canActivate: [guardGuard] },
   { path: 'activities', component: ActivityManagementComponent,canActivate: [guardGuard] },
   { path: 'blogs', component: BlogManagementComponent,canActivate: [guardGuard] },
+  { path: 'bookings', component: BookingManagementComponent,canActivate: [guardGuard] },
+  { path: 'feedbacks', component: FeedbackManagementComponent,canActivate: [guardGuard] },
+  { path: 'contacts', component:ContactManagementComponent,canActivate: [guardGuard] },
 ];
