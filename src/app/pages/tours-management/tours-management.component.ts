@@ -74,24 +74,6 @@ export class ToursManagementComponent implements OnInit {
       },
     },
     {
-      type: 'textarea',
-      fields: {
-        label: 'Description',
-        name: 'description',
-        placeholder: 'Enter Description',
-        required: true,
-      },
-    },
-    {
-      type: 'textarea',
-      fields: {
-        label: 'Address',
-        name: 'address',
-        placeholder: 'Enter address',
-        required: true,
-      },
-    },
-    {
       type: 'text',
       fields: {
         label: 'Price Adult',
@@ -116,13 +98,30 @@ export class ToursManagementComponent implements OnInit {
         placeholder: 'Enter price',
         required: true,
       },
-    },
-    
+    },    
     {
       type: 'file',
       fields: {
         label: 'Choose Image',
         name: 'images',
+        required: true,
+      },
+    },
+    {
+      type: 'textarea',
+      fields: {
+        label: 'Description',
+        name: 'description',
+        placeholder: 'Enter Description',
+        required: true,
+      },
+    },
+    {
+      type: 'textarea',
+      fields: {
+        label: 'Address',
+        name: 'address',
+        placeholder: 'Enter address',
         required: true,
       },
     },
