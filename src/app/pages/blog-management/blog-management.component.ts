@@ -61,15 +61,6 @@ export class BlogManagementComponent implements OnInit{
       },
     },
     {
-      type: 'textarea',
-      fields: {
-        label: 'Quote Content',
-        name: 'quote_content',
-        placeholder: 'Enter Quote',
-        required: true,
-      },
-    },
-    {
       type: 'text',
       fields: {
         label: 'Quote Given by ',
@@ -83,6 +74,15 @@ export class BlogManagementComponent implements OnInit{
       fields: {
         label: 'Choose Image',
         name: 'images',
+        required: true,
+      },
+    },
+    {
+      type: 'textarea',
+      fields: {
+        label: 'Quote Content',
+        name: 'quote_content',
+        placeholder: 'Enter Quote',
         required: true,
       },
     },

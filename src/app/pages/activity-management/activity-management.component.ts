@@ -72,12 +72,12 @@ export class ActivityManagementComponent implements OnInit{
         required: true,
       },
     },
+        
     {
-      type: 'textarea',
+      type: 'file',
       fields: {
-        label: 'Description',
-        name: 'description',
-        placeholder: 'Enter Description',
+        label: 'Choose Image',
+        name: 'image',
         required: true,
       },
     },
@@ -107,17 +107,16 @@ export class ActivityManagementComponent implements OnInit{
         required: true,
       },
     },
-    
     {
-      type: 'file',
+      type: 'textarea',
       fields: {
-        label: 'Choose Image',
-        name: 'image',
+        label: 'Description',
+        name: 'description',
+        placeholder: 'Enter Description',
         required: true,
       },
     },
   ];
-  
 
   selectedFileData:File[]=[];
   imageUrl:any='';
