@@ -37,8 +37,6 @@ export class ActivityManagementComponent implements OnInit{
     private confirmationService: ConfirmationService
   ) { }
   columns = [
-    { field: '_id', header: 'Id' },
-    { field: 'spot_id', header: 'Spot Id' },    
     { field: 'name', header: 'Name' },
     { field: 'description', header: 'Description' },
     { field: 'image', header: 'Image' },
@@ -46,6 +44,14 @@ export class ActivityManagementComponent implements OnInit{
     { field: 'price_child', header: 'Price (Child)' },
     { field: 'price_infant', header: 'Price (Infant)' },
   ];
+  columnsDetails=[
+    { field: 'name', header: 'Name' },
+    { field: 'image', header: 'Image' },
+    { field: 'price_adult', header: 'Price (Adult)' },
+    { field: 'price_child', header: 'Price (Child)' },
+    { field: 'price_infant', header: 'Price (Infant)' },
+  ];
+  rowDetailsHeader:string='Activity Details';
   paginator = true;
   rowsPerPageOptions = [5, 10, 15];
   initialRowsPerPage = 5;
@@ -54,12 +60,14 @@ export class ActivityManagementComponent implements OnInit{
   visible: boolean = false;
 
   inputFields = [
+    
     {
-      type: 'text',
+      type: 'select',
       fields: {
         label: 'Spots Id',
         name: 'spot_id',
-        placeholder: 'Enter Tours Id',
+        placeholder: 'Enter Spots Id',
+        options: [ ],
         required: true,
       },
     },
@@ -124,6 +132,7 @@ export class ActivityManagementComponent implements OnInit{
 
   ngOnInit(): void {
     this.getActivities();
+    this.getAllSpots();
   }
 
   getActivities() {
@@ -132,6 +141,28 @@ export class ActivityManagementComponent implements OnInit{
       console.log(res);
       this.loading = false;
     });
+  }
+  getAllSpots() {
+    this.api.getSpots().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        const filteredData=res;
+        // select options
+        this.inputFields.forEach(field => {
+          if (field.type === 'select') {
+            // Map filteredData to an array of objects with 'value' and 'label'
+            field.fields.options = filteredData.map((item:any) => ({
+              code: item._id,   // The value will be the _id
+              name: item.name   // The label will be the name
+            }));
+          }
+        });
+        console.log(this.inputFields);
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
   }
 
   showDialog(visible: any) {
@@ -171,7 +202,7 @@ export class ActivityManagementComponent implements OnInit{
   onSubmitAddForm(formData: any) {
     
     console.log(formData);
-    formData={...formData,image:this.imageUrl};
+    formData={...formData,spot_id:formData.spot_id.code,image:this.imageUrl};
     console.log(formData);
 
     this.api.createActivities(formData).subscribe({

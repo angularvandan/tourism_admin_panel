@@ -47,6 +47,8 @@ export class CustomTableComponent implements OnInit {
     private messageService: MessageService
   ) {}
   @Input() columns?: any[];
+  @Input() columnsDetails?: any[];
+  @Input() rowDetailsHeader?:any;
   @Input() filterColumns?: any[];
   @Input() tableData?: any;
   @Input() paginator?: boolean;

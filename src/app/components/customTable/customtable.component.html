@@ -1,5 +1,5 @@
 <div class="card overflow-x-auto">
-  <p-table editMode="row" dataKey="id" [loading]="loading" [columns]="columns" #dt [value]="tableData"
+  <p-table editMode="row" dataKey="id" [loading]="loading" [columns]="columnsDetails" #dt [value]="tableData"
     [rows]="initialRowsPerPage" [paginator]="paginator" [rowsPerPageOptions]="rowsPerPageOptions"
     [globalFilterFields]="filterColumns" styleClass="p-datatable-gridlines">
     <ng-template pTemplate="caption">
@@ -21,24 +21,24 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th *ngFor="let cols of columns" class="text-left">{{ cols.header }}</th>
+        <th *ngFor="let cols of columnsDetails" class="text-left">{{ cols.header }}</th>
         <th class="text-left">Actions</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-editing="editing" let-rowIndex="rowIndex" let-rowData let-columns="columns">
       <tr [pEditableRow]="rowData" class="hover:bg-gray-100">
-        <td *ngFor="let col of columns" class="py-2 px-4 min-w-[250px]">
+        <td *ngFor="let col of columns" class="py-2 px-4 min-w-[150px]">
           <ng-container [ngSwitch]="col.field">
             <ng-container *ngSwitchCase="'index'">
               {{ rowIndex + 1 }}
             </ng-container>
             <ng-container *ngSwitchCase="'images'">
               <img [src]="rowData[col.field][0]" *ngIf="rowData[col.field]?.length > 0" alt="First Image"
-                class="w-[200px] " />
+                class="w-[200px] rounded-xl" />
             </ng-container>
             <ng-container *ngSwitchCase="'image'">
               <img [src]="rowData[col.field]" *ngIf="rowData[col.field]?.length > 0" alt="First Image"
-                class="w-[200px] " />
+                class="w-[200px] rounded-xl" />
             </ng-container>
             <ng-container *ngSwitchCase="'tips'">
               <div *ngFor="let tip of rowData.tips">
@@ -103,39 +103,38 @@
 </div>
 <p-confirmDialog></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>
-<p-dialog header="Row Details" [(visible)]="displayDialog" [modal]="true"styleClass="w-full md:w-[75%] lg:w-[50%]" class="w-full md:w-[70vw] "
-  [maximizable]="true" [baseZIndex]="10000" [draggable]="false">
-  <div *ngIf="selectedRow">
-    <div><strong>Sr.No:</strong> {{ selectedRowIndex + 1 }}</div>
-
+<p-dialog [header]="rowDetailsHeader" [(visible)]="displayDialog" [modal]="true"
+  styleClass="w-full md:w-[75%]" class="w-full md:w-[75vw] " [maximizable]="true" [baseZIndex]="10000"
+  [draggable]="false">
+  <div *ngIf="selectedRow"class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
     <div *ngFor="let col of columns">
       <ng-container [ngSwitch]="col.field">
 
-        <ng-container *ngSwitchCase="'images'">
-          <strong>{{ col.header }}:</strong>
-          <ng-container *ngFor="let img of selectedRow.images;let i=index">
-
-            <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field][i]"
-              alt="Product Image" class="w-24 h-24 object-cover" />
+        <div class="flex">
+          <ng-container *ngSwitchCase="'images'">
+            <strong>{{ col.header }}:</strong>
+            <ng-container *ngFor="let img of selectedRow.images;let i=index">
+  
+              <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field][i]"
+                alt="Product Image" class="w-24 h-24 mr-4 object-cover rounded-xl" />
+            </ng-container>
           </ng-container>
-        </ng-container>
-        <ng-container *ngSwitchCase="'image'">
-          <strong>{{ col.header }}:</strong>
-          <ng-container>
-
-            <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field]"
-              alt="Product Image" class="w-24 h-24 object-cover" />
+        </div>
+        <div class="flex">
+          <ng-container *ngSwitchCase="'image'">
+            <strong>{{ col.header }}:</strong>
+            <ng-container>
+  
+              <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field]"
+                alt="Product Image" class="w-24 h-24 object-cover rounded-xl" />
+            </ng-container>
           </ng-container>
-        </ng-container>
-        <ng-container *ngSwitchCase="'tour_id'">
-          <span class=""><span class="font-bold">Tour Id:</span>>{{selectedRow.tour_id._id}}</span>
-        </ng-container>
-        <ng-container *ngSwitchCase="'spot_id'">
-          <span class=""><span class="font-bold">Spot Id:</span>{{selectedRow.spot_id._id}}</span>
-        </ng-container>
+        </div>
+
         <ng-container *ngSwitchCase="'content'">
-          <span class="">Content:
-            <span class="font-bold" *ngFor="let data of selectedRow.content">
+          <span class="">
+            <span class="font-bold">Content:</span>
+            <span class="" *ngFor="let data of selectedRow.content">
               {{data.desc}}
             </span>
           </span>
@@ -193,7 +192,8 @@
           </span>
         </ng-container>
         <ng-container *ngSwitchCase="'quote'">
-          <span class="font-bold">Quote:
+          <span>
+            <span class="font-bold">Quote:</span>
             <span>
               {{selectedRow.quote.content}}
             </span>

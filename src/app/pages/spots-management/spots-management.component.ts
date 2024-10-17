@@ -37,8 +37,6 @@ export class SpotsManagementComponent implements OnInit {
     private confirmationService: ConfirmationService
   ) { }
   columns = [
-    { field: '_id', header: 'Id' },
-    { field: 'tour_id', header: 'Tour Id' },    
     { field: 'name', header: 'Name' },
     { field: 'images', header: 'Images' },
     { field: 'price_adult', header: 'Price (Adult)' },
@@ -46,6 +44,15 @@ export class SpotsManagementComponent implements OnInit {
     { field: 'price_infant', header: 'Price (Infant)' },
     { field: 'tips', header: 'Tips' },
   ];
+  columnsDetails = [
+    { field: 'name', header: 'Name' },
+    { field: 'images', header: 'Images' },
+    { field: 'price_adult', header: 'Price (Adult)' },
+    { field: 'price_child', header: 'Price (Child)' },
+    { field: 'price_infant', header: 'Price (Infant)' },
+  ];
+  rowDetailsHeader: string = 'Spot Details';
+
   paginator = true;
   rowsPerPageOptions = [5, 10, 15];
   initialRowsPerPage = 5;
@@ -54,12 +61,14 @@ export class SpotsManagementComponent implements OnInit {
   visible: boolean = false;
 
   inputFields = [
+    
     {
-      type: 'text',
+      type: 'select',
       fields: {
-        label: 'Tours Id',
+        label: 'Tours',
         name: 'tour_id',
         placeholder: 'Enter Tours Id',
+        options: [ ],
         required: true,
       },
     },
@@ -72,7 +81,7 @@ export class SpotsManagementComponent implements OnInit {
         required: true,
       },
     },
-   
+
     {
       type: 'text',
       fields: {
@@ -90,7 +99,7 @@ export class SpotsManagementComponent implements OnInit {
         placeholder: 'Enter price',
         required: true,
       },
-    },{
+    }, {
       type: 'text',
       fields: {
         label: 'Price Infant',
@@ -99,7 +108,7 @@ export class SpotsManagementComponent implements OnInit {
         required: true,
       },
     },
-    
+
     {
       type: 'file',
       fields: {
@@ -109,20 +118,20 @@ export class SpotsManagementComponent implements OnInit {
       },
     },
   ];
-  dynamicForms: { 
-    title: string, 
-    desc: string, 
-    icon: string 
+  dynamicForms: {
+    title: string,
+    desc: string,
+    icon: string
   }[] = [
-    {
-      title: '',
-      desc:'',
-      icon: '',
-    }
-  ];
+      {
+        title: '',
+        desc: '',
+        icon: '',
+      }
+    ];
 
-  selectedFileData:File[]=[];
-  imageUrl:any[]=[];
+  selectedFileData: File[] = [];
+  imageUrl: any[] = [];
 
   // Add new form when user clicks "Add Form"
   addNewForm() {
@@ -132,13 +141,14 @@ export class SpotsManagementComponent implements OnInit {
       icon: ''
     });
   }
-  removeForm(){
+  removeForm() {
     this.dynamicForms.pop();
   }
 
 
   ngOnInit(): void {
     this.getSpots();
+    this.getAllTours();
   }
 
   getSpots() {
@@ -147,6 +157,28 @@ export class SpotsManagementComponent implements OnInit {
       console.log(res);
       this.loading = false;
     });
+  }
+  getAllTours() {
+    this.api.getTours().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        const filteredData=res.tours;
+        // select options
+        this.inputFields.forEach(field => {
+          if (field.type === 'select') {
+            // Map filteredData to an array of objects with 'value' and 'label'
+            field.fields.options = filteredData.map((item:any) => ({
+              code: item._id,   // The value will be the _id
+              name: item.name   // The label will be the name
+            }));
+          }
+        });
+        console.log(this.inputFields);
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
   }
 
   showDialog(visible: any) {
@@ -161,43 +193,44 @@ export class SpotsManagementComponent implements OnInit {
     });
   }
   //this is for file into url
-  onFileSelect(data:any){
+  onFileSelect(data: any) {
     console.log(data);
-    this.selectedFileData=data;
+    this.selectedFileData = data;
 
     const formData = new FormData();
-      // Append each selected file to the FormData object
-      this.selectedFileData.forEach(file => {
-        formData.append('images', file);
-      });
+    // Append each selected file to the FormData object
+    this.selectedFileData.forEach(file => {
+      formData.append('images', file);
+    });
 
     this.api.getImageUrl(formData).subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         console.log(res);
-        this.imageUrl=res.data;
+        this.imageUrl = res.data;
       },
-      error:(err:any)=>{
+      error: (err: any) => {
         console.log(err);
       }
     })
   }
   // create tours 
   onSubmitAddForm(formData: any) {
-    
+
     console.log(formData);
     console.log(this.dynamicForms);
-    formData={...formData,tips:this.dynamicForms,images:this.imageUrl};
+    //code for drop down
+    formData = { ...formData,tour_id:formData.tour_id.code, tips: this.dynamicForms, images: this.imageUrl };
     console.log(formData);
 
     this.api.createSpots(formData).subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         console.log(res);
         this.getSpots();
       },
-      error:(err:any)=>{
+      error: (err: any) => {
         console.log(err);
       }
-    })
+    });
 
   }
 

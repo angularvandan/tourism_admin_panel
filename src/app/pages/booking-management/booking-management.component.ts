@@ -43,6 +43,15 @@ export class BookingManagementComponent  implements OnInit {
     { field: 'priceDetails', header: 'User Details' },
     
   ];
+  columnsDetails=[
+    { field: 'user_name', header: 'Name' },
+    { field: 'user_mobile', header: 'Mobile' },
+    { field: 'user_address', header: 'Address' },
+    { field: 'totalPrice', header: 'Total Price' },
+    { field: 'tours_details', header: 'Tours Details' },
+    { field: 'priceDetails', header: 'User Details' },
+  ];
+  rowDetailsHeader:string='Booking Details';
   paginator = true;
   rowsPerPageOptions = [5, 10, 15];
   initialRowsPerPage = 5;

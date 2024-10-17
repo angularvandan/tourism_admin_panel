@@ -77,6 +77,7 @@ export class CustomFormCompomemt implements OnInit {
     // Send Form Data
 
     this.formSubmit.emit(this.formData.value);
+    console.log(this.formData);
     // Reset Form
     this.formData.reset()
     // Display toast message

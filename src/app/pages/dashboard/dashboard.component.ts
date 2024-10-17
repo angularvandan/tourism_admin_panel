@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { ApiService } from '../../services/api/api.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -26,158 +27,109 @@ import { MessageService } from 'primeng/api';
   providers: [MessageService]
 })
 export class DashboardComponent implements OnInit {
-  // Example Table
-  columns = [
-    { field: 'name', header: ' Display Name' },
-    { field: 'code', header: 'Display code' },
-    { field: 'quantity', header: 'Display quantity' },
-    { field: 'category', header: 'Display category' },
-  ];
-  filterColumns = ['name', 'code', 'quantity'];
+
   paginator = true;
   rowsPerPageOptions = [1, 2, 3];
   initialRowsPerPage = 1;
-  tableData = [
-    {
-      id: '1000',
-      code: 'f230fh0g3',
-      name: 'name',
-      description: 'Product Description',
-      image: 'bamboo-watch.jpg',
-      price: 65,
-      category: 'Accessories',
-      quantity: 2,
-      inventoryStatus: 'INSTOCK',
-      rating: 5,
-    },
-    {
-      id: '1000',
-      code: 'f230fh0g3',
-      name: 'Yash',
-      description: 'Product Description',
-      image: 'bamboo-watch.jpg',
-      price: 65,
-      category: 'Accessories',
-      quantity: 24,
-      inventoryStatus: 'INSTOCK',
-      rating: 5,
-    }
-  ];
+
+  allDetails={
+    toursLength:0,
+    spotsLength:0,
+    activitiesLength:0,
+    blogsLength:0,
+    bookingLength:0,
+    feedbackLength:0,
+    contactLength:0
+  }
+  
   // Forms Array Example
   onFormSubmit(formData: any) {
     console.log(formData)
   }
-  inputFields = [
-    {
-      type: 'text',
-      fields: {
-        label: 'Name',
-        name: 'name',
-        placeholder: 'Enter Name',
-        required: true,
-      },
-    },
-    {
-      type: 'text',
-      fields: {
-        label: 'Email',
-        name: 'email',
-        placeholder: 'Enter Email',
-        required: false,
-      },
-    },
-    {
-      type: 'text',
-      fields: {
-        label: 'City',
-        name: 'city',
-        placeholder: 'Enter City',
-        required: false,
-      },
-    },
-    {
-      type: 'text',
-      fields: {
-        label: 'Country',
-        name: 'country',
-        placeholder: 'Enter Country',
-        required: false,
-      },
-    },
-    {
-      type: 'number',
-      fields: {
-        label: 'Price',
-        name: 'price',
-        placeholder: 'Enter Price',
-        required: false,
-      },
-    },
-    {
-      type: 'select',
-      fields: {
-        label: 'State',
-        name: 'state',
-        placeholder: 'Select State',
-        required: false,
-        options: [
-          'Maharashtra',
-          'Maharashtra',
-          'Maharashtra',
-          'Maharashtra',
-          'Maharashtra',
-        ],
-      },
-    },
-    {
-      type: 'multipleSelect',
-      fields: {
-        label: 'Items',
-        name: 'items',
-        placeholder: 'Select Items',
-        required: false,
-        options: [
-          { name: 'item1', code: 'M2' },
-          { name: 'item2', code: 'M3' },
-          { name: 'item3', code: 'M4' },
-          { name: 'item4', code: 'M5' },
-        ],
-      },
-    },
-    {
-      type: 'radio',
-      fields: {
-        label: 'Gender',
-        name: 'Gender',
-        required: false,
-        options: [
-          { label: 'Male', value: 'male' },
-          { label: 'Female', value: 'female' },
-        ],
-      },
-    },
-    {
-      type: 'textarea',
-      fields: {
-        label: 'Summary',
-        name: 'summary',
-        placeholder: 'Summary',
-        required: true,
-      },
-    },
-  ];
+
+  constructor(private api:ApiService){}
 
   ngOnInit(): void {
-    const errorWithMessage = {
-      response: {
-        data: {
-          error: {
-            message: 'Error message from response'
-          }
-        }
+    this.getAllTours();
+    this.getAllSpots();
+    this.getAllActivities();
+    this.getAllBookings();
+    this.getAllBlogs();
+    this.getAllFeedbacks();
+    this.getAllContacts();
+  }
+  getAllTours() {
+    this.api.getTours().subscribe({
+      next:(res:any)=>{
+        // console.log(res);
+        this.allDetails.toursLength=res.tours.length;
+      },error:(err:any)=>{
+        console.log(err);
       }
-    };
+    });
+  }
+  getAllSpots() {
+    this.api.getSpots().subscribe({
+      next:(res:any)=>{
+        // console.log(res);
+        this.allDetails.spotsLength=res.length;
 
+      },error:(err:any)=>{
+        console.log(err);
+      }
+    });
+  }
+  getAllActivities() {
+    this.api.getActivities().subscribe({
+      next:(res:any)=>{
+        this.allDetails.activitiesLength=res.length;
+      },error:(err:any)=>{
+        console.log(err);
+      }
+    });
+  }
+  getAllBookings() {
+    this.api.getBookings().subscribe({
+      next:(res:any)=>{
+        this.allDetails.bookingLength=res.length;
+
+      },error:(err:any)=>{
+        console.log(err);
+      }
+    });
+  }
+  getAllBlogs() {
+    this.api.getBlogs().subscribe({
+      next:(res:any)=>{
+        this.allDetails.blogsLength=res.length;
+
+      },error:(err:any)=>{
+        console.log(err);
+      }
+    });
+  }
+  
+  getAllFeedbacks() {
+    this.api.getFeedbacks().subscribe({
+      next:(res:any)=>{
+        // console.log(res);
+        this.allDetails.feedbackLength=res.length;
+
+      },error:(err:any)=>{
+        console.log(err);
+      }
+    });
+  }
+  getAllContacts() {
+    this.api.getContacts().subscribe({
+      next:(res:any)=>{
+        // console.log(res);
+        this.allDetails.contactLength=res.length;
+
+      },error:(err:any)=>{
+        console.log(err);
+      }
+    });
   }
 
 }

@@ -42,6 +42,12 @@ export class BlogManagementComponent implements OnInit{
     { field: 'quote', header: 'Quote' },
     
   ];
+  columnsDetails=[
+    { field: 'title', header: 'Title' },
+    { field: 'images', header: 'Images' },
+    { field: 'quote', header: 'Quote' },
+  ]
+  rowDetailsHeader:string="Bolg Details";
   paginator = true;
   rowsPerPageOptions = [5, 10, 15];
   initialRowsPerPage = 5;
@@ -60,20 +66,21 @@ export class BlogManagementComponent implements OnInit{
         required: true,
       },
     },
+    
+    {
+      type: 'file',
+      fields: {
+        label: 'Choose Image',
+        name: 'images',
+        required: true,
+      },
+    },
     {
       type: 'text',
       fields: {
         label: 'Quote Given by ',
         name: 'name',
         placeholder: 'Enter Name',
-        required: true,
-      },
-    },
-    {
-      type: 'file',
-      fields: {
-        label: 'Choose Image',
-        name: 'images',
         required: true,
       },
     },

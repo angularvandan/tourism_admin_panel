@@ -10,7 +10,7 @@ import { ApiService } from '../../services/api/api.service';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-
+import { InputTextareaModule } from 'primeng/inputtextarea';
 @Component({
   selector: 'app-tours-management',
   standalone: true,
@@ -26,6 +26,7 @@ import { InputTextModule } from 'primeng/inputtext';
     CommonModule,
     FormsModule,
     InputTextModule,
+    InputTextareaModule,
     ButtonModule,
   ],
 })
@@ -36,7 +37,6 @@ export class ToursManagementComponent implements OnInit {
     private confirmationService: ConfirmationService
   ) { }
   columns = [
-    { field: '_id', header: 'Id' },
     { field: 'name', header: 'Name' },
     { field: 'title', header: 'Title' },
     { field: 'description', header: 'Description' },
@@ -47,6 +47,16 @@ export class ToursManagementComponent implements OnInit {
     { field: 'price_infant', header: 'Price (Infant)' },
     { field: 'tips', header: 'Tips' },
   ];
+  columnsDetails=[
+    { field: 'name', header: 'Name' },
+    { field: 'title', header: 'Title' },
+    { field: 'address', header: 'Address' },
+    { field: 'images', header: 'Images' },
+    { field: 'price_adult', header: 'Price (Adult)' },
+    { field: 'price_child', header: 'Price (Child)' },
+    { field: 'price_infant', header: 'Price (Infant)' },
+  ];
+  rowDetailsHeader:string='Tour Details';
   paginator = true;
   rowsPerPageOptions = [5, 10, 15];
   initialRowsPerPage = 5;
@@ -90,7 +100,8 @@ export class ToursManagementComponent implements OnInit {
         placeholder: 'Enter price',
         required: true,
       },
-    },{
+    },
+    {
       type: 'text',
       fields: {
         label: 'Price Infant',

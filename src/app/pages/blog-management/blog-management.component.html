@@ -3,7 +3,7 @@
         <div class="card grid grid-cols-1 justify-content-center">
             <div class="overflowx-x-auto"> <!-- Make the container scrollable -->
                 <app-custom-table (visible)="showDialog($event)" (deleteData)="deleteData($event)" [loading]="loading"
-                    [tableData]="toursData" [columns]="columns" [paginator]="paginator"
+                    [tableData]="toursData" [columns]="columns"[columnsDetails]="columnsDetails"[rowDetailsHeader]="rowDetailsHeader" [paginator]="paginator"
                     [rowsPerPageOptions]="rowsPerPageOptions"
                     [initialRowsPerPage]="initialRowsPerPage"></app-custom-table>
             </div>

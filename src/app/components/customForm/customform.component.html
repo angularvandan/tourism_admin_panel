@@ -41,8 +41,8 @@
                             </div>
 
                             <!-- Select Input -->
-                            <p-dropdown formControlName="{{ field.fields.name }}" *ngSwitchCase="'select'"
-                                [options]="field.fields.options" [placeholder]="field.fields.placeholder"
+                            <p-dropdown formControlName="{{ field.fields.name }}" *ngSwitchCase="'select'"styleClass="w-full" class="w-full"
+                                [options]="field.fields.options"optionLabel="name" [placeholder]="field.fields.placeholder"
                                 [showClear]="true">
                             </p-dropdown>
 

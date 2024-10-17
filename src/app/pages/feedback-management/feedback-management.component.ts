@@ -41,6 +41,14 @@ export class FeedbackManagementComponent implements OnInit {
     { field: 'message', header: 'Message' },
     
   ];
+  columnsDetails=[
+    { field: 'first_name', header: 'First Name' },
+    { field: 'last_name', header: 'Last Name' },
+    { field: 'email', header: 'Email' },
+    { field: 'phone', header: 'Phone' },
+    { field: 'message', header: 'Message' },
+  ];
+  rowDetailsHeader:string='Feedback Management';
   paginator = true;
   rowsPerPageOptions = [5, 10, 15];
   initialRowsPerPage = 5;

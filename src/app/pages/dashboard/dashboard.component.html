@@ -2,48 +2,62 @@
     <p-panel header="Dashboard">
 
         <div class="card grid grid-cols-1 md:grid-cols-3 justify-content-center">
-            <p-card header="Title" class="m-2">
-                <p class="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-                    repudiandae numquam deserunt quisquam repellat libero
+            <p-card header="Tours"class="m-2 text-center"styleClass="text-center m-0 p-0">
+                <p class="m-0 ">
+                    {{allDetails.toursLength}}
                 </p>
+                <ng-template pTemplate="footer">
+                    <a class="no-underline text-xl" routerLink="/tours">Read More</a>
+                </ng-template>
             </p-card>
-            <p-card header="Title" class="m-2">
+            <p-card header="Spots" class="m-2 text-center"styleClass="text-center">
                 <p class="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-                    repudiandae numquam deserunt quisquam repellat libero
+                    {{allDetails.spotsLength}}
                 </p>
+                <ng-template pTemplate="footer">
+                    <a class="no-underline text-xl" routerLink="/spots">Read More</a>
+                </ng-template>
             </p-card>
-            <p-card header="Title" class="m-2">
+            <p-card header="Activities"class="m-2 text-center"styleClass="text-center">
                 <p class="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-                    repudiandae numquam deserunt quisquam repellat libero
+                    {{allDetails.activitiesLength}}
                 </p>
+                <ng-template pTemplate="footer">
+                    <a class="no-underline text-xl" routerLink="/activities">Read More</a>
+                </ng-template>
             </p-card>
-        </div>
-        <div class="card flex justify-content-center">
-            <p-card header="Title" class="m-2">
+            <p-card header="Bookings"class="m-2 text-center"styleClass="text-center">
                 <p class="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-                    repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam
-                    perferendis esse, cupiditate neque quas!
+                    {{allDetails.bookingLength}}
                 </p>
+                <ng-template pTemplate="footer">
+                    <a class="no-underline text-xl" routerLink="/bookings">Read More</a>
+                </ng-template>
             </p-card>
-
-        </div>
-        <div class="card flex justify-content-center">
-            <!-- <p-card header="Title" class="m-2 w-full">
-                <app-custom-table [filterColumns]="filterColumns" [initialRowsPerPage]="initialRowsPerPage"
-                    [rowsPerPageOptions]="rowsPerPageOptions" [paginator]="paginator" [tableData]="tableData"
-                    [columns]="columns" style="width: 100%;">
-
-
-
-                </app-custom-table>
-            </p-card> -->
-            <!-- <app-custom-form (formSubmit)="onFormSubmit($event)" [title]="'Add New Product'"
-                [inputFields]="inputFields"></app-custom-form> -->
-
+            <p-card header="Blogs"class="m-2 text-center"styleClass="text-center">
+                <p class="m-0">
+                    {{allDetails.blogsLength}}
+                </p>
+                <ng-template pTemplate="footer">
+                    <a class="no-underline text-xl" routerLink="/blogs">Read More</a>
+                </ng-template>
+            </p-card>
+            <p-card header="Feedback" class="m-2 text-center"styleClass="text-center">
+                <p class="m-0">
+                    {{allDetails.feedbackLength}}
+                </p>
+                <ng-template pTemplate="footer">
+                    <a class="no-underline text-xl" routerLink="/feedbacks">Read More</a>
+                </ng-template>
+            </p-card>
+            <p-card header="Contacts"class="m-2 text-center"styleClass="text-center">
+                <p class="m-0">
+                    {{allDetails.contactLength}}
+                </p>
+                <ng-template pTemplate="footer">
+                    <a class="no-underline text-xl" routerLink="/contacts">Read More</a>
+                </ng-template>
+            </p-card>
         </div>
     </p-panel>
 </div>
