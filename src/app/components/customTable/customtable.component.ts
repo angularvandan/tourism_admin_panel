@@ -18,7 +18,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { Table } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { error } from '../../utils/customtoast';
 import { success } from '../../utils/customtoast';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
@@ -93,7 +92,7 @@ export class CustomTableComponent implements OnInit {
       target: event.target as EventTarget,
       message: 'Do you want to delete this record?',
       header: 'Delete Confirmation',
-      icon: 'pi pi-info-circle',
+      icon: 'pi ',
       acceptButtonStyleClass: 'p-button-danger p-button-text',
       rejectButtonStyleClass: 'p-button-text p-button-text',
       acceptIcon: 'none',
@@ -108,11 +107,11 @@ export class CustomTableComponent implements OnInit {
         this.deleteData.emit(rowData._id);
       },
       reject: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Rejected',
-          detail: 'You have rejected',
-        });
+        // this.messageService.add({
+        //   severity: 'error',
+        //   summary: 'Rejected',
+        //   detail: 'You have rejected',
+        // });
       },
     });
   }

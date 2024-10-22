@@ -84,7 +84,7 @@ export class CustomFormCompomemt implements OnInit {
     // Reset Form
     this.formData.reset()
     // Display toast message
-    this.messageService.add(success('Added'));
+    this.messageService.add(success(`Added`));
   }
   // When the user selects files
   onFileSelected(event: Event) {

@@ -4,7 +4,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
                 <ng-container *ngFor="let field of inputFields">
                     <div class="form-group">
-                        <label for="{{ field.fields.name }}" class="block font-medium">{{ field.fields.label }}</label>
+                        <label for="{{ field.fields.name }}" class="block font-medium mb-1">{{ field.fields.label }} <span class="text-red-400">*</span></label>
                         <ng-container [ngSwitch]="field.type">
                             <!-- Text Input -->
                             <input pInputText *ngSwitchCase="'text'" type="text" class="form-control w-full"
@@ -61,7 +61,7 @@
 
                             <!-- File -->
                             <div *ngSwitchCase="'file'">
-                                <input id="file" class="w-full" type="file" formControlName="{{field.fields.name}}"
+                                <input id="file" class="w-full flex flex-col" type="file" formControlName="{{field.fields.name}}"
                                 accept="image/*" (change)="onFileSelected($event)" multiple>
                                 <p class=" m-0 p-0 " *ngIf="field.fields.warn">{{field.fields.warn}}</p>
                             </div>

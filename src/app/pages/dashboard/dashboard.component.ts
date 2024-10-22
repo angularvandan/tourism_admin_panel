@@ -8,6 +8,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ApiService } from '../../services/api/api.service';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -22,7 +24,8 @@ import { ApiService } from '../../services/api/api.service';
     RouterOutlet,
     RouterLink,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ProgressSpinnerModule
   ],
   providers: [MessageService]
 })
