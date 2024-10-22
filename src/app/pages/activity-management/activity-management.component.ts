@@ -87,10 +87,11 @@ export class ActivityManagementComponent implements OnInit{
         label: 'Choose Image',
         name: 'image',
         required: true,
+        warn:'Images ratio (340x460).'
       },
     },
     {
-      type: 'text',
+      type: 'number',
       fields: {
         label: 'Price Adult',
         name: 'price_adult',
@@ -99,7 +100,7 @@ export class ActivityManagementComponent implements OnInit{
       },
     },
     {
-      type: 'text',
+      type: 'number',
       fields: {
         label: 'Price Child',
         name: 'price_child',
@@ -107,7 +108,7 @@ export class ActivityManagementComponent implements OnInit{
         required: true,
       },
     },{
-      type: 'text',
+      type: 'number',
       fields: {
         label: 'Price Infant',
         name: 'price_infant',

@@ -84,7 +84,7 @@ export class ToursManagementComponent implements OnInit {
       },
     },
     {
-      type: 'text',
+      type: 'number',
       fields: {
         label: 'Price Adult',
         name: 'price_adult',
@@ -93,7 +93,7 @@ export class ToursManagementComponent implements OnInit {
       },
     },
     {
-      type: 'text',
+      type: 'number',
       fields: {
         label: 'Price Child',
         name: 'price_child',
@@ -102,7 +102,7 @@ export class ToursManagementComponent implements OnInit {
       },
     },
     {
-      type: 'text',
+      type: 'number',
       fields: {
         label: 'Price Infant',
         name: 'price_infant',
@@ -114,6 +114,7 @@ export class ToursManagementComponent implements OnInit {
       type: 'file',
       fields: {
         label: 'Choose Image',
+        warn:'Select only two images.',
         name: 'images',
         required: true,
       },

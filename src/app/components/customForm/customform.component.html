@@ -13,11 +13,12 @@
 
                             <!-- TextArea -->
                             <textarea formControlName="{{ field.fields.name }}" *ngSwitchCase="'textarea'" rows="3"
-                                class="form-control w-full" [placeholder]="field.fields.placeholder" pInputTextarea></textarea>
+                                class="form-control w-full" [placeholder]="field.fields.placeholder"
+                                pInputTextarea></textarea>
 
                             <!-- Number Input -->
                             <p-inputNumber [useGrouping]="false" formControlName="{{ field.fields.name }}"
-                                *ngSwitchCase="'number'" type="number" class="form-control"
+                                *ngSwitchCase="'number'" type="number" class="form-control w-full"
                                 [placeholder]="field.fields.placeholder" name="{{ field.fields.name }}"></p-inputNumber>
 
                             <!-- Checkbox -->
@@ -41,9 +42,9 @@
                             </div>
 
                             <!-- Select Input -->
-                            <p-dropdown formControlName="{{ field.fields.name }}" *ngSwitchCase="'select'"styleClass="w-full" class="w-full"
-                                [options]="field.fields.options"optionLabel="name" [placeholder]="field.fields.placeholder"
-                                [showClear]="true">
+                            <p-dropdown formControlName="{{ field.fields.name }}" *ngSwitchCase="'select'"
+                                styleClass="w-full" class="w-full" [options]="field.fields.options" optionLabel="name"
+                                [placeholder]="field.fields.placeholder" [showClear]="true">
                             </p-dropdown>
 
                             <!-- Multi Select -->
@@ -59,8 +60,21 @@
                             </p-calendar>
 
                             <!-- File -->
-                            <input id="file"class="w-full" type="file" *ngSwitchCase="'file'"formControlName="{{field.fields.name}}"
-                                accept="image/*"(change)="onFileSelected($event)" multiple>
+                            <div *ngSwitchCase="'file'">
+                                <input id="file" class="w-full" type="file" formControlName="{{field.fields.name}}"
+                                accept="image/*" (change)="onFileSelected($event)" multiple>
+                                <p class=" m-0 p-0 " *ngIf="field.fields.warn">{{field.fields.warn}}</p>
+                            </div>
+
+                            <div *ngIf="formData.get(field.fields.name)?.invalid && formData.get(field.fields.name)?.touched"
+                                class="text-red-500">
+                                <small *ngIf="formData.get(field.fields.name)?.errors?.['required']">This field is
+                                    required.</small>
+                                <small *ngIf="formData.get(field.fields.name)?.errors?.['minlength']">Minimum length
+                                    required.</small>
+                                <small *ngIf="formData.get(field.fields.name)?.errors?.['pattern']">Only alphabets
+                                    allowed !</small>
+                            </div>
                         </ng-container>
                     </div>
                 </ng-container>

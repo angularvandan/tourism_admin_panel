@@ -73,6 +73,7 @@ export class BlogManagementComponent implements OnInit{
         label: 'Choose Image',
         name: 'images',
         required: true,
+        warn:'Select only two images.'
       },
     },
     {

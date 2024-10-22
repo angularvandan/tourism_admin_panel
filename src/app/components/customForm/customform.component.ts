@@ -67,6 +67,9 @@ export class CustomFormCompomemt implements OnInit {
       if (controls.fields.required) {
         validators.push(Validators.required)
       }
+      if (controls.type === 'text') {
+        validators.push(Validators.pattern('^[a-z A-Z]+$'));  // Regex for only alphabets
+      }
       // console.log(validators)
       this.formData.addControl(controls.fields.name, this.fb.control(controls.value, validators))
       console.log(this.formData)

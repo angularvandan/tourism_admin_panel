@@ -10,6 +10,8 @@ import { PanelModule } from 'primeng/panel';
 import { CustomFormCompomemt } from '../../components/customForm/customform.component';
 import { CustomTableComponent } from '../../components/customTable/customtable.component';
 import { ApiService } from '../../services/api/api.service';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+
 
 @Component({
   selector: 'app-spots-management',
@@ -25,6 +27,7 @@ import { ApiService } from '../../services/api/api.service';
     FormsModule,
     InputTextModule,
     ButtonModule,
+    InputTextareaModule
   ],
   templateUrl: './spots-management.component.html',
   styleUrl: './spots-management.component.css'
@@ -83,7 +86,7 @@ export class SpotsManagementComponent implements OnInit {
     },
 
     {
-      type: 'text',
+      type: 'number',
       fields: {
         label: 'Price Adult',
         name: 'price_adult',
@@ -92,7 +95,7 @@ export class SpotsManagementComponent implements OnInit {
       },
     },
     {
-      type: 'text',
+      type: 'number',
       fields: {
         label: 'Price Child',
         name: 'price_child',
@@ -100,7 +103,7 @@ export class SpotsManagementComponent implements OnInit {
         required: true,
       },
     }, {
-      type: 'text',
+      type: 'number',
       fields: {
         label: 'Price Infant',
         name: 'price_infant',
