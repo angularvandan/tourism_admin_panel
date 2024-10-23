@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
 import { FormsModule, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -45,14 +45,20 @@ import { FileUploadComponent } from '../fileUpload/fileupload.component';
 })
 export class CustomFormCompomemt implements OnInit {
   @Input() title: string = '';
-  @Input() dynamicForms: any[]=[];
+  @Input() dynamicForms: any[] = [];
   @Input() inputFields: any[] = [];
+  @Input() patchData: any = {};  // Add this to receive patch data
   @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() formUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() file: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('fileInput')
   fileInput!: ElementRef;
   formData = this.fb.group({});
   uploadedFiles: any[] = [];
+
+  imagePreviews:any[]=[];
+  imagesLinksContainer:any[]=[];
+  buttonStatus:boolean=false;
 
   constructor(private messageService: MessageService, private fb: FormBuilder) {
   }
@@ -60,15 +66,31 @@ export class CustomFormCompomemt implements OnInit {
   ngOnInit(): void {
     this.createForm()
   }
+  // Detect changes in input properties
+  ngOnChanges(changes: SimpleChanges): void {
+    // If patchData input changes, patch the form with the new data
+    if (changes['patchData'] && this.formData && Object.keys(this.patchData).length != 0) {
+      this.buttonStatus=true;
+      console.log(this.patchData);
+      this.formData.patchValue(this.patchData);  // Patch the form with the incoming data
+      console.log(this.formData.value);
+    }else{
+      this.buttonStatus=false;
+      this.formData.reset();
+      this.createForm();
+      console.log('hi');
+    }
+  }
 
   createForm() {
+    console.log('hi');
     for (let controls of this.inputFields) {
       const validators = []
       if (controls.fields.required) {
         validators.push(Validators.required)
       }
       if (controls.type === 'text') {
-        validators.push(Validators.pattern('^[a-z A-Z]+$'));  // Regex for only alphabets
+        validators.push(Validators.pattern('^[^0-9]+$'));  // Regex for only alphabets
       }
       // console.log(validators)
       this.formData.addControl(controls.fields.name, this.fb.control(controls.value, validators))
@@ -78,14 +100,22 @@ export class CustomFormCompomemt implements OnInit {
 
   submitForm() {
     // Send Form Data
-
     this.formSubmit.emit(this.formData.value);
     console.log(this.formData);
     // Reset Form
-    this.formData.reset()
+    this.formData.reset();
     // Display toast message
     this.messageService.add(success(`Added`));
   }
+
+  updateForm() {
+    this.formUpdate.emit(this.formData.value);
+    console.log(this.formData);
+    this.formData.reset();
+    this.messageService.add(success(`Updated Successfully`));
+
+  }
+
   // When the user selects files
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -95,5 +125,5 @@ export class CustomFormCompomemt implements OnInit {
       this.file.emit(selectedFiles);
     }
   }
-  
+
 }

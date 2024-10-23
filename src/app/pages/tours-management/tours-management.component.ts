@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -63,6 +63,9 @@ export class ToursManagementComponent implements OnInit {
   loading: boolean = true;
   toursData: any[] = [];
   visible: boolean = false;
+  header:string="All Tour";
+  tours_id!:any;
+  preFilledData!:any;
 
   inputFields = [
     {
@@ -72,6 +75,7 @@ export class ToursManagementComponent implements OnInit {
         name: 'name',
         placeholder: 'Enter Name',
         required: true,
+        value:null
       },
     },
     {
@@ -81,6 +85,8 @@ export class ToursManagementComponent implements OnInit {
         name: 'title',
         placeholder: 'Enter Title',
         required: true,
+        value:null
+
       },
     },
     {
@@ -90,6 +96,8 @@ export class ToursManagementComponent implements OnInit {
         name: 'price_adult',
         placeholder: 'Enter price',
         required: true,
+        value:null
+
       },
     },
     {
@@ -99,6 +107,8 @@ export class ToursManagementComponent implements OnInit {
         name: 'price_child',
         placeholder: 'Enter price',
         required: true,
+        value:null
+
       },
     },
     {
@@ -108,6 +118,8 @@ export class ToursManagementComponent implements OnInit {
         name: 'price_infant',
         placeholder: 'Enter price',
         required: true,
+        value:null
+
       },
     },    
     {
@@ -117,6 +129,8 @@ export class ToursManagementComponent implements OnInit {
         warn:'Select only two images.',
         name: 'images',
         required: true,
+        value:null
+
       },
     },
     {
@@ -126,6 +140,8 @@ export class ToursManagementComponent implements OnInit {
         name: 'description',
         placeholder: 'Enter Description',
         required: true,
+        value:null
+
       },
     },
     {
@@ -135,6 +151,8 @@ export class ToursManagementComponent implements OnInit {
         name: 'address',
         placeholder: 'Enter address',
         required: true,
+        value:null
+
       },
     },
   ];
@@ -185,7 +203,26 @@ export class ToursManagementComponent implements OnInit {
   }
 
   showDialog(visible: any) {
+    this.header="Add Tour";
     this.visible = visible;
+    
+    this.preFilledData={};
+    this.dynamicForms=[];
+    this.addNewForm();
+  }
+
+  updateData(data:any){
+    console.log(data);
+
+    this.showDialog(true);
+
+    this.tours_id=data._id;
+    
+    this.preFilledData=data;
+    this.dynamicForms=data.tips;
+    console.log(this.preFilledData);
+    
+    this.header="Update Tour";
   }
 
   deleteData(id: any) {
@@ -210,6 +247,8 @@ export class ToursManagementComponent implements OnInit {
       next:(res:any)=>{
         console.log(res);
         this.imageUrl=res.data;
+        this.preFilledData={...this.preFilledData,images:this.imageUrl};
+        console.log(this.preFilledData);
       },
       error:(err:any)=>{
         console.log(err);
@@ -225,6 +264,25 @@ export class ToursManagementComponent implements OnInit {
     console.log(formData);
 
     this.api.createTours(formData).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.getTours();
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
+
+  }
+  // update tours 
+  onSubmitUpdateForm(formData: any) {
+    
+    console.log(formData);
+    console.log(this.dynamicForms);
+    formData={...formData,tips:this.dynamicForms};
+    console.log(formData);
+
+    this.api.updateTour(formData,this.tours_id).subscribe({
       next:(res:any)=>{
         console.log(res);
         this.getTours();

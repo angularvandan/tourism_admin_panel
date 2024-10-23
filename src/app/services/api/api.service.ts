@@ -28,6 +28,9 @@ export class ApiService {
   createTours(data: any) {
     return this.http.post(`${this.baseUrl}/api/tours`, data);
   }
+  updateTour(data:any,id:any){
+    return this.http.put(`${this.baseUrl}/api/tours/${id}`, data);
+  }
   getTours() {
     return this.http.get(`${this.baseUrl}/api/tours`);
   }

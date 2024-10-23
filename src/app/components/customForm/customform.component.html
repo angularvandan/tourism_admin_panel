@@ -1,10 +1,11 @@
 <p-panel [header]="title">
     <div class="p-6">
-        <form (ngSubmit)="submitForm()" [formGroup]="formData" class="flex flex-col items-start space-y-4">
+        <form [formGroup]="formData" class="flex flex-col items-start space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
                 <ng-container *ngFor="let field of inputFields">
                     <div class="form-group">
-                        <label for="{{ field.fields.name }}" class="block font-medium mb-1">{{ field.fields.label }} <span class="text-red-400">*</span></label>
+                        <label for="{{ field.fields.name }}" class="block font-medium mb-1">{{ field.fields.label }}
+                            <span class="text-red-400">*</span></label>
                         <ng-container [ngSwitch]="field.type">
                             <!-- Text Input -->
                             <input pInputText *ngSwitchCase="'text'" type="text" class="form-control w-full"
@@ -18,7 +19,7 @@
 
                             <!-- Number Input -->
                             <p-inputNumber [useGrouping]="false" formControlName="{{ field.fields.name }}"
-                                *ngSwitchCase="'number'" type="number" class="form-control w-full"
+                                *ngSwitchCase="'number'" type="number" class="form-control w-full" styleClass="w-full"
                                 [placeholder]="field.fields.placeholder" name="{{ field.fields.name }}"></p-inputNumber>
 
                             <!-- Checkbox -->
@@ -61,9 +62,26 @@
 
                             <!-- File -->
                             <div *ngSwitchCase="'file'">
-                                <input id="file" class="w-full flex flex-col" type="file" formControlName="{{field.fields.name}}"
-                                accept="image/*" (change)="onFileSelected($event)" multiple>
+                                <input id="file" class="w-full flex flex-col" type="file" accept="image/*"
+                                    (change)="onFileSelected($event)" multiple>
                                 <p class=" m-0 p-0 " *ngIf="field.fields.warn">{{field.fields.warn}}</p>
+                                <!-- Display file names in the form (optional) -->
+                                <div *ngIf="formData.get('images')">
+                                    <ng-container *ngFor="let image of formData.get('images')?.value" >
+                                        <img [src]="image" alt=""class="w-32 h-32 rounded-lg mr-6 mt-6">
+                                    </ng-container>
+                                    <!-- <div *ngFor="let preview of imagePreviews; let i = index" class="relative">
+                                        <img [src]="preview" alt="Preview" class="h-40 w-40 object-cover rounded-md">
+                                        <div
+                                            class="remove-img w-6 h-6 absolute top-2 right-2 bg-[#808384] rounded-full flex justify-center items-center">
+                                            <i class="pi pi-times text-[0.6rem] text-white cursor-pointer"
+                                                (click)="removeImg('images', imagesLinksContainer[i])"></i>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div *ngIf="formData.get('image')">
+                                    <img [src]="formData.get('images')?.value" alt=""class="w-10 h-10 rounded-lg">
+                                </div>
                             </div>
 
                             <div *ngIf="formData.get(field.fields.name)?.invalid && formData.get(field.fields.name)?.touched"
@@ -80,7 +98,10 @@
                 </ng-container>
             </div>
             <ng-content></ng-content>
-            <p-button [disabled]="formData.invalid " type="submit" label="Submit" class="btn btn-primary"></p-button>
+            <p-button *ngIf="!buttonStatus" (onClick)="submitForm()" [disabled]="formData.invalid " type="submit" label="Submit"
+                class="btn btn-primary"></p-button>
+            <p-button *ngIf="buttonStatus" (onClick)="updateForm()" [disabled]="formData.invalid " type="submit" label="Update"
+                class="btn btn-primary"></p-button>
         </form>
     </div>
 </p-panel>

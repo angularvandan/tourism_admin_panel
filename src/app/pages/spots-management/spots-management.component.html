@@ -13,9 +13,9 @@
 <p-dialog class="w-full lg:w-9/12" header="Add Spots" [(visible)]="visible" [modal]="true" [draggable]="false"
     [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
     <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms" (formSubmit)="onSubmitAddForm($event)"(file)="onFileSelect($event)">
-        <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
             <!-- Loop through dynamic forms array to generate the input fields -->
-            <div *ngFor="let form of dynamicForms; let i = index" class="p-fluid p-mb-4">
+            <div *ngFor="let form of dynamicForms; let i = index" class="p-fluid p-mb-4 w-full">
 
                 <!-- Title Input -->
                 <div class="p-field p-grid mb-5">

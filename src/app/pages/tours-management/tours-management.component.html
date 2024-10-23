@@ -2,7 +2,7 @@
     <p-panel header="Tours Management">
         <div class="card grid grid-cols-1 justify-content-center">
             <div class="overflowx-x-auto"> <!-- Make the container scrollable -->
-                <app-custom-table (visible)="showDialog($event)" (deleteData)="deleteData($event)" [loading]="loading"
+                <app-custom-table (visible)="showDialog($event)" (deleteData)="deleteData($event)"(updateData)="updateData($event)" [loading]="loading"
                     [tableData]="toursData" [columns]="columns"[columnsDetails]="columnsDetails"[rowDetailsHeader]="rowDetailsHeader" [paginator]="paginator"
                     [rowsPerPageOptions]="rowsPerPageOptions"
                     [initialRowsPerPage]="initialRowsPerPage"></app-custom-table>
@@ -10,13 +10,13 @@
         </div>
     </p-panel>
 </div>
-<p-dialog class="w-full lg:w-9/12" header="Add Tours" [(visible)]="visible" [modal]="true" [draggable]="false"
+<p-dialog class="w-full lg:w-9/12" [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
     [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
-    <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms" (formSubmit)="onSubmitAddForm($event)"(file)="onFileSelect($event)">
-        <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms"[patchData]="preFilledData" (formSubmit)="onSubmitAddForm($event)" (formUpdate)="onSubmitUpdateForm($event)"(file)="onFileSelect($event)">
+        <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
 
             <!-- Loop through dynamic forms array to generate the input fields -->
-            <div *ngFor="let form of dynamicForms; let i = index" class="p-fluid p-mb-4">
+            <div *ngFor="let form of dynamicForms; let i = index" class="p-fluid p-mb-4 w-full">
 
                 <!-- Title Input -->
                 <div class="p-field p-grid">

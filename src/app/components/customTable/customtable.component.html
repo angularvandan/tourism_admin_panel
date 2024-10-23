@@ -89,13 +89,15 @@
             </ng-container>
           </ng-container>
         </td>
-        <td class="space-x-4">
-          <i *ngIf="!editing" (click)="onRowView(rowData, rowIndex)" class="pi pi-eye cursor-pointer"></i>
-          <i *ngIf="editing" pSaveEditableRow (click)="onRowEditSave(rowData)" class="pi pi-check cursor-pointer"></i>
+        <td class="space-x-4 ">
+          <div class="space-x-4  flex justify-center items-center">
+            <i *ngIf="!editing" (click)="onRowView(rowData, rowIndex)" class="pi pi-eye cursor-pointer"></i>
+          <i *ngIf="!editing" pSaveEditableRow (click)="onRowEditInit(rowData)" class="pi pi-pencil cursor-pointer"></i>
           <i *ngIf="editing" pCancelEditableRow (click)="onRowEditCancel(rowData, rowIndex)"
             class="pi pi-times cursor-pointer"></i>
           <i *ngIf="!editing && editingStatus" (click)="onRowDelete($event, rowData)"
             class="pi pi-trash cursor-pointer"></i>
+          </div>
         </td>
       </tr>
     </ng-template>

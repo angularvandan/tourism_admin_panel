@@ -56,6 +56,7 @@ export class CustomTableComponent implements OnInit {
   @Input() rowsPerPageOptions?: any[];
   @Input() initialRowsPerPage?: number;
   @Output() deleteData: EventEmitter<any> = new EventEmitter();
+  @Output() updateData: EventEmitter<any> = new EventEmitter();
   @Output() visible: EventEmitter<any> = new EventEmitter();
   @ViewChild('dt') dt: Table | undefined;
   clonedData: { [s: string]: any } = {};
@@ -71,7 +72,11 @@ export class CustomTableComponent implements OnInit {
 
   // On Edit Click
   onRowEditInit(rowData: any) {
-    this.clonedData[rowData.id as string] = { ...rowData };
+    this.clonedData[rowData._id as string] = { ...rowData };
+    console.log(this.clonedData);
+    this.updateData.emit({...rowData});
+    delete this.clonedData[rowData.id as string];
+
   }
 
   // On Edit Cancel
