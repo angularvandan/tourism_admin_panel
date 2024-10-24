@@ -17,6 +17,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { success } from '../../utils/customtoast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { FileUploadComponent } from '../fileUpload/fileupload.component';
+import { ApiService } from '../../services/api/api.service';
 @Component({
   selector: 'app-custom-form',
   standalone: true,
@@ -48,6 +49,7 @@ export class CustomFormCompomemt implements OnInit {
   @Input() dynamicForms: any[] = [];
   @Input() inputFields: any[] = [];
   @Input() patchData: any = {};  // Add this to receive patch data
+  @Input() message:string='';
   @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
   @Output() formUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() file: EventEmitter<any> = new EventEmitter<any>();
@@ -58,27 +60,32 @@ export class CustomFormCompomemt implements OnInit {
 
   imagePreviews:any[]=[];
   imagesLinksContainer:any[]=[];
-  buttonStatus:boolean=false;
+  buttonStatus!:any;
 
-  constructor(private messageService: MessageService, private fb: FormBuilder) {
+  constructor(private messageService: MessageService, private fb: FormBuilder,private api:ApiService) {
   }
 
   ngOnInit(): void {
-    this.createForm()
+    this.createForm();
+    // Subscribe to the form action observable
+    this.api.formAction$.subscribe(action => {
+      this.buttonStatus = action;
+    });
   }
   // Detect changes in input properties
   ngOnChanges(changes: SimpleChanges): void {
     // If patchData input changes, patch the form with the new data
     if (changes['patchData'] && this.formData && Object.keys(this.patchData).length != 0) {
-      this.buttonStatus=true;
       console.log(this.patchData);
       this.formData.patchValue(this.patchData);  // Patch the form with the incoming data
       console.log(this.formData.value);
     }else{
-      this.buttonStatus=false;
       this.formData.reset();
       this.createForm();
       console.log('hi');
+    }
+    if(changes['message']){
+      this.messageService.add(success(this.message));
     }
   }
 
@@ -105,15 +112,13 @@ export class CustomFormCompomemt implements OnInit {
     // Reset Form
     this.formData.reset();
     // Display toast message
-    this.messageService.add(success(`Added`));
   }
 
   updateForm() {
     this.formUpdate.emit(this.formData.value);
     console.log(this.formData);
     this.formData.reset();
-    this.messageService.add(success(`Updated Successfully`));
-
+    console.log(this.title);
   }
 
   // When the user selects files

@@ -1,10 +1,10 @@
 <div class="card overflow-x-auto">
-  <p-table editMode="row" dataKey="id" [loading]="loading" [columns]="columnsDetails" #dt [value]="tableData"
+  <p-table editMode="row" dataKey="id"selectionMode="single" [loading]="loading" [columns]="columnsDetails" #dt [value]="tableData"
     [rows]="initialRowsPerPage" [paginator]="paginator" [rowsPerPageOptions]="rowsPerPageOptions"
     [globalFilterFields]="filterColumns" styleClass="p-datatable-gridlines">
     <ng-template pTemplate="caption">
       <div class="flex flex-row justify-between mb-4">
-        <div class="mb-2 md:mb-0" *ngIf="editingStatus">
+        <div class="mb-2 md:mb-0" *ngIf="editingStatus.add">
           <button (click)="onAdd()" pButton label="Add" class="p-button-outlined" icon="pi pi-plus"></button>
         </div>
         <div class="text-left mb-2 md:mb-0">
@@ -26,19 +26,19 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-editing="editing" let-rowIndex="rowIndex" let-rowData let-columns="columns">
-      <tr [pEditableRow]="rowData" class="hover:bg-gray-100">
+      <tr [pEditableRow]="rowData" class="">
         <td *ngFor="let col of columns" class="py-2 px-4 min-w-[150px]">
           <ng-container [ngSwitch]="col.field">
             <ng-container *ngSwitchCase="'index'">
               {{ rowIndex + 1 }}
             </ng-container>
             <ng-container *ngSwitchCase="'images'">
-              <img [src]="rowData[col.field][0]" *ngIf="rowData[col.field]?.length > 0" alt="First Image"
+              <img [src]="rowData[col.field][0]" *ngIf="rowData[col.field]?.length > 0" alt="Images"
                 class="w-[200px] rounded-xl" />
             </ng-container>
             <ng-container *ngSwitchCase="'image'">
-              <img [src]="rowData[col.field]" *ngIf="rowData[col.field]?.length > 0" alt="First Image"
-                class="w-[200px] rounded-xl" />
+              <img [src]="rowData[col.field]" *ngIf="rowData[col.field]?.length > 0" alt="Image"
+                class="w-[200px] h-[100px] object-cover rounded-xl" />
             </ng-container>
             <ng-container *ngSwitchCase="'tips'">
               <div *ngFor="let tip of rowData.tips">
@@ -91,11 +91,11 @@
         </td>
         <td class="space-x-4 ">
           <div class="space-x-4  flex justify-center items-center">
-            <i *ngIf="!editing" (click)="onRowView(rowData, rowIndex)" class="pi pi-eye cursor-pointer"></i>
-          <i *ngIf="!editing" pSaveEditableRow (click)="onRowEditInit(rowData)" class="pi pi-pencil cursor-pointer"></i>
+            <i *ngIf="!editing && editingStatus.view" (click)="onRowView(rowData, rowIndex)" class="pi pi-eye cursor-pointer"></i>
+          <i *ngIf="!editing && editingStatus.edit" pSaveEditableRow (click)="onRowEditInit(rowData)" class="pi pi-pencil cursor-pointer"></i>
           <i *ngIf="editing" pCancelEditableRow (click)="onRowEditCancel(rowData, rowIndex)"
             class="pi pi-times cursor-pointer"></i>
-          <i *ngIf="!editing && editingStatus" (click)="onRowDelete($event, rowData)"
+          <i *ngIf="!editing && editingStatus.delete" (click)="onRowDelete($event, rowData)"
             class="pi pi-trash cursor-pointer"></i>
           </div>
         </td>

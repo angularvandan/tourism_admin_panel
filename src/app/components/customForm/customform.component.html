@@ -79,8 +79,8 @@
                                         </div>
                                     </div> -->
                                 </div>
-                                <div *ngIf="formData.get('image')">
-                                    <img [src]="formData.get('images')?.value" alt=""class="w-10 h-10 rounded-lg">
+                                <div *ngIf="formData.get('image')?.value">
+                                    <img [src]="formData.get('image')?.value" alt="image"class="w-32 h-32 rounded-lg">
                                 </div>
                             </div>
 
@@ -98,9 +98,9 @@
                 </ng-container>
             </div>
             <ng-content></ng-content>
-            <p-button *ngIf="!buttonStatus" (onClick)="submitForm()" [disabled]="formData.invalid " type="submit" label="Submit"
+            <p-button *ngIf="buttonStatus=='add'" (onClick)="submitForm()" [disabled]="formData.invalid " type="submit" label="Submit"
                 class="btn btn-primary"></p-button>
-            <p-button *ngIf="buttonStatus" (onClick)="updateForm()" [disabled]="formData.invalid " type="submit" label="Update"
+            <p-button *ngIf="buttonStatus=='update'" (onClick)="updateForm()" [disabled]="formData.invalid " type="submit" label="Update"
                 class="btn btn-primary"></p-button>
         </form>
     </div>

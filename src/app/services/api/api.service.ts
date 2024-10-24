@@ -17,10 +17,25 @@ export class ApiService {
   public userObservable: Observable<User>;
   baseUrl = environment.backendUrl;
 
+  private formActionSubject = new BehaviorSubject<string>('add'); // Default action is 'add'
+  // Observable to expose the form action
+  formAction$: Observable<string> = this.formActionSubject.asObservable();
+
   constructor(private http: HttpClient, private router: Router) {
     this.userObservable = this.userSubject.asObservable();
 
   }
+
+  // Method to switch form action to 'add' mode
+  setAddAction(): void {
+    this.formActionSubject.next('add');
+  }
+
+  // Method to switch form action to 'update' mode
+  setUpdateAction(): void {
+    this.formActionSubject.next('update');
+  }
+
   public get currentUser(): User {
     return this.userSubject.value;//it will give latest value of subject;
   }
@@ -43,6 +58,10 @@ export class ApiService {
   createSpots(data: any) {
     return this.http.post(`${this.baseUrl}/api/spots`, data);
   }
+  updateSpot(data:any,id:any){
+    return this.http.put(`${this.baseUrl}/api/spots/${id}`, data);
+
+  }
   getSpots() {
     return this.http.get(`${this.baseUrl}/api/spots`);
   }
@@ -53,6 +72,9 @@ export class ApiService {
   // for activities
   createActivities(data: any) {
     return this.http.post(`${this.baseUrl}/api/activities`, data);
+  }
+  updateActivities(data:any,id:any){
+    return this.http.put(`${this.baseUrl}/api/activities/${id}`, data);
   }
   getActivities() {
     return this.http.get(`${this.baseUrl}/api/activities`);
@@ -65,6 +87,9 @@ export class ApiService {
   createBlogs(data: any) {
     return this.http.post(`${this.baseUrl}/api/blogs`, data);
   }
+  updateBlog(data:any,id:any){
+    return this.http.put(`${this.baseUrl}/api/blogs/${id}`, data);
+  }
   getBlogs() {
     return this.http.get(`${this.baseUrl}/api/blogs`);
   }
@@ -76,6 +101,9 @@ export class ApiService {
   getBookings(){
     return this.http.get(`${this.baseUrl}/api/booking`);
 
+  }
+  updateBooking(data:any,id:any){
+    return this.http.patch(`${this.baseUrl}/api/booking/${id}`,data);
   }
   getFeedbacks(){
     return this.http.get(`${this.baseUrl}/api/feedback`);

@@ -59,6 +59,19 @@ export class ActivityManagementComponent implements OnInit{
   toursData: any[] = [];
   visible: boolean = false;
 
+  header:string="Add Activity";
+  spot_id!:any;
+  preFilledData!:any;
+  message:string='';
+
+  actionButtonStatus={
+    view:true,
+    edit:true,
+    delete:true,
+    add:true
+
+  }
+
   inputFields = [
     
     {
@@ -168,6 +181,40 @@ export class ActivityManagementComponent implements OnInit{
 
   showDialog(visible: any) {
     this.visible = visible;
+    this.header="Add Activity";
+    
+    this.preFilledData={};
+  }
+  updateData(data:any){
+    console.log(data);
+
+    this.showDialog(true);
+
+    this.spot_id=data._id;
+    
+    this.preFilledData={...data,spot_id:{name:data.spot_id.name,code:data.spot_id._id}};
+    console.log(this.preFilledData);
+    
+    this.header="Update Activity";
+  }
+
+  // update tours 
+  onSubmitUpdateForm(formData: any) {
+    
+    console.log(formData);
+    formData={...formData,spot_id:formData.spot_id.code};
+    console.log(formData);
+
+    this.api.updateActivities(formData,this.spot_id).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.getActivities();
+        this.message="Activity Updated Successfully"
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
   }
 
   deleteData(id: any) {
@@ -175,6 +222,7 @@ export class ActivityManagementComponent implements OnInit{
     this.api.deleteActivityById(id).subscribe((res: any) => {
       console.log(res);
       this.getActivities();
+
     });
   }
   //this is for file into url
@@ -193,6 +241,8 @@ export class ActivityManagementComponent implements OnInit{
       next:(res:any)=>{
         console.log(res);
         this.imageUrl=res.data[0];
+        this.preFilledData={...this.preFilledData,image:this.imageUrl};
+        console.log(this.preFilledData);
       },
       error:(err:any)=>{
         console.log(err);
@@ -210,6 +260,8 @@ export class ActivityManagementComponent implements OnInit{
       next:(res:any)=>{
         console.log(res);
         this.getActivities();
+        this.message="Activity Added Successfully"
+
       },
       error:(err:any)=>{
         console.log(err);

@@ -63,6 +63,20 @@ export class SpotsManagementComponent implements OnInit {
   toursData: any[] = [];
   visible: boolean = false;
 
+  header:string="Add Spot";
+  spot_id!:any;
+  preFilledData!:any;
+  message: string='';
+
+
+  actionButtonStatus={
+    view:true,
+    edit:true,
+    delete:true,
+    add:true
+
+  }
+
   inputFields = [
     
     {
@@ -138,11 +152,13 @@ export class SpotsManagementComponent implements OnInit {
 
   // Add new form when user clicks "Add Form"
   addNewForm() {
-    this.dynamicForms.push({
-      title: '',
-      desc: '',
-      icon: ''
-    });
+    if(this.dynamicForms.length<4){
+      this.dynamicForms.push({
+        title: '',
+        desc: '',
+        icon: ''
+      });
+    }
   }
   removeForm() {
     this.dynamicForms.pop();
@@ -186,6 +202,45 @@ export class SpotsManagementComponent implements OnInit {
 
   showDialog(visible: any) {
     this.visible = visible;
+    this.header="Add Spot";
+    
+    this.preFilledData={};
+    this.dynamicForms=[];
+    this.addNewForm();
+  }
+  updateData(data:any){
+    console.log(data);
+
+    this.showDialog(true);
+
+    this.spot_id=data._id;
+    
+    this.preFilledData={...data,tour_id:{name:data.tour_id.name,code:data.tour_id._id}};
+    this.dynamicForms=data.tips;
+    console.log(this.preFilledData);
+    
+    this.header="Update Spot";
+  }
+  // update tours 
+  onSubmitUpdateForm(formData: any) {
+    
+    console.log(formData);
+    console.log(this.dynamicForms);
+    formData={...formData,tips:this.dynamicForms,tour_id:formData.tour_id.code};
+    console.log(formData);
+
+    this.api.updateSpot(formData,this.spot_id).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.getSpots();
+        this.message='Spot Updated Successfully!'
+
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
+
   }
 
   deleteData(id: any) {
@@ -210,6 +265,8 @@ export class SpotsManagementComponent implements OnInit {
       next: (res: any) => {
         console.log(res);
         this.imageUrl = res.data;
+        this.preFilledData={...this.preFilledData,images:this.imageUrl};
+        console.log(this.preFilledData);
       },
       error: (err: any) => {
         console.log(err);
@@ -229,6 +286,8 @@ export class SpotsManagementComponent implements OnInit {
       next: (res: any) => {
         console.log(res);
         this.getSpots();
+        this.message='Spot Added Successfully!'
+
       },
       error: (err: any) => {
         console.log(err);

@@ -63,9 +63,17 @@ export class ToursManagementComponent implements OnInit {
   loading: boolean = true;
   toursData: any[] = [];
   visible: boolean = false;
-  header:string="All Tour";
+  header:string="Add Tour";
   tours_id!:any;
   preFilledData!:any;
+  message:string='';
+
+  actionButtonStatus={
+    view:true,
+    edit:true,
+    delete:true,
+    add:true
+  }
 
   inputFields = [
     {
@@ -177,13 +185,16 @@ export class ToursManagementComponent implements OnInit {
 
   // Add new form when user clicks "Add Form"
   addNewForm() {
-    this.dynamicForms.push({
-      title: '',
-      desc1: '',
-      icon1: '',
-      desc2: '',
-      icon2: ''
-    });
+    if(this.dynamicForms.length<4){
+      this.dynamicForms.push({
+        title: '',
+        desc1: '',
+        icon1: '',
+        desc2: '',
+        icon2: ''
+      });
+    }
+    
   }
   removeForm(){
     this.dynamicForms.pop();
@@ -285,6 +296,7 @@ export class ToursManagementComponent implements OnInit {
     this.api.updateTour(formData,this.tours_id).subscribe({
       next:(res:any)=>{
         console.log(res);
+        this.message='Tour Updated Successfully!'
         this.getTours();
       },
       error:(err:any)=>{

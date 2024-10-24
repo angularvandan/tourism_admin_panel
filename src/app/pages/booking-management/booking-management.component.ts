@@ -41,6 +41,7 @@ export class BookingManagementComponent  implements OnInit {
     { field: 'totalPrice', header: 'Total Price' },
     { field: 'tours_details', header: 'Tours Details' },
     { field: 'priceDetails', header: 'User Details' },
+    { field: 'paymentStatus', header: 'Payment Status' },
     
   ];
   columnsDetails=[
@@ -50,6 +51,8 @@ export class BookingManagementComponent  implements OnInit {
     { field: 'totalPrice', header: 'Total Price' },
     { field: 'tours_details', header: 'Tours Details' },
     { field: 'priceDetails', header: 'User Details' },
+    { field: 'paymentStatus', header: 'Payment Status' },
+
   ];
   rowDetailsHeader:string='Booking Details';
   paginator = true;
@@ -58,15 +61,30 @@ export class BookingManagementComponent  implements OnInit {
   loading: boolean = true;
   bookingData: any[] = [];
   visible: boolean = false;
+  booking_id!:any;
+  header:string="Update Booking";
+  preFilledData!:any;
+  message:string='';
+
+  actionButtonStatus={
+    view:true,
+    edit:true,
+    delete:false,
+    add:false
+  }
 
   inputFields = [
     {
-      type: 'text',
+      type: 'select',
       fields: {
         label: 'Booking Status',
-        name: 'booking_status',
+        name: 'paymentStatus',
         placeholder: 'Enter Status',
         required: true,
+        options: [
+          {name:'Completed',code:'Completed'},
+          {name:'Pending',code:'Pending'}
+        ],
       },
     },
     
@@ -88,19 +106,50 @@ export class BookingManagementComponent  implements OnInit {
     this.visible = visible;
   }
 
-  // create tours 
-  onSubmitAddForm(formData: any) {
+  updateData(data:any){
+    console.log(data);
+
+    this.showDialog(true);
+
+    this.booking_id=data._id;
+    
+    this.preFilledData={paymentStatus:{name:data.paymentStatus,code:data.paymentStatus}};
+    console.log(this.preFilledData);
+  }
+
+  // update tours 
+  onSubmitUpdateForm(formData: any) {
+    console.log(formData);
+    formData={paymentStatus:formData.paymentStatus.code};
     console.log(formData);
 
-    this.api.createTours(formData).subscribe({
+    this.api.updateBooking(formData,this.booking_id).subscribe({
       next:(res:any)=>{
         console.log(res);
         this.getBookings();
+        this.message="Booking Updated Successfully";
+        this.showDialog(false);
       },
       error:(err:any)=>{
         console.log(err);
       }
     })
+  }
+
+  // create tours 
+  onSubmitAddForm(formData: any) {
+    console.log(formData);
+
+    // this.api.updateBooking(formData,'sdf').subscribe({
+    //   next:(res:any)=>{
+    //     console.log(res);
+    //     this.getBookings();
+    //     this.message='Booking Updated Successfully';
+    //   },
+    //   error:(err:any)=>{
+    //     console.log(err);
+    //   }
+    // })
 
   }
 

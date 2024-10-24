@@ -2,7 +2,7 @@
     <p-panel header="Tours Management">
         <div class="card grid grid-cols-1 justify-content-center">
             <div class="overflowx-x-auto"> <!-- Make the container scrollable -->
-                <app-custom-table (visible)="showDialog($event)" (deleteData)="deleteData($event)"(updateData)="updateData($event)" [loading]="loading"
+                <app-custom-table (visible)="showDialog($event)" (deleteData)="deleteData($event)"(updateData)="updateData($event)" [loading]="loading"[editingStatus]="actionButtonStatus"
                     [tableData]="toursData" [columns]="columns"[columnsDetails]="columnsDetails"[rowDetailsHeader]="rowDetailsHeader" [paginator]="paginator"
                     [rowsPerPageOptions]="rowsPerPageOptions"
                     [initialRowsPerPage]="initialRowsPerPage"></app-custom-table>
@@ -12,7 +12,7 @@
 </div>
 <p-dialog class="w-full lg:w-9/12" [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
     [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
-    <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms"[patchData]="preFilledData" (formSubmit)="onSubmitAddForm($event)" (formUpdate)="onSubmitUpdateForm($event)"(file)="onFileSelect($event)">
+    <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms"[patchData]="preFilledData"[message]="message" (formSubmit)="onSubmitAddForm($event)" (formUpdate)="onSubmitUpdateForm($event)"(file)="onFileSelect($event)">
         <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
 
             <!-- Loop through dynamic forms array to generate the input fields -->
@@ -77,6 +77,7 @@
     </app-custom-form>
 
 </p-dialog>
+<!-- <p-toast position="bottom-center"></p-toast> -->
 
 <!-- this is for show details -->
 <!-- <p-dialog header="Row Details" [(visible)]="displayDialog" [modal]="true" [style]="{ width: '50vw' }"

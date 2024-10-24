@@ -22,6 +22,7 @@ import { success } from '../../utils/customtoast';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { CarouselModule } from 'primeng/carousel';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'app-custom-table',
@@ -43,7 +44,8 @@ import { CarouselModule } from 'primeng/carousel';
 export class CustomTableComponent implements OnInit {
   constructor(
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private api:ApiService
   ) {}
   @Input() columns?: any[];
   @Input() columnsDetails?: any[];
@@ -52,7 +54,7 @@ export class CustomTableComponent implements OnInit {
   @Input() tableData?: any;
   @Input() paginator?: boolean;
   @Input() loading?: boolean;
-  @Input() editingStatus?: boolean=true;
+  @Input() editingStatus!:any;
   @Input() rowsPerPageOptions?: any[];
   @Input() initialRowsPerPage?: number;
   @Output() deleteData: EventEmitter<any> = new EventEmitter();
@@ -75,6 +77,7 @@ export class CustomTableComponent implements OnInit {
     this.clonedData[rowData._id as string] = { ...rowData };
     console.log(this.clonedData);
     this.updateData.emit({...rowData});
+    this.api.setUpdateAction();
     delete this.clonedData[rowData.id as string];
 
   }
@@ -124,6 +127,8 @@ export class CustomTableComponent implements OnInit {
   //Add User
   onAdd() {
     this.visible.emit(true);
+    this.api.setAddAction();
+
   }
 
   // View Row Details

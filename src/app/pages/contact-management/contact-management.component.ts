@@ -54,6 +54,12 @@ export class ContactManagementComponent implements OnInit {
   contactData: any[] = [];
   visible: boolean = false;
 
+  actionButtonStatus={
+    view:true,
+    edit:false,
+    delete:false,
+  }
+
   ngOnInit(): void {
     this.getContacts();
   }

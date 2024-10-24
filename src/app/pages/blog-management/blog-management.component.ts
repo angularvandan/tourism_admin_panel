@@ -55,6 +55,19 @@ export class BlogManagementComponent implements OnInit{
   toursData: any[] = [];
   visible: boolean = false;
 
+  header:string="Add Blog";
+  preFilledData!:any;
+  blog_id!:any;
+  message:string='';
+
+  actionButtonStatus={
+    view:true,
+    edit:true,
+    delete:true,
+    add:true
+
+  }
+
   inputFields = [
     
     {
@@ -110,9 +123,11 @@ export class BlogManagementComponent implements OnInit{
 
   // Add new form when user clicks "Add Form"
   addNewForm() {
-    this.dynamicForms.push({
-      desc:''
-    });
+    if(this.dynamicForms.length<4){
+      this.dynamicForms.push({
+        desc:''
+      });
+    }
   }
   removeForm(){
     this.dynamicForms.pop();
@@ -134,6 +149,38 @@ export class BlogManagementComponent implements OnInit{
   showDialog(visible: any) {
     this.visible = visible;
   }
+  updateData(data:any){
+    console.log(data);
+
+    this.showDialog(true);
+    this.preFilledData={...data,name:data.quote.name,quote_content:data.quote.content};
+    this.dynamicForms=data.content;
+    this.blog_id=data._id;
+    console.log(this.preFilledData);
+    
+    this.header="Update Blog";
+  }
+  // update tours 
+  onSubmitUpdateForm(formData: any) {
+    
+    console.log(formData);
+    console.log(this.dynamicForms);
+    formData={...formData,content:this.dynamicForms,quote:{content:formData.quote_content,name:formData.name}};
+    console.log(formData);
+
+    this.api.updateBlog(formData,this.blog_id).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.getBlogs();
+        this.message='Blog Updated Successfully!'
+
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
+
+  }
 
   deleteData(id: any) {
     console.log(id);
@@ -154,9 +201,13 @@ export class BlogManagementComponent implements OnInit{
       });
 
     this.api.getImageUrl(formData).subscribe({
+
       next:(res:any)=>{
         console.log(res);
         this.imageUrl=res.data;
+        this.preFilledData={...this.preFilledData,images:this.imageUrl};
+        console.log(this.preFilledData);
+
       },
       error:(err:any)=>{
         console.log(err);
@@ -179,6 +230,8 @@ export class BlogManagementComponent implements OnInit{
       next:(res:any)=>{
         console.log(res);
         this.getBlogs();
+        this.message='Blog Added Successfully!'
+
       },
       error:(err:any)=>{
         console.log(err);

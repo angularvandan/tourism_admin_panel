@@ -56,6 +56,12 @@ export class FeedbackManagementComponent implements OnInit {
   feedbackData: any[] = [];
   visible: boolean = false;
 
+  actionButtonStatus={
+    view:true,
+    edit:false,
+    delete:false,
+  }
+
   ngOnInit(): void {
     this.getFeedbacks();
   }
