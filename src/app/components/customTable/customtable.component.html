@@ -1,6 +1,6 @@
 <div class="card overflow-x-auto">
-  <p-table editMode="row" dataKey="id"selectionMode="single" [loading]="loading" [columns]="columnsDetails" #dt [value]="tableData"
-    [rows]="initialRowsPerPage" [paginator]="paginator" [rowsPerPageOptions]="rowsPerPageOptions"
+  <p-table editMode="row" dataKey="id" selectionMode="single" [loading]="loading" [columns]="columnsDetails" #dt
+    [value]="tableData" [rows]="initialRowsPerPage" [paginator]="paginator" [rowsPerPageOptions]="rowsPerPageOptions"
     [globalFilterFields]="filterColumns" styleClass="p-datatable-gridlines">
     <ng-template pTemplate="caption">
       <div class="flex flex-row justify-between mb-4">
@@ -39,6 +39,12 @@
             <ng-container *ngSwitchCase="'image'">
               <img [src]="rowData[col.field]" *ngIf="rowData[col.field]?.length > 0" alt="Image"
                 class="w-[200px] h-[100px] object-cover rounded-xl" />
+            </ng-container>
+            <ng-container *ngSwitchCase="'paymentDate'">
+              <span class="">{{rowData.paymentDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'bookingId'">
+              <span class="">{{rowData.bookingId._id}}</span>
             </ng-container>
             <ng-container *ngSwitchCase="'tips'">
               <div *ngFor="let tip of rowData.tips">
@@ -91,12 +97,14 @@
         </td>
         <td class="space-x-4 ">
           <div class="space-x-4  flex justify-center items-center">
-            <i *ngIf="!editing && editingStatus.view" (click)="onRowView(rowData, rowIndex)" class="pi pi-eye cursor-pointer"></i>
-          <i *ngIf="!editing && editingStatus.edit" pSaveEditableRow (click)="onRowEditInit(rowData)" class="pi pi-pencil cursor-pointer"></i>
-          <i *ngIf="editing" pCancelEditableRow (click)="onRowEditCancel(rowData, rowIndex)"
-            class="pi pi-times cursor-pointer"></i>
-          <i *ngIf="!editing && editingStatus.delete" (click)="onRowDelete($event, rowData)"
-            class="pi pi-trash cursor-pointer"></i>
+            <i *ngIf="!editing && editingStatus.view" (click)="onRowView(rowData, rowIndex)"
+              class="pi pi-eye cursor-pointer"></i>
+            <i *ngIf="!editing && editingStatus.edit" pSaveEditableRow (click)="onRowEditInit(rowData)"
+              class="pi pi-pencil cursor-pointer"></i>
+            <i *ngIf="editing" pCancelEditableRow (click)="onRowEditCancel(rowData, rowIndex)"
+              class="pi pi-times cursor-pointer"></i>
+            <i *ngIf="!editing && editingStatus.delete" (click)="onRowDelete($event, rowData)"
+              class="pi pi-trash cursor-pointer"></i>
           </div>
         </td>
       </tr>
@@ -105,10 +113,9 @@
 </div>
 <p-confirmDialog></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>
-<p-dialog [header]="rowDetailsHeader" [(visible)]="displayDialog" [modal]="true"
-  styleClass="w-full md:w-[75%]" class="w-full md:w-[75vw] " [maximizable]="true" [baseZIndex]="10000"
-  [draggable]="false">
-  <div *ngIf="selectedRow"class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+<p-dialog [header]="rowDetailsHeader" [(visible)]="displayDialog" [modal]="true" styleClass="w-full md:w-[75%]"
+  class="w-full md:w-[75vw] " [maximizable]="true" [baseZIndex]="10000" [draggable]="false">
+  <div *ngIf="selectedRow" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
     <div *ngFor="let col of columns">
       <ng-container [ngSwitch]="col.field">
 
@@ -116,7 +123,7 @@
           <ng-container *ngSwitchCase="'images'">
             <strong>{{ col.header }}:</strong>
             <ng-container *ngFor="let img of selectedRow.images;let i=index">
-  
+
               <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field][i]"
                 alt="Product Image" class="w-24 h-24 mr-4 object-cover rounded-xl" />
             </ng-container>
@@ -126,7 +133,7 @@
           <ng-container *ngSwitchCase="'image'">
             <strong>{{ col.header }}:</strong>
             <ng-container>
-  
+
               <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field]"
                 alt="Product Image" class="w-24 h-24 object-cover rounded-xl" />
             </ng-container>
@@ -216,6 +223,15 @@
               <span>{{ tip.desc }}</span>
               <span> {{ tip.icon }}</span>
             </div>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'bookingId'">
+          <div class="flex flex-col">
+            <span class=""><span class="font-bold">Booking Id:</span> {{selectedRow.bookingId._id}}</span><br>
+            <span class=""><span class="font-bold">User Name:</span> {{selectedRow.bookingId.user_name}}</span><br>
+            <span class=""><span class="font-bold">User Email:</span> {{selectedRow.bookingId.user_email}}</span><br>
+            <span class=""><span class="font-bold">User Phone:</span> {{selectedRow.bookingId.user_mobile}}</span><br>
+            <span class=""><span class="font-bold">Total Price:</span> {{selectedRow.bookingId.totalPrice}}</span>
           </div>
         </ng-container>
 

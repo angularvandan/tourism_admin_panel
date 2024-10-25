@@ -105,6 +105,9 @@ export class ApiService {
   updateBooking(data:any,id:any){
     return this.http.patch(`${this.baseUrl}/api/booking/${id}`,data);
   }
+  getPayments(){
+    return this.http.get(`${this.baseUrl}/api/payment`);
+  }
   getFeedbacks(){
     return this.http.get(`${this.baseUrl}/api/feedback`);
 

@@ -9,6 +9,7 @@ import { BlogManagementComponent } from './pages/blog-management/blog-management
 import { BookingManagementComponent } from './pages/booking-management/booking-management.component';
 import { FeedbackManagementComponent } from './pages/feedback-management/feedback-management.component';
 import { ContactManagementComponent } from './pages/contact-management/contact-management.component';
+import { PaymentManagementComponent } from './pages/payment-management/payment-management.component';
 
 export const routes: Routes = [
   { path: '', component: AdminLoginScreenComponent },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'activities', component: ActivityManagementComponent,canActivate: [guardGuard] },
   { path: 'blogs', component: BlogManagementComponent,canActivate: [guardGuard] },
   { path: 'bookings', component: BookingManagementComponent,canActivate: [guardGuard] },
+  { path: 'payments', component: PaymentManagementComponent,canActivate: [guardGuard] },
   { path: 'feedbacks', component: FeedbackManagementComponent,canActivate: [guardGuard] },
   { path: 'contacts', component:ContactManagementComponent,canActivate: [guardGuard] },
 ];
