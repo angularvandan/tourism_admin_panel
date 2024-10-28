@@ -115,8 +115,19 @@ export class ApiService {
   getContacts(){
     return this.http.get(`${this.baseUrl}/api/contact`);
   }
+  getPrivacyPolicy(){
+    return this.http.get(`${this.baseUrl}/api/privacy-policy`);
+  }
+  createPrivacyPolicy(data:any){
+    return this.http.post(`${this.baseUrl}/api/privacy-policy`,data);
+  }
+  updatePrivacyPolicy(data:any,id:any){
+    return this.http.put(`${this.baseUrl}/api/privacy-policy/${id}`,data);
+  }
+  deletePrivacyPolicy(id:any){
+    return this.http.delete(`${this.baseUrl}/api/privacy-policy/${id}`);
 
-
+  }
 
   getImageUrl(formData: any) {
     return this.http.post(`${this.baseUrl}/api/upload`, formData);

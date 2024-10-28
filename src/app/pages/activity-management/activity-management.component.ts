@@ -69,7 +69,6 @@ export class ActivityManagementComponent implements OnInit{
     edit:true,
     delete:true,
     add:true
-
   }
 
   inputFields = [
@@ -100,7 +99,7 @@ export class ActivityManagementComponent implements OnInit{
         label: 'Choose Image',
         name: 'image',
         required: true,
-        warn:'Images ratio (340x460).'
+        warn:'Images ratio (1150x460).'
       },
     },
     {

@@ -10,6 +10,7 @@ import { BookingManagementComponent } from './pages/booking-management/booking-m
 import { FeedbackManagementComponent } from './pages/feedback-management/feedback-management.component';
 import { ContactManagementComponent } from './pages/contact-management/contact-management.component';
 import { PaymentManagementComponent } from './pages/payment-management/payment-management.component';
+import { PrivacyPolicyComponentimplements } from './pages/privacy-policy/privacy-policy.component';
 
 export const routes: Routes = [
   { path: '', component: AdminLoginScreenComponent },
@@ -23,4 +24,5 @@ export const routes: Routes = [
   { path: 'payments', component: PaymentManagementComponent,canActivate: [guardGuard] },
   { path: 'feedbacks', component: FeedbackManagementComponent,canActivate: [guardGuard] },
   { path: 'contacts', component:ContactManagementComponent,canActivate: [guardGuard] },
+  { path: 'privacy-policy', component:PrivacyPolicyComponentimplements,canActivate: [guardGuard] },
 ];
