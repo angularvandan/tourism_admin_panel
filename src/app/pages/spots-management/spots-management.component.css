@@ -1,0 +1,10 @@
+.image-container .image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid  blue;
+    color: blue;
+    background-color: inherit;
+    cursor: pointer;
+    border-radius: 8px;
+}

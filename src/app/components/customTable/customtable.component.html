@@ -1,7 +1,7 @@
 <div class="card overflow-x-auto">
   <p-table editMode="row" dataKey="id" selectionMode="single" [loading]="loading" [columns]="columnsDetails" #dt
     [value]="tableData" [rows]="initialRowsPerPage" [paginator]="paginator" [rowsPerPageOptions]="rowsPerPageOptions"
-    [globalFilterFields]="filterColumns" styleClass="p-datatable-gridlines">
+    [globalFilterFields]="filterColumns" styleClass="p-datatable-gridlines h-100vh">
     <ng-template pTemplate="caption">
       <div class="flex flex-row justify-between mb-4">
         <div class="mb-2 md:mb-0" *ngIf="editingStatus.add">
@@ -115,128 +115,173 @@
 <p-toast position="bottom-center"></p-toast>
 <p-dialog [header]="rowDetailsHeader" [(visible)]="displayDialog" [modal]="true" styleClass="w-full md:w-[75%]"
   class="w-full md:w-[75vw] " [maximizable]="true" [baseZIndex]="10000" [draggable]="false">
-  <div *ngIf="selectedRow" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+  <div *ngIf="selectedRow && columns" class="grid gap-8 w-full" [ngClass]="columns.length==1?'grid-cols-1':'grid-cols-1 md:grid-cols-2'">
     <div *ngFor="let col of columns">
       <ng-container [ngSwitch]="col.field">
 
-        <div class="flex">
+        <div class="">
           <ng-container *ngSwitchCase="'images'">
-            <strong>{{ col.header }}:</strong>
-            <ng-container *ngFor="let img of selectedRow.images;let i=index">
+            <p class="mb-3 font-semibold">{{ col.header }}:</p>
+            <div class="flex flex-col sm:flex-row gap-4 w-full pr-4">
+              <ng-container *ngFor="let img of selectedRow.images;let i=index">
 
-              <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field][i]"
-                alt="Product Image" class="w-24 h-24 mr-4 object-cover rounded-xl" />
-            </ng-container>
+                <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0"
+                  [src]="selectedRow[col.field][i]" alt="Product Image"
+                  class="w-full sm:w-1/2 max-h-1/2 mr-4 object-cover rounded-xl" />
+              </ng-container>
+            </div>
           </ng-container>
         </div>
-        <div class="flex">
+        <div class="w-full">
           <ng-container *ngSwitchCase="'image'">
-            <strong>{{ col.header }}:</strong>
+            <p class="mb-3 font-semibold">{{ col.header }}:</p>
             <ng-container>
 
               <img *ngIf="selectedRow[col.field] && selectedRow[col.field].length > 0" [src]="selectedRow[col.field]"
-                alt="Product Image" class="w-24 h-24 object-cover rounded-xl" />
+                alt="Product Image" class="w-full max-h-1/2 object-cover rounded-xl" />
             </ng-container>
           </ng-container>
         </div>
-        
+
         <ng-container *ngSwitchCase="'content'">
           <span class="">
-            <span class="font-bold">Content:</span>
-            <span class="" *ngFor="let data of selectedRow.content">
+            <p class="font-bold mb-3">Content:</p>
+            <p class="" *ngFor="let data of selectedRow.content">
               {{data.desc}}
-            </span>
+            </p>
           </span>
         </ng-container>
         <ng-container *ngSwitchCase="'tours_details'">
-          <span class="font-bold">ToursDetails: <br></span>
-          <span>
-            <span class="" *ngFor="let tour of selectedRow.tours_details;let i=index">
+          <p class="font-bold mb-3">ToursDetails:</p>
+          <div class="ml-8">
+            <div class="" *ngFor="let tour of selectedRow.tours_details;let i=index">
               <ng-container *ngIf="i==0">
-                <span class=""><span class="font-bold">Tour Name: </span> {{tour.name}}</span><br>
-                <span class=""><span class="font-bold">Tour Address: </span> {{tour.address}}</span><br>
-              </ng-container>
-              <ng-container *ngIf="i>0">
-                <span class=""><span class="font-bold">Spots Name: </span>{{tour.spot_id.name}}</span><br>
-                <span class=""><span class="font-bold">Activity Name: </span>{{tour.name}}</span><br>
+                <div>
+                  <p class="font-bold mb-3 ">Tour Name: </p>
+                  <p class="ml-8">{{tour.name}}</p>
+                </div>
+                <div>
+                  <p class="font-bold">Tour Address: </p>
+                  <p class="ml-8">{{tour.address}}</p>
+                </div>
 
               </ng-container>
-            </span>
-          </span>
+              <ng-container *ngIf="i>0">
+                <div>
+                  <p class="font-bold">Spots Name: </p>
+                  <p class="ml-8">
+                    {{tour.spot_id.name}}</p>
+                </div>
+                <div>
+                  <p class="font-bold">Activity Name: </p>
+                  <p class="ml-8">{{tour.name}}</p>
+                </div>
+
+              </ng-container>
+            </div>
+          </div>
         </ng-container>
         <ng-container *ngSwitchCase="'priceDetails'">
-          <span class="">Price Details with person:
-            <span class="font-bold" *ngIf="selectedRow.priceDetails.adult">
-              <p class="font-bold">Adult:</p>
-              <span>
-                <span class="font-semibold">Count:</span>
-                {{selectedRow.priceDetails.adult.count}}</span><br>
-              <span>
-                <span class="font-semibold">Total Price:</span>
-                {{selectedRow.priceDetails.adult.totalPrice}}
-              </span>
-            </span>
-            <span class="font-bold" *ngIf="selectedRow.priceDetails.child">
-              <p class="font-bold">Child:</p>
-              <span>
-                <span class="font-semibold">Count:</span>
-                {{selectedRow.priceDetails.child.count}}
-              </span><br>
-              <span>
-                <span class="font-semibold">Total Price:</span>
-                {{selectedRow.priceDetails.child.totalPrice}}
-              </span>
-            </span>
-            <span class="font-bold" *ngIf="selectedRow.priceDetails.infant">
-              <p class="font-bold">Infant:</p>
-              <span>
-                <span class="font-semibold">Count:</span>
-                {{selectedRow.priceDetails.infant.count}}
-              </span><br>
-              <span>
-                <span class="font-semibold">Total Price:</span>
-                {{selectedRow.priceDetails.infant.totalPrice}}
-              </span>
-            </span>
-          </span>
+          <div class="">
+            <p class="font-bold">Price Details with person:</p>
+            <div class="ml-8">
+              <div class="" *ngIf="selectedRow.priceDetails.adult">
+                <p class="font-bold">Adult:</p>
+                <div class="ml-8">
+                  <div>
+                    <p class="font-semibold">Count: {{selectedRow.priceDetails.adult.count}}</p>
+                  </div>
+                  <div>
+                    <p class="font-semibold">Total Price: {{selectedRow.priceDetails.adult.totalPrice}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="" *ngIf="selectedRow.priceDetails.child">
+                <p class="font-bold">Child:</p>
+                <div class="ml-8">
+
+                  <div>
+                    <p class="font-semibold">Count: {{selectedRow.priceDetails.child.count}}</p>
+                  </div>
+                  <div>
+                    <p class="font-semibold">Total Price: {{selectedRow.priceDetails.child.totalPrice}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="" *ngIf="selectedRow.priceDetails.infant">
+                <p class="font-bold">Infant:</p>
+                <div class="ml-8">
+
+                  <div>
+                    <p class="font-semibold">Count: {{selectedRow.priceDetails.infant.count}}</p>
+                  </div>
+                  <div>
+                    <p class="font-semibold">Total Price: {{selectedRow.priceDetails.infant.totalPrice}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </ng-container>
         <ng-container *ngSwitchCase="'quote'">
-          <span>
-            <span class="font-bold">Quote:</span>
-            <span>
+          <div>
+            <p class="font-bold">Quote:</p>
+            <p>
               {{selectedRow.quote.content}}
-            </span>
-            <span class="font-bold">
+            </p>
+            <p class="font-bold">
               - {{selectedRow.quote.name}}
-            </span>
-          </span>
+            </p>
+          </div>
         </ng-container>
         <ng-container *ngSwitchCase="'tips'">
           <div *ngFor="let tip of selectedRow.tips">
             <div *ngIf="tip.desc1">
-              <span class="font-bold">{{ tip.title }}:</span>
-              <span>{{ tip.desc1 }}, {{ tip.desc2 }}</span>
-              <span> {{ tip.icon1 }} {{ tip.icon2 }}</span>
+              <div class="mb-2">
+                <p class="font-bold mb-2">{{ tip.title }}:</p>
+                <p>{{ tip.icon1 }} {{ tip.desc1 }}</p>
+                <p>{{ tip.icon2 }} {{ tip.desc2 }}</p>
+              </div>
             </div>
-            <div *ngIf="tip.desc">
-              <span class="font-bold">{{ tip.title }}:</span>
-              <span>{{ tip.desc }}</span>
-              <span> {{ tip.icon }}</span>
+            <div *ngIf="tip.desc" class="flex flex-col">
+              <p class="font-bold">{{ tip.title }}:</p>
+              <p>{{ tip.desc }}</p>
+              <span> <img [src]="tip.icon" alt="image" class="w-10 h-10 object-cover rounded-full"></span>
             </div>
           </div>
         </ng-container>
+
         <ng-container *ngSwitchCase="'bookingId'">
-          <div class="flex flex-col">
-            <span class=""><span class="font-bold">Booking Id:</span> {{selectedRow.bookingId._id}}</span><br>
-            <span class=""><span class="font-bold">User Name:</span> {{selectedRow.bookingId.user_name}}</span><br>
-            <span class=""><span class="font-bold">User Email:</span> {{selectedRow.bookingId.user_email}}</span><br>
-            <span class=""><span class="font-bold">User Phone:</span> {{selectedRow.bookingId.user_mobile}}</span><br>
-            <span class=""><span class="font-bold">Total Price:</span> {{selectedRow.bookingId.totalPrice}}</span>
+          <div class="flex flex-col ">
+            <p class="font-bold">Booking Details: </p>
+            <div class="ml-8">
+              <div>
+                <p class="font-bold">Booking Id:</p>
+                <p class=""> {{selectedRow.bookingId._id}}</p>
+              </div>
+              <div>
+                <p class="font-bold">User Name:</p>
+                <p class=""> {{selectedRow.bookingId.user_name}}</p>
+              </div>
+              <div>
+                <p class="font-bold">User Email:</p>
+                <p class=""> {{selectedRow.bookingId.user_email}}</p>
+              </div>
+              <div>
+                <p class="font-bold">User Phone:</p>
+                <p class=""> {{selectedRow.bookingId.user_mobile}}</p>
+              </div>
+              <div>
+                <p class="font-bold">Total Price:</p>
+                <p class=""> {{selectedRow.bookingId.totalPrice}}</p>
+              </div>
+            </div>
           </div>
         </ng-container>
 
         <ng-container *ngSwitchDefault>
-          <strong>{{ col.header }}:</strong> {{ selectedRow[col.field] }}
+          <p class="mb-2 font-semibold">{{ col.header }}:</p>
+          <p>{{ selectedRow[col.field] }}</p>
         </ng-container>
       </ng-container>
 

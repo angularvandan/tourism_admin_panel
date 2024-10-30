@@ -126,7 +126,18 @@ export class ApiService {
   }
   deletePrivacyPolicy(id:any){
     return this.http.delete(`${this.baseUrl}/api/privacy-policy/${id}`);
-
+  }
+  createHomeBanner(data:any){
+    return this.http.post(`${this.baseUrl}/api/banner`,data);
+  }
+  updateHomeBanner(data:any,id:any){
+    return this.http.put(`${this.baseUrl}/api/banner/${id}`,data);
+  }
+  deleteHomeBanner(id:any){
+    return this.http.delete(`${this.baseUrl}/api/banner/${id}`);
+  }
+  getHomeBanner(){
+    return this.http.get(`${this.baseUrl}/api/banner`);
   }
 
   getImageUrl(formData: any) {

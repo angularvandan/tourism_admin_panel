@@ -11,6 +11,7 @@ import { FeedbackManagementComponent } from './pages/feedback-management/feedbac
 import { ContactManagementComponent } from './pages/contact-management/contact-management.component';
 import { PaymentManagementComponent } from './pages/payment-management/payment-management.component';
 import { PrivacyPolicyComponentimplements } from './pages/privacy-policy/privacy-policy.component';
+import { HomeBannerComponent } from './pages/home-banner/home-banner.component';
 
 export const routes: Routes = [
   { path: '', component: AdminLoginScreenComponent },
@@ -25,4 +26,5 @@ export const routes: Routes = [
   { path: 'feedbacks', component: FeedbackManagementComponent,canActivate: [guardGuard] },
   { path: 'contacts', component:ContactManagementComponent,canActivate: [guardGuard] },
   { path: 'privacy-policy', component:PrivacyPolicyComponentimplements,canActivate: [guardGuard] },
+  { path: 'home-banner', component:HomeBannerComponent,canActivate: [guardGuard] },
 ];

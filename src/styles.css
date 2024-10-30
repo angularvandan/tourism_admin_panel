@@ -54,3 +54,16 @@
 @tailwind utilities;
 
 
+app-custom-form .image-container .image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid  blue;
+    color: blue;
+    background-color: inherit;
+    cursor: pointer;
+    border-radius: 8px;
+}
+app-custom-table .p-datatable{
+    height: calc(100vh - 185px);
+}

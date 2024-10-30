@@ -62,8 +62,17 @@
 
                             <!-- File -->
                             <div *ngSwitchCase="'file'">
-                                <input id="file" class="w-full flex flex-col" type="file" accept="image/*"
-                                    (change)="onFileSelected($event)" multiple>
+                                <!-- <input id="file" class="w-full flex flex-col" type="file" accept="image/*"
+                                    (change)="onFileSelected($event)" multiple> -->
+                                    <div class="p-col-12 p-md-10 image-container">
+                                        <!-- <input pInputText id="icon1-{{i}}" [(ngModel)]="form.icon" placeholder="Enter Icon 1" /> -->
+                                        <label for="img" class="p-col-12 p-md-2">
+                                            <div class="w-full h-[45px]  bg-white image">Select Image</div>
+                                        <input id="img" class="w-full flex flex-col hidden" type="file" accept="image/*"
+                                        (change)="onFileSelected($event)"multiple >
+                                        </label>
+                                        
+                                    </div>
                                 <p class=" m-0 p-0 " *ngIf="field.fields.warn">{{field.fields.warn}}</p>
                                 <!-- Display file names in the form (optional) -->
                                 <div *ngIf="formData.get('images')">

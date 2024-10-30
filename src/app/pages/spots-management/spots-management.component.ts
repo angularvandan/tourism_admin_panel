@@ -63,29 +63,29 @@ export class SpotsManagementComponent implements OnInit {
   toursData: any[] = [];
   visible: boolean = false;
 
-  header:string="Add Spot";
-  spot_id!:any;
-  preFilledData!:any;
-  message: string='';
+  header: string = "Add Spot";
+  spot_id!: any;
+  preFilledData!: any;
+  message: string = '';
 
 
-  actionButtonStatus={
-    view:true,
-    edit:true,
-    delete:true,
-    add:true
+  actionButtonStatus = {
+    view: true,
+    edit: true,
+    delete: true,
+    add: true
 
   }
 
   inputFields = [
-    
+
     {
       type: 'select',
       fields: {
         label: 'Tours',
         name: 'tour_id',
         placeholder: 'Enter Tours Id',
-        options: [ ],
+        options: [],
         required: true,
       },
     },
@@ -152,7 +152,7 @@ export class SpotsManagementComponent implements OnInit {
 
   // Add new form when user clicks "Add Form"
   addNewForm() {
-    if(this.dynamicForms.length<4){
+    if (this.dynamicForms.length < 4) {
       this.dynamicForms.push({
         title: '',
         desc: '',
@@ -181,12 +181,12 @@ export class SpotsManagementComponent implements OnInit {
     this.api.getTours().subscribe({
       next: (res: any) => {
         console.log(res);
-        const filteredData=res.tours;
+        const filteredData = res.tours;
         // select options
         this.inputFields.forEach(field => {
           if (field.type === 'select') {
             // Map filteredData to an array of objects with 'value' and 'label'
-            field.fields.options = filteredData.map((item:any) => ({
+            field.fields.options = filteredData.map((item: any) => ({
               code: item._id,   // The value will be the _id
               name: item.name   // The label will be the name
             }));
@@ -202,41 +202,40 @@ export class SpotsManagementComponent implements OnInit {
 
   showDialog(visible: any) {
     this.visible = visible;
-    this.header="Add Spot";
-    
-    this.preFilledData={};
-    this.dynamicForms=[];
+    this.header = "Add Spot";
+
+    this.preFilledData = {};
+    this.dynamicForms = [];
     this.addNewForm();
   }
-  updateData(data:any){
+  updateData(data: any) {
     console.log(data);
 
     this.showDialog(true);
 
-    this.spot_id=data._id;
-    
-    this.preFilledData={...data,tour_id:{name:data.tour_id.name,code:data.tour_id._id}};
-    this.dynamicForms=data.tips;
+    this.spot_id = data._id;
+
+    this.preFilledData = { ...data, tour_id: { name: data.tour_id.name, code: data.tour_id._id } };
+    this.dynamicForms = data.tips;
     console.log(this.preFilledData);
-    
-    this.header="Update Spot";
+
+    this.header = "Update Spot";
   }
   // update tours 
   onSubmitUpdateForm(formData: any) {
-    
+
     console.log(formData);
     console.log(this.dynamicForms);
-    formData={...formData,tips:this.dynamicForms,tour_id:formData.tour_id.code};
+    formData = { ...formData, tips: this.dynamicForms, tour_id: formData.tour_id.code };
     console.log(formData);
 
-    this.api.updateSpot(formData,this.spot_id).subscribe({
-      next:(res:any)=>{
+    this.api.updateSpot(formData, this.spot_id).subscribe({
+      next: (res: any) => {
         console.log(res);
         this.getSpots();
-        this.message='Spot Updated Successfully!'
-
+        this.message = 'Spot Updated Successfully!'
       },
-      error:(err:any)=>{
+      error: (err: any) => {
         console.log(err);
       }
     })
@@ -265,8 +264,27 @@ export class SpotsManagementComponent implements OnInit {
       next: (res: any) => {
         console.log(res);
         this.imageUrl = res.data;
-        this.preFilledData={...this.preFilledData,images:this.imageUrl};
+        this.preFilledData = { ...this.preFilledData, images: this.imageUrl };
         console.log(this.preFilledData);
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
+  }
+  onIconSelect(event: any, index: any) {
+    const file = event.target.files[0];
+    console.log(file);
+
+    const formData = new FormData();
+    // Append each selected file to the FormData object
+    formData.append('images', file);
+
+    this.api.getImageUrl(formData).subscribe({
+      next: (res: any) => {
+        console.log(res.data);
+        this.dynamicForms[index].icon=res.data[0];//storing icon url
+
       },
       error: (err: any) => {
         console.log(err);
@@ -279,14 +297,14 @@ export class SpotsManagementComponent implements OnInit {
     console.log(formData);
     console.log(this.dynamicForms);
     //code for drop down
-    formData = { ...formData,tour_id:formData.tour_id.code, tips: this.dynamicForms, images: this.imageUrl };
+    formData = { ...formData, tour_id: formData.tour_id.code, tips: this.dynamicForms, images: this.imageUrl };
     console.log(formData);
 
     this.api.createSpots(formData).subscribe({
       next: (res: any) => {
         console.log(res);
         this.getSpots();
-        this.message='Spot Added Successfully!'
+        this.message = 'Spot Added Successfully!'
 
       },
       error: (err: any) => {

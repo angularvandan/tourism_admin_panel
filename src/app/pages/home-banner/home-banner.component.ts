@@ -5,13 +5,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { FileUploadModule } from 'primeng/fileupload';
+import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { PanelModule } from 'primeng/panel';
 import { CustomFormCompomemt } from '../../components/customForm/customform.component';
 import { CustomTableComponent } from '../../components/customTable/customtable.component';
 
 @Component({
-  selector: 'app-privacy-policy',
+  selector: 'app-home-banner',
   standalone: true,
   providers: [MessageService, ConfirmationService],
   imports: [
@@ -19,38 +21,43 @@ import { CustomTableComponent } from '../../components/customTable/customtable.c
     CustomTableComponent,
     DialogModule,
     CustomFormCompomemt,
+    FileUploadModule,
     CommonModule,
     FormsModule,
+    InputTextModule,
     InputTextareaModule,
     ButtonModule,
-  ],
-  templateUrl: './privacy-policy.component.html',
-  styleUrl: './privacy-policy.component.css'
+  ],  templateUrl: './home-banner.component.html',
+  styleUrl: './home-banner.component.css'
 })
-export class PrivacyPolicyComponentimplements implements OnInit {
+export class HomeBannerComponent  implements OnInit {
   constructor(
     private api: ApiService,
     private messageServies: MessageService,
     private confirmationService: ConfirmationService
   ) { }
   columns = [
-    
-    { field: 'privacyContent', header: 'Description' },
+    { field: 'name', header: 'Name' },
+    { field: 'title', header: 'Title' },
+    { field: 'subtitle', header: 'Sub Title' },
+    { field: 'image', header: 'Image' },
     
   ];
   columnsDetails=[
-    { field: 'privacyContent', header: 'Description' },
-
+    { field: 'name', header: 'Name' },
+    { field: 'title', header: 'Title' },
+    { field: 'subtitle', header: 'Sub Title' },
+    { field: 'image', header: 'Image' },
   ];
-  rowDetailsHeader:string='Privacy Policy Details';
+  rowDetailsHeader:string='Home Banner Details';
   paginator = true;
   rowsPerPageOptions = [5, 10, 15];
   initialRowsPerPage = 5;
   loading: boolean = true;
-  privacyPolicyData: any[] = [];
+  homeBannerData: any[] = [];
   visible: boolean = false;
-  header:string="Add Privacy Policy";
-  policy_id!:any;
+  header:string="Add Home Banner";
+  homeBanner_id!:any;
   preFilledData!:any;
   message:string='';
 
@@ -62,37 +69,73 @@ export class PrivacyPolicyComponentimplements implements OnInit {
   }
 
   inputFields = [
-    
     {
-      type: 'textarea',
+      type: 'text',
       fields: {
-        label: 'Content',
-        name: 'privacyContent',
-        placeholder: 'Enter Privacy Content',
+        label: 'Name',
+        name: 'name',
+        placeholder: 'Enter Name',
+        required: true,
+        value:null
+      },
+    },
+    {
+      type: 'text',
+      fields: {
+        label: 'Title',
+        name: 'title',
+        placeholder: 'Enter Title',
         required: true,
         value:null
 
       },
-    }
+    },
+    {
+      type: 'text',
+      fields: {
+        label: 'Sub Title',
+        name: 'subtitle',
+        placeholder: 'Enter Title',
+        required: true,
+        value:null
+
+      },
+    },
+    {
+      type: 'file',
+      fields: {
+        label: 'Choose Image',
+        warn:'Select only two images.',
+        name: 'image',
+        required: true,
+        value:null
+
+      },
+    },
+  
   ];
+  selectedFileData:File[]=[];
+  imageUrl:any[]=[];
+
 
   ngOnInit(): void {
-    this.getPrivacyDetails();
+    this.getHomeBanner();
   }
 
-  getPrivacyDetails() {
-    this.api.getPrivacyPolicy().subscribe((res: any) => {
-      this.privacyPolicyData = res;
+  getHomeBanner() {
+    this.api.getHomeBanner().subscribe((res: any) => {
+      this.homeBannerData = res;
       console.log(res);
       this.loading = false;
     });
   }
 
   showDialog(visible: any) {
-    this.header="Add Privacy Policy";
+    this.header="Add Home Banner";
     this.visible = visible;
     
     this.preFilledData={};
+    
   }
 
   updateData(data:any){
@@ -100,49 +143,74 @@ export class PrivacyPolicyComponentimplements implements OnInit {
 
     this.showDialog(true);
 
-    this.policy_id=data._id;
+    this.homeBanner_id=data._id;
     
     this.preFilledData=data;
     console.log(this.preFilledData);
     
-    this.header="Update Privacy Policy";
+    this.header="Update Home Banner";
   }
 
   deleteData(id: any) {
     console.log(id);
-    this.api.deletePrivacyPolicy(id).subscribe((res: any) => {
+    this.api.deleteHomeBanner(id).subscribe((res: any) => {
       console.log(res);
-      this.getPrivacyDetails();
+      this.getHomeBanner();
     });
   }
-  
-  // create tours 
-  onSubmitAddForm(formData: any) {
-    
-    console.log(formData);
-    formData={...formData};
-    console.log(formData);
+  //this is for file into url
+  onFileSelect(data:any){
+    console.log(data);
+    this.selectedFileData=data;
 
-    this.api.createPrivacyPolicy(formData).subscribe({
+    const formData = new FormData();
+      // Append each selected file to the FormData object
+      this.selectedFileData.forEach(file => {
+        formData.append('images', file);
+      });
+
+    this.api.getImageUrl(formData).subscribe({
       next:(res:any)=>{
         console.log(res);
-        this.getPrivacyDetails();
+        this.imageUrl=res.data[0];
+        this.preFilledData={...this.preFilledData,image:this.imageUrl};
+        console.log(this.preFilledData);
       },
       error:(err:any)=>{
         console.log(err);
       }
     })
   }
+  // create tours 
+  onSubmitAddForm(formData: any) {
+    
+    console.log(formData);
+    formData={...formData,image:this.imageUrl};
+    console.log(formData);
+
+    this.api.createHomeBanner(formData).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.getHomeBanner();
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
+
+  }
   // update tours 
   onSubmitUpdateForm(formData: any) {
     
     console.log(formData);
+    formData={...formData};
+    console.log(formData);
 
-    this.api.updatePrivacyPolicy(formData,this.policy_id).subscribe({
+    this.api.updateHomeBanner(formData,this.homeBanner_id).subscribe({
       next:(res:any)=>{
         console.log(res);
-        this.message='Privacy Updated Successfully!'
-        this.getPrivacyDetails();
+        this.message='Tour Updated Successfully!'
+        this.getHomeBanner();
       },
       error:(err:any)=>{
         console.log(err);
