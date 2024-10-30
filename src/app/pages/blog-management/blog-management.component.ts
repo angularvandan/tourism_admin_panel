@@ -37,9 +37,9 @@ export class BlogManagementComponent implements OnInit{
   ) { }
   columns = [
     { field: 'title', header: 'Title' },
+    { field: 'quote', header: 'Quote' },
     { field: 'images', header: 'Images' },
     { field: 'content', header: 'Content' },
-    { field: 'quote', header: 'Quote' },
     
   ];
   columnsDetails=[
@@ -79,14 +79,13 @@ export class BlogManagementComponent implements OnInit{
         required: true,
       },
     },
-    
     {
-      type: 'file',
+      type: 'textarea',
       fields: {
-        label: 'Choose Image',
-        name: 'images',
+        label: 'Quote Content',
+        name: 'quote_content',
+        placeholder: 'Enter Quote',
         required: true,
-        warn:'Select only two images.'
       },
     },
     {
@@ -98,13 +97,14 @@ export class BlogManagementComponent implements OnInit{
         required: true,
       },
     },
+    
     {
-      type: 'textarea',
+      type: 'file',
       fields: {
-        label: 'Quote Content',
-        name: 'quote_content',
-        placeholder: 'Enter Quote',
+        label: 'Choose Image',
+        name: 'images',
         required: true,
+        warn:'Select only two images.'
       },
     },
 

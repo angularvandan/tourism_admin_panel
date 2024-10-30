@@ -38,11 +38,12 @@ export class ActivityManagementComponent implements OnInit{
   ) { }
   columns = [
     { field: 'name', header: 'Name' },
-    { field: 'description', header: 'Description' },
+    { field: 'spot_id', header:'Spot Details'},
     { field: 'image', header: 'Image' },
     { field: 'price_adult', header: 'Price (Adult)' },
     { field: 'price_child', header: 'Price (Child)' },
     { field: 'price_infant', header: 'Price (Infant)' },
+    { field: 'description', header: 'Description' },
   ];
   columnsDetails=[
     { field: 'name', header: 'Name' },
@@ -94,12 +95,12 @@ export class ActivityManagementComponent implements OnInit{
     },
         
     {
-      type: 'file',
+      type: 'textarea',
       fields: {
-        label: 'Choose Image',
-        name: 'image',
+        label: 'Description',
+        name: 'description',
+        placeholder: 'Enter Description',
         required: true,
-        warn:'Images ratio (1150x460).'
       },
     },
     {
@@ -129,14 +130,14 @@ export class ActivityManagementComponent implements OnInit{
       },
     },
     {
-      type: 'textarea',
+      type: 'file',
       fields: {
-        label: 'Description',
-        name: 'description',
-        placeholder: 'Enter Description',
+        label: 'Choose Image',
+        name: 'image',
         required: true,
+        warn:'Images ratio (1150x460).'
       },
-    },
+    }
   ];
 
   selectedFileData:File[]=[];

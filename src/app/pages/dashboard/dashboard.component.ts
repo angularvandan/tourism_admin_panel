@@ -42,7 +42,8 @@ export class DashboardComponent implements OnInit {
     blogsLength:0,
     bookingLength:0,
     feedbackLength:0,
-    contactLength:0
+    contactLength:0,
+    paymentLength:0
   }
   
   // Forms Array Example
@@ -60,6 +61,7 @@ export class DashboardComponent implements OnInit {
     this.getAllBlogs();
     this.getAllFeedbacks();
     this.getAllContacts();
+    this.getAllPayments();
   }
   getAllTours() {
     this.api.getTours().subscribe({
@@ -133,6 +135,16 @@ export class DashboardComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+  getAllPayments(){
+    this.api.getPayments().subscribe({
+      next:(res:any)=>{
+        this.allDetails.paymentLength=res.length;
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
   }
 
 }

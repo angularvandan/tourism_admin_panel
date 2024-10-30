@@ -279,6 +279,22 @@
           </div>
         </ng-container>
 
+        <ng-container *ngSwitchCase="'tour_id'">
+          <div>
+            <p class="font-bold">Tour Name: </p>
+            <p class="">
+              {{selectedRow.tour_id.name}}</p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'spot_id'">
+          <div>
+            <p class="font-bold">Spot Name: </p>
+            <p class="">
+              {{selectedRow.spot_id.name}}</p>
+          </div>
+        </ng-container>
+
         <ng-container *ngSwitchDefault>
           <p class="mb-2 font-semibold">{{ col.header }}:</p>
           <p>{{ selectedRow[col.field] }}</p>

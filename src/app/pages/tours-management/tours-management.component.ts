@@ -131,22 +131,22 @@ export class ToursManagementComponent implements OnInit {
       },
     },    
     {
-      type: 'file',
+      type: 'textarea',
       fields: {
-        label: 'Choose Image',
-        warn:'Select only two images (1400 * 850)',
-        name: 'images',
+        label: 'Description',
+        name: 'description',
+        placeholder: 'Enter Description',
         required: true,
         value:null
 
       },
     },
     {
-      type: 'textarea',
+      type: 'file',
       fields: {
-        label: 'Description',
-        name: 'description',
-        placeholder: 'Enter Description',
+        label: 'Choose Image',
+        warn:'Select only two images (1400 * 850)',
+        name: 'images',
         required: true,
         value:null
 

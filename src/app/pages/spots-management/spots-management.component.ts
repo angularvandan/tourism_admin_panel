@@ -41,6 +41,7 @@ export class SpotsManagementComponent implements OnInit {
   ) { }
   columns = [
     { field: 'name', header: 'Name' },
+    { field: 'tour_id', header:'Tour Details'},
     { field: 'images', header: 'Images' },
     { field: 'price_adult', header: 'Price (Adult)' },
     { field: 'price_child', header: 'Price (Child)' },
@@ -109,6 +110,15 @@ export class SpotsManagementComponent implements OnInit {
       },
     },
     {
+      type: 'file',
+      fields: {
+        label: 'Choose Image',
+        name: 'images',
+        warn:'Select only two images (1400 * 850)',
+        required: true,
+      },
+    },
+    {
       type: 'number',
       fields: {
         label: 'Price Child',
@@ -122,15 +132,6 @@ export class SpotsManagementComponent implements OnInit {
         label: 'Price Infant',
         name: 'price_infant',
         placeholder: 'Enter price',
-        required: true,
-      },
-    },
-
-    {
-      type: 'file',
-      fields: {
-        label: 'Choose Image',
-        name: 'images',
         required: true,
       },
     },

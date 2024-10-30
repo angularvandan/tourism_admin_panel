@@ -105,7 +105,7 @@ export class HomeBannerComponent  implements OnInit {
       type: 'file',
       fields: {
         label: 'Choose Image',
-        warn:'Select only two images.',
+        warn:'Select only two images (1400 * 850)',
         name: 'image',
         required: true,
         value:null
