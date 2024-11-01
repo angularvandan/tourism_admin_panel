@@ -4,7 +4,7 @@
             <div class="overflowx-x-auto"> <!-- Make the container scrollable -->
                 <app-custom-table (visible)="showDialog($event)" (deleteData)="deleteData($event)"(updateData)="updateData($event)" [loading]="loading"[editingStatus]="actionButtonStatus"
                     [tableData]="toursData" [columns]="columns"[columnsDetails]="columnsDetails"[rowDetailsHeader]="rowDetailsHeader" [paginator]="paginator"
-                    [rowsPerPageOptions]="rowsPerPageOptions"
+                    [rowsPerPageOptions]="rowsPerPageOptions"[deleteMessage]="deleteMessage"
                     [initialRowsPerPage]="initialRowsPerPage"></app-custom-table>
             </div>
         </div>

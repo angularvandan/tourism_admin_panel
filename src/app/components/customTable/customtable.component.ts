@@ -6,6 +6,7 @@ import {
   Output,
   ViewChild,
   EventEmitter,
+  SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -18,7 +19,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { Table } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { success } from '../../utils/customtoast';
+import { info, success } from '../../utils/customtoast';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { CarouselModule } from 'primeng/carousel';
@@ -42,16 +43,13 @@ import { ApiService } from '../../services/api/api.service';
   providers: [MessageService, ConfirmationService],
 })
 export class CustomTableComponent implements OnInit {
-  constructor(
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private api:ApiService
-  ) {}
   @Input() columns?: any[];
   @Input() columnsDetails?: any[];
   @Input() rowDetailsHeader?:any;
   @Input() filterColumns?: any[];
   @Input() tableData?: any;
+  @Input() deleteMessage:string='';
+
   @Input() paginator?: boolean;
   @Input() loading?: boolean;
   @Input() editingStatus!:any;
@@ -66,6 +64,21 @@ export class CustomTableComponent implements OnInit {
   displayDialog: boolean = false;
   selectedRow: any;
   selectedRowIndex: number = -1;
+
+  constructor(
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private api:ApiService
+  ) {}
+  //  Detect changes in input properties
+   ngOnChanges(changes: SimpleChanges): void {
+    
+    if(changes['deleteMessage'] && changes['deleteMessage'].currentValue){
+      console.log(changes['deleteMessage'].currentValue);
+      this.messageService.add(info(this.deleteMessage));
+    }
+
+  }
 
   // Filter Global Table
   applyFilterGlobal($event: Event, stringVal: string) {
@@ -96,6 +109,7 @@ export class CustomTableComponent implements OnInit {
 
   //On Row Delete
   onRowDelete(event: Event, rowData: any) {
+    
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Do you want to delete this record?',
@@ -107,11 +121,11 @@ export class CustomTableComponent implements OnInit {
       rejectIcon: 'none',
 
       accept: () => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Confirmed',
-          detail: 'Record deleted',
-        });
+        // this.messageService.add({
+        //   severity: 'info',
+        //   summary: 'Confirmed',
+        //   detail: this.deleteMessage,
+        // });
         this.deleteData.emit(rowData._id);
       },
       reject: () => {

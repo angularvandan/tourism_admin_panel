@@ -5,7 +5,7 @@
                 <app-custom-table (visible)="showDialog($event)" (deleteData)="deleteData($event)"(updateData)="updateData($event)" [loading]="loading"[editingStatus]="actionButtonStatus"
                     [tableData]="toursData" [columns]="columns"[columnsDetails]="columnsDetails"[rowDetailsHeader]="rowDetailsHeader" [paginator]="paginator"
                     [rowsPerPageOptions]="rowsPerPageOptions"
-                    [initialRowsPerPage]="initialRowsPerPage"></app-custom-table>
+                    [initialRowsPerPage]="initialRowsPerPage"[deleteMessage]="deleteMessage"></app-custom-table>
             </div>
         </div>
     </p-panel>
@@ -13,6 +13,7 @@
 <p-dialog class="w-full lg:w-9/12" [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
     [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
     <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms"[patchData]="preFilledData"(formUpdate)="onSubmitUpdateForm($event)" (formSubmit)="onSubmitAddForm($event)"(file)="onFileSelect($event)"[message]="message">
+        <p class="font-bold text-red-400  mt-4 sm:mt-8">Select only four description.</p>
         <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
 
             <!-- Loop through dynamic forms array to generate the input fields -->

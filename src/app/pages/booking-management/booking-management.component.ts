@@ -129,6 +129,10 @@ export class BookingManagementComponent  implements OnInit {
         this.getBookings();
         this.message="Booking Updated Successfully";
         this.showDialog(false);
+        // Reset `message` to allow for the same message again later
+        setTimeout(() => {
+          this.message = ''; // Clears message without triggering additional toast
+        }, 0);
       },
       error:(err:any)=>{
         console.log(err);
@@ -140,16 +144,6 @@ export class BookingManagementComponent  implements OnInit {
   onSubmitAddForm(formData: any) {
     console.log(formData);
 
-    // this.api.updateBooking(formData,'sdf').subscribe({
-    //   next:(res:any)=>{
-    //     console.log(res);
-    //     this.getBookings();
-    //     this.message='Booking Updated Successfully';
-    //   },
-    //   error:(err:any)=>{
-    //     console.log(err);
-    //   }
-    // })
 
   }
 

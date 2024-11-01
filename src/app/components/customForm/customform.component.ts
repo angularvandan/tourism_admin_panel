@@ -84,9 +84,11 @@ export class CustomFormCompomemt implements OnInit {
       this.createForm();
       console.log('hi');
     }
-    if(changes['message']){
+    if(changes['message'] && changes['message'].currentValue){
+      console.log(changes['message'].currentValue)
       this.messageService.add(success(this.message));
     }
+
   }
 
   createForm() {

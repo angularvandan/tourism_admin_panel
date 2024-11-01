@@ -27,10 +27,10 @@ import { CustomTableComponent } from '../../components/customTable/customtable.c
     InputTextModule,
     InputTextareaModule,
     ButtonModule,
-  ],  templateUrl: './home-banner.component.html',
+  ], templateUrl: './home-banner.component.html',
   styleUrl: './home-banner.component.css'
 })
-export class HomeBannerComponent  implements OnInit {
+export class HomeBannerComponent implements OnInit {
   constructor(
     private api: ApiService,
     private messageServies: MessageService,
@@ -41,31 +41,32 @@ export class HomeBannerComponent  implements OnInit {
     { field: 'title', header: 'Title' },
     { field: 'subtitle', header: 'Sub Title' },
     { field: 'image', header: 'Image' },
-    
+
   ];
-  columnsDetails=[
+  columnsDetails = [
     { field: 'name', header: 'Name' },
     { field: 'title', header: 'Title' },
     { field: 'subtitle', header: 'Sub Title' },
     { field: 'image', header: 'Image' },
   ];
-  rowDetailsHeader:string='Home Banner Details';
+  rowDetailsHeader: string = 'Home Banner Details';
   paginator = true;
   rowsPerPageOptions = [5, 10, 15];
   initialRowsPerPage = 5;
   loading: boolean = true;
   homeBannerData: any[] = [];
   visible: boolean = false;
-  header:string="Add Home Banner";
-  homeBanner_id!:any;
-  preFilledData!:any;
-  message:string='';
+  header: string = "Add Home Banner";
+  homeBanner_id!: any;
+  preFilledData!: any;
+  message: string = '';
+  deleteMessage='';
 
-  actionButtonStatus={
-    view:true,
-    edit:true,
-    delete:true,
-    add:true
+  actionButtonStatus = {
+    view: true,
+    edit: true,
+    delete: true,
+    add: true
   }
 
   inputFields = [
@@ -76,7 +77,7 @@ export class HomeBannerComponent  implements OnInit {
         name: 'name',
         placeholder: 'Enter Name',
         required: true,
-        value:null
+        value: null
       },
     },
     {
@@ -86,7 +87,7 @@ export class HomeBannerComponent  implements OnInit {
         name: 'title',
         placeholder: 'Enter Title',
         required: true,
-        value:null
+        value: null
 
       },
     },
@@ -97,7 +98,7 @@ export class HomeBannerComponent  implements OnInit {
         name: 'subtitle',
         placeholder: 'Enter Title',
         required: true,
-        value:null
+        value: null
 
       },
     },
@@ -105,17 +106,17 @@ export class HomeBannerComponent  implements OnInit {
       type: 'file',
       fields: {
         label: 'Choose Image',
-        warn:'Select only two images (1400 * 850)',
+        warn: 'Select only one image (1400 * 850)',
         name: 'image',
         required: true,
-        value:null
+        value: null
 
       },
     },
-  
+
   ];
-  selectedFileData:File[]=[];
-  imageUrl:any[]=[];
+  selectedFileData: File[] = [];
+  imageUrl: any[] = [];
 
 
   ngOnInit(): void {
@@ -131,24 +132,24 @@ export class HomeBannerComponent  implements OnInit {
   }
 
   showDialog(visible: any) {
-    this.header="Add Home Banner";
+    this.header = "Add Home Banner";
     this.visible = visible;
-    
-    this.preFilledData={};
-    
+
+    this.preFilledData = {};
+
   }
 
-  updateData(data:any){
+  updateData(data: any) {
     console.log(data);
 
     this.showDialog(true);
 
-    this.homeBanner_id=data._id;
-    
-    this.preFilledData=data;
+    this.homeBanner_id = data._id;
+
+    this.preFilledData = data;
     console.log(this.preFilledData);
-    
-    this.header="Update Home Banner";
+
+    this.header = "Update Home Banner";
   }
 
   deleteData(id: any) {
@@ -156,44 +157,45 @@ export class HomeBannerComponent  implements OnInit {
     this.api.deleteHomeBanner(id).subscribe((res: any) => {
       console.log(res);
       this.getHomeBanner();
+      this.deleteMessage="Home Banner Deleted  Succssfully"
     });
   }
   //this is for file into url
-  onFileSelect(data:any){
+  onFileSelect(data: any) {
     console.log(data);
-    this.selectedFileData=data;
+    this.selectedFileData = data.slice(0, 1);
 
     const formData = new FormData();
-      // Append each selected file to the FormData object
-      this.selectedFileData.forEach(file => {
-        formData.append('images', file);
-      });
+    // Append each selected file to the FormData object
+    this.selectedFileData.forEach(file => {
+      formData.append('images', file);
+    });
 
     this.api.getImageUrl(formData).subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         console.log(res);
-        this.imageUrl=res.data[0];
-        this.preFilledData={...this.preFilledData,image:this.imageUrl};
+        this.imageUrl = res.data[0];
+        this.preFilledData = { ...this.preFilledData, image: this.imageUrl };
         console.log(this.preFilledData);
       },
-      error:(err:any)=>{
+      error: (err: any) => {
         console.log(err);
       }
     })
   }
   // create tours 
   onSubmitAddForm(formData: any) {
-    
+
     console.log(formData);
-    formData={...formData,image:this.imageUrl};
+    formData = { ...formData, image: this.imageUrl };
     console.log(formData);
 
     this.api.createHomeBanner(formData).subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         console.log(res);
         this.getHomeBanner();
       },
-      error:(err:any)=>{
+      error: (err: any) => {
         console.log(err);
       }
     })
@@ -201,18 +203,23 @@ export class HomeBannerComponent  implements OnInit {
   }
   // update tours 
   onSubmitUpdateForm(formData: any) {
-    
+
     console.log(formData);
-    formData={...formData};
+    formData = { ...formData };
     console.log(formData);
 
-    this.api.updateHomeBanner(formData,this.homeBanner_id).subscribe({
-      next:(res:any)=>{
+    this.api.updateHomeBanner(formData, this.homeBanner_id).subscribe({
+      next: (res: any) => {
         console.log(res);
-        this.message='Tour Updated Successfully!'
+        this.message = 'Home Updated Successfully!'
         this.getHomeBanner();
+        // Reset `message` to allow for the same message again later
+        setTimeout(() => {
+          this.message = ''; // Clears message without triggering additional toast
+        }, 0);
+
       },
-      error:(err:any)=>{
+      error: (err: any) => {
         console.log(err);
       }
     })

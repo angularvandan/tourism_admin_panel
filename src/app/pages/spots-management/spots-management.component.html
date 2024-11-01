@@ -6,7 +6,7 @@
                     (updateData)="updateData($event)" [loading]="loading" [editingStatus]="actionButtonStatus"
                     [tableData]="toursData" [columns]="columns" [columnsDetails]="columnsDetails"
                     [rowDetailsHeader]="rowDetailsHeader" [paginator]="paginator"
-                    [rowsPerPageOptions]="rowsPerPageOptions"
+                    [rowsPerPageOptions]="rowsPerPageOptions"[deleteMessage]="deleteMessage"
                     [initialRowsPerPage]="initialRowsPerPage"></app-custom-table>
             </div>
         </div>
@@ -45,7 +45,7 @@
                     
                     <div class="p-col-12 p-md-10 image-container">
                         <!-- <input pInputText id="icon1-{{i}}" [(ngModel)]="form.icon" placeholder="Enter Icon 1" /> -->
-                        <label for="icon1-{{i}}" class="p-col-12 p-md-2">Emoji 1 <span class="text-red-400">*</span>
+                        <label for="icon1-{{i}}" class="p-col-12 p-md-2">Icon 1 <span class="text-red-400">*</span>
                             <div class="w-full h-[45px] bg-white image">Select Image</div>
                         <input id="icon1-{{i}}" class="w-full flex flex-col hidden" type="file" accept="image/*"
                             (change)="onIconSelect($event,i)">

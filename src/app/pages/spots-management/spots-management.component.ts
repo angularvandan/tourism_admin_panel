@@ -68,6 +68,7 @@ export class SpotsManagementComponent implements OnInit {
   spot_id!: any;
   preFilledData!: any;
   message: string = '';
+  deleteMessage='';
 
 
   actionButtonStatus = {
@@ -114,7 +115,7 @@ export class SpotsManagementComponent implements OnInit {
       fields: {
         label: 'Choose Image',
         name: 'images',
-        warn:'Select only two images (1400 * 850)',
+        warn:'Select only one image (210 * 120)',
         required: true,
       },
     },
@@ -235,6 +236,10 @@ export class SpotsManagementComponent implements OnInit {
         console.log(res);
         this.getSpots();
         this.message = 'Spot Updated Successfully!'
+        // Reset `message` to allow for the same message again later
+        setTimeout(() => {
+          this.message = ''; // Clears message without triggering additional toast
+        }, 0);
       },
       error: (err: any) => {
         console.log(err);
@@ -248,6 +253,7 @@ export class SpotsManagementComponent implements OnInit {
     this.api.deleteSpot(id).subscribe((res: any) => {
       console.log(res);
       this.getSpots();
+      this.deleteMessage="Spot Deleted Successfully"
     });
   }
   //this is for file into url

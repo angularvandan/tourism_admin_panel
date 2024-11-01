@@ -67,6 +67,7 @@ export class ToursManagementComponent implements OnInit {
   tours_id!:any;
   preFilledData!:any;
   message:string='';
+  deleteMessage='';
 
   actionButtonStatus={
     view:true,
@@ -241,12 +242,13 @@ export class ToursManagementComponent implements OnInit {
     this.api.deleteTour(id).subscribe((res: any) => {
       console.log(res);
       this.getTours();
+      this.deleteMessage="Tour Deleted Successfully"
     });
   }
   //this is for file into url
   onFileSelect(data:any){
     console.log(data);
-    this.selectedFileData=data;
+    this.selectedFileData = data.slice(0, 2);
 
     const formData = new FormData();
       // Append each selected file to the FormData object
@@ -278,6 +280,11 @@ export class ToursManagementComponent implements OnInit {
       next:(res:any)=>{
         console.log(res);
         this.getTours();
+        this.message='Tour Added Successfully';
+        // Reset `message` to allow for the same message again later
+        setTimeout(() => {
+          this.message = ''; // Clears message without triggering additional toast
+        }, 0);
       },
       error:(err:any)=>{
         console.log(err);
@@ -298,6 +305,10 @@ export class ToursManagementComponent implements OnInit {
         console.log(res);
         this.message='Tour Updated Successfully!'
         this.getTours();
+        // Reset `message` to allow for the same message again later
+        setTimeout(() => {
+          this.message = ''; // Clears message without triggering additional toast
+        }, 0);
       },
       error:(err:any)=>{
         console.log(err);

@@ -59,6 +59,7 @@ export class BlogManagementComponent implements OnInit{
   preFilledData!:any;
   blog_id!:any;
   message:string='';
+  deleteMessage:string='';
 
   actionButtonStatus={
     view:true,
@@ -104,7 +105,7 @@ export class BlogManagementComponent implements OnInit{
         label: 'Choose Image',
         name: 'images',
         required: true,
-        warn:'Select only two images.'
+        warn:'Select only two images (1100 * 600).'
       },
     },
 
@@ -173,7 +174,10 @@ export class BlogManagementComponent implements OnInit{
         console.log(res);
         this.getBlogs();
         this.message='Blog Updated Successfully!'
-
+        // Reset `message` to allow for the same message again later
+        setTimeout(() => {
+          this.message = ''; // Clears message without triggering additional toast
+        }, 0);
       },
       error:(err:any)=>{
         console.log(err);
@@ -187,12 +191,17 @@ export class BlogManagementComponent implements OnInit{
     this.api.deleteBlogById(id).subscribe((res: any) => {
       console.log(res);
       this.getBlogs();
+      this.deleteMessage='Blog Deleted Successfully';
+      // Reset `message` to allow for the same message again later
+      setTimeout(() => {
+        this.deleteMessage = ''; // Clears message without triggering additional toast
+      }, 0);
     });
   }
   //this is for file into url
   onFileSelect(data:any){
     console.log(data);
-    this.selectedFileData=data;
+    this.selectedFileData = data.slice(0, 2);
 
     const formData = new FormData();
       // Append each selected file to the FormData object
@@ -230,7 +239,11 @@ export class BlogManagementComponent implements OnInit{
       next:(res:any)=>{
         console.log(res);
         this.getBlogs();
-        this.message='Blog Added Successfully!'
+        this.message='Blog Added Successfully!';
+        // Reset `message` to allow for the same message again later
+        setTimeout(() => {
+          this.message = ''; // Clears message without triggering additional toast
+        }, 0);
 
       },
       error:(err:any)=>{
@@ -240,31 +253,31 @@ export class BlogManagementComponent implements OnInit{
 
   }
 
-  confirm2(event: Event) {
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Do you want to delete this record?',
-      header: 'Delete Confirmation',
-      icon: 'pi pi-info-circle',
-      acceptButtonStyleClass: 'p-button-danger p-button-text',
-      rejectButtonStyleClass: 'p-button-text p-button-text',
-      acceptIcon: 'none',
-      rejectIcon: 'none',
+  // confirm2(event: Event) {
+  //   this.confirmationService.confirm({
+  //     target: event.target as EventTarget,
+  //     message: 'Do you want to delete this record?',
+  //     header: 'Delete Confirmation',
+  //     icon: 'pi pi-info-circle',
+  //     acceptButtonStyleClass: 'p-button-danger p-button-text',
+  //     rejectButtonStyleClass: 'p-button-text p-button-text',
+  //     acceptIcon: 'none',
+  //     rejectIcon: 'none',
 
-      accept: () => {
-        this.messageServies.add({
-          severity: 'info',
-          summary: 'Confirmed',
-          detail: 'Record deleted',
-        });
-      },
-      reject: () => {
-        this.messageServies.add({
-          severity: 'error',
-          summary: 'Rejected',
-          detail: 'You have rejected',
-        });
-      },
-    });
-  }
+  //     accept: () => {
+  //       this.messageServies.add({
+  //         severity: 'info',
+  //         summary: 'Confirmed',
+  //         detail: 'Record deleted',
+  //       });
+  //     },
+  //     reject: () => {
+  //       this.messageServies.add({
+  //         severity: 'error',
+  //         summary: 'Rejected',
+  //         detail: 'You have rejected',
+  //       });
+  //     },
+  //   });
+  // }
 }
