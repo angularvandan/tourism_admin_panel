@@ -28,7 +28,7 @@
 
                 <!-- Description 1 Input -->
                 <div class="p-field p-grid">
-                    <label for="desc1-{{i}}" class="p-col-12 p-md-2">Description 1 <span class="text-red-400">(At least 40 word!)*</span></label>
+                    <label for="desc1-{{i}}" class="p-col-12 p-md-2">Description 1 <span class="text-red-400">(At most 40 word!)*</span></label>
                     <div class="p-col-12 p-md-10">
                         <textarea pInputTextarea id="desc1-{{i}}" [(ngModel)]="form.desc1" placeholder="Enter Description 1"maxlength="40"></textarea>
                     </div>

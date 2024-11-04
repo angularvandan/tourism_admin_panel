@@ -292,7 +292,7 @@ export class ToursManagementComponent implements OnInit {
       },
       error:(err:any)=>{
         console.log(err);
-        this.messageServies.add({ severity: 'error', summary: 'Error', detail: err.message });
+        this.messageServies.add({ severity: 'error', summary: 'Error', detail: err.error.message });
 
       }
     })
