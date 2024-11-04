@@ -10,8 +10,8 @@
         </div>
     </p-panel>
 </div>
-<p-dialog class="w-full lg:w-9/12" [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
-    [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
+<p-dialog class="w-full "styleClass="w-full lg:w-[90%]" [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
+    [resizable]="true" [style]="{ height: '70rem' }">
     <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms"[patchData]="preFilledData"[message]="message" (formSubmit)="onSubmitAddForm($event)" (formUpdate)="onSubmitUpdateForm($event)"(file)="onFileSelect($event)">
         <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
 
@@ -28,9 +28,9 @@
 
                 <!-- Description 1 Input -->
                 <div class="p-field p-grid">
-                    <label for="desc1-{{i}}" class="p-col-12 p-md-2">Description 1 <span class="text-red-400">(At least 100 word!)*</span></label>
+                    <label for="desc1-{{i}}" class="p-col-12 p-md-2">Description 1 <span class="text-red-400">(At least 40 word!)*</span></label>
                     <div class="p-col-12 p-md-10">
-                        <textarea pInputTextarea id="desc1-{{i}}" [(ngModel)]="form.desc1" placeholder="Enter Description 1"></textarea>
+                        <textarea pInputTextarea id="desc1-{{i}}" [(ngModel)]="form.desc1" placeholder="Enter Description 1"maxlength="40"></textarea>
                     </div>
                 </div>
 
@@ -44,9 +44,9 @@
 
                 <!-- Description 2 Input -->
                 <div class="p-field p-grid">
-                    <label for="desc2-{{i}}" class="p-col-12 p-md-2">Description 2 <span class="text-red-400">(At least 100 word!)*</span></label>
+                    <label for="desc2-{{i}}" class="p-col-12 p-md-2">Description 2 <span class="text-red-400">(At most 40 word!)*</span></label>
                     <div class="p-col-12 p-md-10">
-                        <textarea pInputTextarea id="desc2-{{i}}" [(ngModel)]="form.desc2" placeholder="Enter Description 2"></textarea>
+                        <textarea pInputTextarea id="desc2-{{i}}" [(ngModel)]="form.desc2" placeholder="Enter Description 2"maxlength="40"></textarea>
                     </div>
                 </div>
 
@@ -62,14 +62,14 @@
             
         </div>
         <!-- Button to Add More Forms -->
-        <div class="w-full flex justify-start gap-4">
+        <div class="w-full flex flex-col sm:flex-row justify-start gap-2 sm:gap-4">
             <div class="p-field p-grid">
-                <div class="p-col-12 p-md-10 p-md-offset-2">
+                <div class="p-col-12 p-md-10 p-md-offset-2 w-full">
                     <button pButton type="button" label="Add Tips" icon="pi pi-plus" (click)="addNewForm()"></button>
                 </div>
             </div>
             <div class="p-field p-grid">
-                <div class="p-col-12 p-md-10 p-md-offset-2">
+                <div class="p-col-12 p-md-10 p-md-offset-2 w-full">
                     <button pButton type="button" label="Remove Tips" icon="pi pi-minus" (click)="removeForm()"></button>
                 </div>
             </div>
@@ -77,7 +77,7 @@
     </app-custom-form>
 
 </p-dialog>
-<!-- <p-toast position="bottom-center"></p-toast> -->
+<p-toast position="bottom-center"></p-toast>
 
 <!-- this is for show details -->
 <!-- <p-dialog header="Row Details" [(visible)]="displayDialog" [modal]="true" [style]="{ width: '50vw' }"

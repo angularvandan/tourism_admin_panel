@@ -34,7 +34,7 @@
             </ng-container>
             <ng-container *ngSwitchCase="'images'">
               <img [src]="rowData[col.field][0]" *ngIf="rowData[col.field]?.length > 0" alt="Images"
-                class="w-[200px] rounded-xl" />
+                class="w-[200px] h-[100px] object-cover rounded-xl" />
             </ng-container>
             <ng-container *ngSwitchCase="'image'">
               <img [src]="rowData[col.field]" *ngIf="rowData[col.field]?.length > 0" alt="Image"

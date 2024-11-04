@@ -53,6 +53,8 @@ export class PrivacyPolicyComponentimplements implements OnInit {
   policy_id!:any;
   preFilledData!:any;
   message:string='';
+  deleteMessage='';
+
 
   actionButtonStatus={
     view:true,
@@ -113,6 +115,8 @@ export class PrivacyPolicyComponentimplements implements OnInit {
     this.api.deletePrivacyPolicy(id).subscribe((res: any) => {
       console.log(res);
       this.getPrivacyDetails();
+      this.deleteMessage="Privacy Policy Deleted Successfully"
+
     });
   }
   

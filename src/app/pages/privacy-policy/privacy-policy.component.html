@@ -4,14 +4,14 @@
             <div class="overflowx-x-auto"> <!-- Make the container scrollable -->
                 <app-custom-table (visible)="showDialog($event)" (deleteData)="deleteData($event)"(updateData)="updateData($event)" [loading]="loading"[editingStatus]="actionButtonStatus"
                     [tableData]="privacyPolicyData" [columns]="columns"[columnsDetails]="columnsDetails"[rowDetailsHeader]="rowDetailsHeader" [paginator]="paginator"
-                    [rowsPerPageOptions]="rowsPerPageOptions"
+                    [rowsPerPageOptions]="rowsPerPageOptions"[deleteMessage]="deleteMessage"
                     [initialRowsPerPage]="initialRowsPerPage"></app-custom-table>
             </div>
         </div>
     </p-panel>
 </div>
-<p-dialog class="w-full lg:w-9/12" [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
-    [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
+<p-dialog class="w-full"styleClass="w-full lg:w-[90%]"  [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
+    [resizable]="true" [style]="{ height: '70rem' }">
     <app-custom-form [inputFields]="inputFields"[patchData]="preFilledData"[message]="message" (formSubmit)="onSubmitAddForm($event)" (formUpdate)="onSubmitUpdateForm($event)">
         
     </app-custom-form>

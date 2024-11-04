@@ -10,8 +10,8 @@
         </div>
     </p-panel>
 </div>
-<p-dialog class="w-full lg:w-9/12" [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
-    [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
+<p-dialog class="w-full"styleClass="w-full lg:w-[90%]" [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
+    [resizable]="true" [style]="{ height: '70rem' }">
     <app-custom-form [inputFields]="inputFields"[dynamicForms]="dynamicForms"[patchData]="preFilledData"(formUpdate)="onSubmitUpdateForm($event)" (formSubmit)="onSubmitAddForm($event)"(file)="onFileSelect($event)"[message]="message">
         <p class="font-bold text-red-400  mt-4 sm:mt-8">Select only four description.</p>
         <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
@@ -30,7 +30,7 @@
             
         </div>
         <!-- Button to Add More Forms -->
-        <div class="w-fll flex justify-start gap-6">
+        <div class="w-fll flex flex-col sm:flex-row justify-start gap-2 sm:gap-4">
             <div class="p-field p-grid">
                 <div class="p-col-12 p-md-10 p-md-offset-2">
                     <button pButton type="button" label="Add Description" icon="pi pi-plus" (click)="addNewForm()"></button>

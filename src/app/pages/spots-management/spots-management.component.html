@@ -12,14 +12,14 @@
         </div>
     </p-panel>
 </div>
-<p-dialog class="w-full lg:w-9/12" [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
-    [resizable]="true" [style]="{ width: 'auto', height: '70rem' }">
+<p-dialog class="w-full"styleClass="w-full lg:w-[90%]" [header]="header" [(visible)]="visible" [modal]="true" [draggable]="false"
+    [resizable]="true" [style]="{ height: '70rem' }">
     <app-custom-form [inputFields]="inputFields" [dynamicForms]="dynamicForms" [patchData]="preFilledData"
         (formUpdate)="onSubmitUpdateForm($event)" (formSubmit)="onSubmitAddForm($event)" (file)="onFileSelect($event)"
         [message]="message">
         <div class="p-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
             <!-- Loop through dynamic forms array to generate the input fields -->
-            <div *ngFor="let form of dynamicForms; let i = index" class="p-fluid p-mb-4 w-full">
+            <div *ngFor="let form of dynamicForms; let i = index" class="p-fluid mb-4 w-full">
 
                 <!-- Title Input -->
                 <div class="p-field p-grid mb-5">
@@ -32,11 +32,10 @@
 
                 <!-- Description 1 Input -->
                 <div class="p-field p-grid mb-5">
-                    <label for="desc1-{{i}}" class="p-col-12 p-md-2">Description 1 <span
-                            class="text-red-400">*</span></label>
+                    <label for="desc1-{{i}}" class="p-col-12 p-md-2">Description 1 <span class="text-red-400">(At most 1000 word!)*</span></label>
                     <div class="p-col-12 p-md-10">
                         <textarea pInputTextarea id="desc1-{{i}}" [(ngModel)]="form.desc"
-                            placeholder="Enter Description 1"></textarea>
+                            placeholder="Enter Description 1"maxlength="1000"></textarea>
                     </div>
                 </div>
 
@@ -59,7 +58,7 @@
 
         </div>
         <!-- Button to Add More Forms -->
-        <div class="w-full flex justify-start gap-6">
+        <div class="w-full flex flex-col sm:flex-row justify-start gap-2 sm:gap-4">
             <div class="p-field p-grid">
                 <div class="p-col-12 p-md-10 p-md-offset-2">
                     <button pButton type="button" label="Add Tours" icon="pi pi-plus" (click)="addNewForm()"></button>

@@ -1,12 +1,13 @@
 <p-panel [header]="title">
-    <div class="p-6">
+    <div class="">
         <form [formGroup]="formData" class="flex flex-col items-start space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-                <ng-container *ngFor="let field of inputFields">
-                    <div class="form-group">
-                        <label for="{{ field.fields.name }}" class="block font-medium mb-1">{{ field.fields.label }}
+                <ng-container *ngFor="let field of inputFields" class="w-full">
+                    <div class="form-group" [ngClass]="field.type=='file'?'col-span-1 md:col-span-2 lg:col-span-3':'' ">
+
+                        <label for="{{ field.fields.name }}" class="block font-medium mb-1"[ngClass]="field.type=='file'?'hidden':'block'">{{ field.fields.label }}
                             <span class="text-red-400">*</span></label>
-                        <ng-container [ngSwitch]="field.type">
+                        <ng-container [ngSwitch]="field.type" class="w-full">
                             <!-- Text Input -->
                             <input pInputText *ngSwitchCase="'text'" type="text" class="form-control w-full"
                                 [placeholder]="field.fields.placeholder" name="{{ field.fields.name }}"
@@ -19,7 +20,7 @@
 
                             <!-- Number Input -->
                             <p-inputNumber [useGrouping]="false" formControlName="{{ field.fields.name }}"
-                                *ngSwitchCase="'number'" type="number" class="form-control w-full" styleClass="w-full"
+                                *ngSwitchCase="'number'" type="number"[min]="0" [max]="9999999" class="form-control w-full"styleClass="w-full"
                                 [placeholder]="field.fields.placeholder" name="{{ field.fields.name }}"></p-inputNumber>
 
                             <!-- Checkbox -->
@@ -61,25 +62,40 @@
                             </p-calendar>
 
                             <!-- File -->
-                            <div *ngSwitchCase="'file'">
-                                <!-- <input id="file" class="w-full flex flex-col" type="file" accept="image/*"
+
+                            <div *ngSwitchCase="'file'" >
+
+                                <!-- ng-content spanning all columns just above file input -->
+                                <div class="mb-4">
+                                    <ng-content></ng-content>
+                                </div>
+
+                                <div class="w-full sm:w-[30%] lg:w-[31%] gap-8">
+
+
+                                    <label for="{{ field.fields.name }}" class="block font-medium mb-1">{{
+                                        field.fields.label }}
+                                        <span class="text-red-400">*</span></label>
+
+                                    <!-- <input id="file" class="w-full flex flex-col" type="file" accept="image/*"
                                     (change)="onFileSelected($event)" multiple> -->
                                     <div class="p-col-12 p-md-10 image-container">
                                         <!-- <input pInputText id="icon1-{{i}}" [(ngModel)]="form.icon" placeholder="Enter Icon 1" /> -->
                                         <label for="img" class="p-col-12 p-md-2">
                                             <div class="w-full h-[45px]  bg-white image">Select Image</div>
-                                        <input id="img" class="w-full flex flex-col hidden" type="file" accept="image/*"
-                                        (change)="onFileSelected($event)"multiple >
+                                            <input id="img" class="w-full flex flex-col hidden" type="file"
+                                                accept="image/*" (change)="onFileSelected($event)" multiple>
                                         </label>
-                                        
+
                                     </div>
-                                <p class=" m-0 p-0 " *ngIf="field.fields.warn">{{field.fields.warn}}</p>
-                                <!-- Display file names in the form (optional) -->
-                                <div *ngIf="formData.get('images')">
-                                    <ng-container *ngFor="let image of formData.get('images')?.value" >
-                                        <img [src]="image" alt=""class="w-40 h-32 object-cover rounded-lg mr-6 mt-6">
-                                    </ng-container>
-                                    <!-- <div *ngFor="let preview of imagePreviews; let i = index" class="relative">
+                                    <p class=" m-0 p-0 " *ngIf="field.fields.warn">{{field.fields.warn}}</p>
+                                    <!-- Display file names in the form (optional) -->
+                                    <div *ngIf="formData.get('images')">
+                                        <ng-container *ngFor="let image of formData.get('images')?.value">
+                                            <img [src]="image" alt=""
+                                                class="w-full h-32 object-cover rounded-lg mr-6 mt-6">
+                                        </ng-container>
+                                        <!-- <div *ngFor="let preview of imagePreviews; let i = index" class="relative">
                                         <img [src]="preview" alt="Preview" class="h-40 w-40 object-cover rounded-md">
                                         <div
                                             class="remove-img w-6 h-6 absolute top-2 right-2 bg-[#808384] rounded-full flex justify-center items-center">
@@ -87,10 +103,13 @@
                                                 (click)="removeImg('images', imagesLinksContainer[i])"></i>
                                         </div>
                                     </div> -->
+                                    </div>
+                                    <div *ngIf="formData.get('image')?.value">
+                                        <img [src]="formData.get('image')?.value" alt="image"
+                                            class="w-40 h-32 object-cover rounded-lg">
+                                    </div>
                                 </div>
-                                <div *ngIf="formData.get('image')?.value">
-                                    <img [src]="formData.get('image')?.value" alt="image"class="w-40 h-32 object-cover rounded-lg">
-                                </div>
+
                             </div>
 
                             <div *ngIf="formData.get(field.fields.name)?.invalid && formData.get(field.fields.name)?.touched"
@@ -106,11 +125,10 @@
                     </div>
                 </ng-container>
             </div>
-            <ng-content></ng-content>
-            <p-button *ngIf="buttonStatus=='add'" (onClick)="submitForm()" [disabled]="formData.invalid " type="submit" label="Submit"
-                class="btn btn-primary"></p-button>
-            <p-button *ngIf="buttonStatus=='update'" (onClick)="updateForm()" [disabled]="formData.invalid " type="submit" label="Update"
-                class="btn btn-primary"></p-button>
+            <p-button *ngIf="buttonStatus=='add'" (onClick)="submitForm()" [disabled]="formData.invalid " type="submit"
+                label="Submit" class="btn btn-primary"></p-button>
+            <p-button *ngIf="buttonStatus=='update'" (onClick)="updateForm()" [disabled]="formData.invalid "
+                type="submit" label="Update" class="btn btn-primary"></p-button>
         </form>
     </div>
 </p-panel>

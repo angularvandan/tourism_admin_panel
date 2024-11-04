@@ -111,15 +111,6 @@ export class SpotsManagementComponent implements OnInit {
       },
     },
     {
-      type: 'file',
-      fields: {
-        label: 'Choose Image',
-        name: 'images',
-        warn:'Select only one image (210 * 120)',
-        required: true,
-      },
-    },
-    {
       type: 'number',
       fields: {
         label: 'Price Child',
@@ -133,6 +124,15 @@ export class SpotsManagementComponent implements OnInit {
         label: 'Price Infant',
         name: 'price_infant',
         placeholder: 'Enter price',
+        required: true,
+      },
+    },
+    {
+      type: 'file',
+      fields: {
+        label: 'Choose Image',
+        name: 'images',
+        warn:'Select only one image (210 * 120)',
         required: true,
       },
     },

@@ -11,6 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ToastModule } from 'primeng/toast';
+
+
 @Component({
   selector: 'app-tours-management',
   standalone: true,
@@ -28,6 +31,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     InputTextModule,
     InputTextareaModule,
     ButtonModule,
+    ToastModule
   ],
 })
 export class ToursManagementComponent implements OnInit {
@@ -38,7 +42,7 @@ export class ToursManagementComponent implements OnInit {
   ) { }
   columns = [
     { field: 'name', header: 'Name' },
-    { field: 'title', header: 'Title' },
+    { field: 'title', header: 'Headline' },
     { field: 'description', header: 'Description' },
     { field: 'address', header: 'Address' },
     { field: 'images', header: 'Images' },
@@ -49,7 +53,7 @@ export class ToursManagementComponent implements OnInit {
   ];
   columnsDetails=[
     { field: 'name', header: 'Name' },
-    { field: 'title', header: 'Title' },
+    { field: 'title', header: 'Headline' },
     { field: 'address', header: 'Address' },
     { field: 'images', header: 'Images' },
     { field: 'price_adult', header: 'Price (Adult)' },
@@ -143,22 +147,22 @@ export class ToursManagementComponent implements OnInit {
       },
     },
     {
-      type: 'file',
+      type: 'textarea',
       fields: {
-        label: 'Choose Image',
-        warn:'Select only two images (1400 * 850)',
-        name: 'images',
+        label: 'Address',
+        name: 'address',
+        placeholder: 'Enter address',
         required: true,
         value:null
 
       },
     },
     {
-      type: 'textarea',
+      type: 'file',
       fields: {
-        label: 'Address',
-        name: 'address',
-        placeholder: 'Enter address',
+        label: 'Choose Image',
+        warn:'Select only two images (1400 * 850)',
+        name: 'images',
         required: true,
         value:null
 
@@ -288,6 +292,8 @@ export class ToursManagementComponent implements OnInit {
       },
       error:(err:any)=>{
         console.log(err);
+        this.messageServies.add({ severity: 'error', summary: 'Error', detail: err.message });
+
       }
     })
 
