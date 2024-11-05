@@ -6,18 +6,25 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { ApiService } from '../../services/api/api.service';
 import { Router } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
+
+
 @Component({
   selector: 'app-admin-login-screen',
   standalone: true,
   templateUrl: './admin-login-screen.component.html',
   styleUrl: './admin-login-screen.component.css',
+  providers:[MessageService],
   imports: [
     InputTextModule,
     ButtonModule,
     PasswordModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastModule
   ]
 })
 export class AdminLoginScreenComponent {
@@ -26,7 +33,8 @@ export class AdminLoginScreenComponent {
 
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder,private apiService:ApiService,private router:Router ) {
+  constructor(private fb: FormBuilder,private apiService:ApiService,private router:Router,private messageServies: MessageService,
+  ) {
 
     if (this.apiService.currentUser.token) {
       this.router.navigate(['/dashboard']);
@@ -45,10 +53,12 @@ export class AdminLoginScreenComponent {
 
       this.apiService.loginUser(formData).subscribe({
         next:(res:any)=>{
-          console.log(res);
+          // console.log(res);
           this.router.navigate(['/dashboard']);
         },error:(err:any)=>{
           console.log(err);
+          this.messageServies.add({ severity: 'error', summary: 'Error', detail: err.error.message });
+
         }
       });
       // Handle login logic here

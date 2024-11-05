@@ -157,6 +157,9 @@ export class ApiService {
         }
       }));
   }
+  getUsers(){
+    return this.http.get(`${this.baseUrl}/api/user`);
+  }
   logOut() {
     this.userSubject.next(new User());
     localStorage.removeItem(USER_KEY);
