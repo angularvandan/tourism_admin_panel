@@ -44,7 +44,7 @@ export class PaymentManagementComponent implements OnInit {
   columnsDetails=[
     { field: 'orderID', header: 'Order Id' },
     { field: 'bookingId', header: 'Booking Id' },
-    { field: 'paymentStatus', header: 'Payyment Status' },
+    { field: 'paymentStatus', header: 'Payment Status' },
     { field: 'paymentDate', header: 'Payment Date' },
   ];
   rowDetailsHeader:string='Payment Details';

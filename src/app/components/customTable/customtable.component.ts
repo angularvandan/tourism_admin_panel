@@ -45,14 +45,14 @@ import { ApiService } from '../../services/api/api.service';
 export class CustomTableComponent implements OnInit {
   @Input() columns?: any[];
   @Input() columnsDetails?: any[];
-  @Input() rowDetailsHeader?:any;
+  @Input() rowDetailsHeader?: any;
   @Input() filterColumns?: any[];
   @Input() tableData?: any;
-  @Input() deleteMessage:string='';
+  @Input() deleteMessage: string = '';
 
   @Input() paginator?: boolean;
   @Input() loading?: boolean;
-  @Input() editingStatus!:any;
+  @Input() editingStatus!: any;
   @Input() rowsPerPageOptions?: any[];
   @Input() initialRowsPerPage?: number;
   @Output() deleteData: EventEmitter<any> = new EventEmitter();
@@ -68,16 +68,72 @@ export class CustomTableComponent implements OnInit {
   constructor(
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private api:ApiService
-  ) {}
+    private api: ApiService
+  ) { }
   //  Detect changes in input properties
-   ngOnChanges(changes: SimpleChanges): void {
-    
-    if(changes['deleteMessage'] && changes['deleteMessage'].currentValue){
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes['deleteMessage'] && changes['deleteMessage'].currentValue) {
       console.log(changes['deleteMessage'].currentValue);
       this.messageService.add(info(this.deleteMessage));
     }
 
+  }
+
+  exportCSVWithAllColumns() {
+    // Step 1: Create a new array containing the data for all columns
+    const allColumnsData = this.tableData.map((row: any) => {
+      const rowData: any = {};
+
+      if (this.columns) {
+        // Loop through the columns property to fetch all column data
+        this.columns.forEach(column => {
+          rowData[column.field] = row[column.field] || ''; // Use empty string if value is missing
+        });
+      }
+      // Step 1: Flatten data
+
+      // Get the first image URL, if available
+      rowData.image_url = row.images && row.images.length > 0 ? row.images[0] : '';
+
+      // Extract fields from the nested `tour_id` object
+      if (row.tour_id) {
+        rowData.tour_id = row.tour_id._id;
+        rowData.tour_name = row.tour_id.name;
+        rowData.tour_title = row.tour_id.title;
+        rowData.tour_description = row.tour_id.description;
+        rowData.tour_address = row.tour_id.address;
+        
+        delete row.tour_id
+      }
+
+      // Flatten each `tip` in the `tips` array (up to 4 tips)
+      row.tips.forEach((tip:any, index:any) => {
+        rowData[`tip_${index + 1}_title`] = tip.title || '';
+        rowData[`tip_${index + 1}_desc`] = tip.desc || '';
+        rowData[`tip_${index + 1}_icon`] = tip.icon || '';
+      });
+      delete row.tips
+
+      return rowData;
+    });
+
+    if (this.dt) {
+      // Step 2: Temporarily set `dt.value` to the modified data
+      const originalValue = this.dt.value;
+      this.dt.value = allColumnsData;
+
+      console.log(allColumnsData);
+      console.log(this.columns);
+      console.log(this.tableData);
+      console.log(this.dt.value);
+
+      // Step 3: Export to CSV
+      this.dt.exportCSV();
+
+      // Step 4: Restore the original data
+      this.dt.value = originalValue;
+    }
   }
 
   // Filter Global Table
@@ -89,7 +145,7 @@ export class CustomTableComponent implements OnInit {
   onRowEditInit(rowData: any) {
     this.clonedData[rowData._id as string] = { ...rowData };
     console.log(this.clonedData);
-    this.updateData.emit({...rowData});
+    this.updateData.emit({ ...rowData });
     this.api.setUpdateAction();
     delete this.clonedData[rowData.id as string];
 
@@ -109,7 +165,7 @@ export class CustomTableComponent implements OnInit {
 
   //On Row Delete
   onRowDelete(event: Event, rowData: any) {
-    
+
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Do you want to delete this record?',
@@ -153,5 +209,5 @@ export class CustomTableComponent implements OnInit {
     this.displayDialog = true;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }

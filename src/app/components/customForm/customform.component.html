@@ -70,7 +70,7 @@
                                     <ng-content></ng-content>
                                 </div>
 
-                                <div class="w-full sm:w-[30%] lg:w-[31%] gap-8">
+                                <div class="w-full md:w-[48%] lg:w-[31%] gap-8">
 
 
                                     <label for="{{ field.fields.name }}" class="block font-medium mb-1">{{
@@ -125,10 +125,10 @@
                     </div>
                 </ng-container>
             </div>
-            <p-button *ngIf="buttonStatus=='add'" (onClick)="submitForm()" [disabled]="formData.invalid " type="submit"
-                label="Submit" class="btn btn-primary"></p-button>
-            <p-button *ngIf="buttonStatus=='update'" (onClick)="updateForm()" [disabled]="formData.invalid "
-                type="submit" label="Update" class="btn btn-primary"></p-button>
+                <p-button *ngIf="buttonStatus=='add'" (onClick)="submitForm()" [disabled]="formData.invalid " type="submit"
+                label="Submit" class="btn btn-primary w-full" styleClass="w-full max-w-[300px]"></p-button>
+                <p-button *ngIf="buttonStatus=='update'" (onClick)="updateForm()" [disabled]="formData.invalid "
+                type="submit" label="Update" class="btn btn-primary w-full" styleClass="w-full max-w-[300px]"></p-button>
         </form>
     </div>
 </p-panel>

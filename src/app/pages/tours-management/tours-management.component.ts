@@ -134,13 +134,13 @@ export class ToursManagementComponent implements OnInit {
         value:null
 
       },
-    },    
+    },
     {
-      type: 'textarea',
+      type: 'text',
       fields: {
-        label: 'Description',
-        name: 'description',
-        placeholder: 'Enter Description',
+        label: 'Address',
+        name: 'address',
+        placeholder: 'Enter address',
         required: true,
         value:null
 
@@ -149,9 +149,9 @@ export class ToursManagementComponent implements OnInit {
     {
       type: 'textarea',
       fields: {
-        label: 'Address',
-        name: 'address',
-        placeholder: 'Enter address',
+        label: 'Description',
+        name: 'description',
+        placeholder: 'Enter Description',
         required: true,
         value:null
 

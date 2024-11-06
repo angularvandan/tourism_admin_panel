@@ -58,7 +58,6 @@ export class AdminLoginScreenComponent {
         },error:(err:any)=>{
           console.log(err);
           this.messageServies.add({ severity: 'error', summary: 'Error', detail: err.error.message });
-
         }
       });
       // Handle login logic here

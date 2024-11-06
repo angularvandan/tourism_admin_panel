@@ -81,7 +81,7 @@ export class BlogManagementComponent implements OnInit{
       },
     },
     {
-      type: 'textarea',
+      type: 'text',
       fields: {
         label: 'Quote Content',
         name: 'quote_content',

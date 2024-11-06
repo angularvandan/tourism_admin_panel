@@ -39,9 +39,9 @@ export class ActivityManagementComponent implements OnInit{
   columns = [
     { field: 'name', header: 'Name' },
     { field: 'spot_id', header:'Spot Details'},
-    { field: 'image', header: 'Image' },
     { field: 'price_adult', header: 'Price (Adult)' },
     { field: 'price_child', header: 'Price (Child)' },
+    { field: 'image', header: 'Image' },
     { field: 'price_infant', header: 'Price (Infant)' },
     { field: 'description', header: 'Description' },
   ];
@@ -94,22 +94,21 @@ export class ActivityManagementComponent implements OnInit{
         required: true,
       },
     },
-        
-    {
-      type: 'textarea',
-      fields: {
-        label: 'Description',
-        name: 'description',
-        placeholder: 'Enter Description',
-        required: true,
-      },
-    },
     {
       type: 'number',
       fields: {
         label: 'Price Adult',
         name: 'price_adult',
         placeholder: 'Enter price',
+        required: true,
+      },
+    },
+    {
+      type: 'textarea',
+      fields: {
+        label: 'Description',
+        name: 'description',
+        placeholder: 'Enter Description',
         required: true,
       },
     },
