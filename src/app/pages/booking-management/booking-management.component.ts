@@ -37,6 +37,7 @@ export class BookingManagementComponent  implements OnInit {
   columns = [
     { field: 'user_name', header: 'Name' },
     { field: 'user_mobile', header: 'Mobile' },
+    { field: 'user_email', header: 'Email' },
     { field: 'user_address', header: 'Address' },
     { field: 'totalPrice', header: 'Total Price' },
     { field: 'tours_details', header: 'Tours Details' },

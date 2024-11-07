@@ -37,12 +37,14 @@ export class ContactManagementComponent implements OnInit {
   columns = [
     { field: 'first_name', header: 'First Name' },
     { field: 'last_name', header: 'Last Name' },
+    { field: 'phone', header: 'Mobile' },
     { field: 'email', header: 'Email' },
     { field: 'message', header: 'Message' },
   ];
   columnsDetails=[
     { field: 'first_name', header: 'First Name' },
     { field: 'last_name', header: 'Last Name' },
+    { field: 'phone', header: 'Mobile' },
     { field: 'email', header: 'Email' },
     { field: 'message', header: 'Message' },
   ];
