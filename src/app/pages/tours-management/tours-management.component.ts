@@ -172,16 +172,12 @@ export class ToursManagementComponent implements OnInit {
   dynamicForms: { 
     title: string, 
     desc1: string, 
-    icon1: string, 
-    desc2: string, 
-    icon2: string 
+    desc2: string
   }[] = [
     {
       title: '',
       desc1: '',
-      icon1: '',
       desc2: '',
-      icon2: ''
     }
   ];
 
@@ -194,9 +190,7 @@ export class ToursManagementComponent implements OnInit {
       this.dynamicForms.push({
         title: '',
         desc1: '',
-        icon1: '',
         desc2: '',
-        icon2: ''
       });
     }
     
