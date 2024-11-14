@@ -268,6 +268,9 @@
             </div>
           </div>
         </ng-container>
+        <ng-container *ngSwitchCase="'paymentDate'">
+          <span class=""><span class="font-semibold">Payment Date:</span> {{selectedRow.paymentDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+        </ng-container>
 
         <ng-container *ngSwitchCase="'tour_id'">
           <div>
