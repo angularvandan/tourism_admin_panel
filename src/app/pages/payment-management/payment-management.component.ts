@@ -70,6 +70,11 @@ export class PaymentManagementComponent implements OnInit {
       this.paymentData = res;
       console.log(res);
       this.loading = false;
-    });
+    },
+    (err:any)=>{
+      console.log(err);
+      this.loading=false;
+    }
+  );
   }
 }

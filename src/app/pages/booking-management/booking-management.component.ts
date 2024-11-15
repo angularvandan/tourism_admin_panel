@@ -35,6 +35,7 @@ export class BookingManagementComponent  implements OnInit {
     private confirmationService: ConfirmationService
   ) { }
   columns = [
+    { field: 'readableBookingId', header: 'ID' },
     { field: 'user_name', header: 'Name' },
     { field: 'user_mobile', header: 'Mobile' },
     { field: 'user_email', header: 'Email' },
@@ -46,12 +47,12 @@ export class BookingManagementComponent  implements OnInit {
     
   ];
   columnsDetails=[
+    { field: 'readableBookingId', header: 'ID' },
     { field: 'user_name', header: 'Name' },
     { field: 'user_mobile', header: 'Mobile' },
     { field: 'user_address', header: 'Address' },
-    { field: 'totalPrice', header: 'Total Price' },
     { field: 'tours_details', header: 'Tours Details' },
-    { field: 'priceDetails', header: 'User Details' },
+    { field: 'totalPrice', header: 'Total Price' },
     { field: 'paymentStatus', header: 'Payment Status' },
 
   ];
