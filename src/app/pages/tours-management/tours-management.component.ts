@@ -51,7 +51,7 @@ export class ToursManagementComponent implements OnInit {
     { field: 'price_infant', header: 'Price (Infant)' },
     { field: 'tips', header: 'Tips' },
   ];
-  columnsDetails=[
+  columnsDetails = [
     { field: 'name', header: 'Name' },
     { field: 'title', header: 'Headline' },
     { field: 'address', header: 'Address' },
@@ -60,24 +60,24 @@ export class ToursManagementComponent implements OnInit {
     { field: 'price_child', header: 'Price (Child)' },
     { field: 'price_infant', header: 'Price (Infant)' },
   ];
-  rowDetailsHeader:string='Tour Details';
+  rowDetailsHeader: string = 'Tour Details';
   paginator = true;
   rowsPerPageOptions = [5, 10, 15];
   initialRowsPerPage = 5;
   loading: boolean = true;
   toursData: any[] = [];
   visible: boolean = false;
-  header:string="Add Tour";
-  tours_id!:any;
-  preFilledData!:any;
-  message:string='';
-  deleteMessage='';
+  header: string = "Add Tour";
+  tours_id!: any;
+  preFilledData!: any;
+  message: string = '';
+  deleteMessage = '';
 
-  actionButtonStatus={
-    view:true,
-    edit:true,
-    delete:true,
-    add:true
+  actionButtonStatus = {
+    view: true,
+    edit: true,
+    delete: true,
+    add: true
   }
 
   inputFields = [
@@ -88,7 +88,7 @@ export class ToursManagementComponent implements OnInit {
         name: 'name',
         placeholder: 'Enter Name',
         required: true,
-        value:null
+        value: null
       },
     },
     {
@@ -98,7 +98,7 @@ export class ToursManagementComponent implements OnInit {
         name: 'title',
         placeholder: 'Enter Title',
         required: true,
-        value:null
+        value: null
 
       },
     },
@@ -109,7 +109,7 @@ export class ToursManagementComponent implements OnInit {
         name: 'price_adult',
         placeholder: 'Enter price',
         required: true,
-        value:null
+        value: null
 
       },
     },
@@ -120,7 +120,7 @@ export class ToursManagementComponent implements OnInit {
         name: 'price_child',
         placeholder: 'Enter price',
         required: true,
-        value:null
+        value: null
 
       },
     },
@@ -131,7 +131,7 @@ export class ToursManagementComponent implements OnInit {
         name: 'price_infant',
         placeholder: 'Enter price',
         required: true,
-        value:null
+        value: null
 
       },
     },
@@ -142,7 +142,7 @@ export class ToursManagementComponent implements OnInit {
         name: 'address',
         placeholder: 'Enter address',
         required: true,
-        value:null
+        value: null
 
       },
     },
@@ -153,7 +153,7 @@ export class ToursManagementComponent implements OnInit {
         name: 'description',
         placeholder: 'Enter Description',
         required: true,
-        value:null
+        value: null
 
       },
     },
@@ -161,41 +161,41 @@ export class ToursManagementComponent implements OnInit {
       type: 'file',
       fields: {
         label: 'Choose Image',
-        warn:'Select only two images (1400 * 850)',
+        warn: 'Select only two images (1400 * 850)',
         name: 'images',
         required: true,
-        value:null
+        value: null
 
       },
     },
   ];
-  dynamicForms: { 
-    title: string, 
-    desc1: string, 
+  dynamicForms: {
+    title: string,
+    desc1: string,
     desc2: string
   }[] = [
-    {
-      title: '',
-      desc1: '',
-      desc2: '',
-    }
-  ];
+      {
+        title: '',
+        desc1: '',
+        desc2: '',
+      }
+    ];
 
-  selectedFileData:File[]=[];
-  imageUrl:any[]=[];
+  selectedFileData: File[] = [];
+  imageUrl: any[] = [];
 
   // Add new form when user clicks "Add Form"
   addNewForm() {
-    if(this.dynamicForms.length<4){
+    if (this.dynamicForms.length < 4) {
       this.dynamicForms.push({
         title: '',
         desc1: '',
         desc2: '',
       });
     }
-    
+
   }
-  removeForm(){
+  removeForm() {
     this.dynamicForms.pop();
   }
 
@@ -213,26 +213,26 @@ export class ToursManagementComponent implements OnInit {
   }
 
   showDialog(visible: any) {
-    this.header="Add Tour";
+    this.header = "Add Tour";
     this.visible = visible;
-    
-    this.preFilledData={};
-    this.dynamicForms=[];
+
+    this.preFilledData = {};
+    this.dynamicForms = [];
     this.addNewForm();
   }
 
-  updateData(data:any){
+  updateData(data: any) {
     console.log(data);
 
     this.showDialog(true);
 
-    this.tours_id=data._id;
-    
-    this.preFilledData=data;
-    this.dynamicForms=data.tips;
+    this.tours_id = data._id;
+
+    this.preFilledData = data;
+    this.dynamicForms = data.tips;
     console.log(this.preFilledData);
-    
-    this.header="Update Tour";
+
+    this.header = "Update Tour";
   }
 
   deleteData(id: any) {
@@ -240,78 +240,86 @@ export class ToursManagementComponent implements OnInit {
     this.api.deleteTour(id).subscribe((res: any) => {
       console.log(res);
       this.getTours();
-      this.deleteMessage="Tour Deleted Successfully"
+      this.deleteMessage = "Tour Deleted Successfully"
     });
   }
   //this is for file into url
-  onFileSelect(data:any){
+  onFileSelect(data: any) {
     console.log(data);
     this.selectedFileData = data.slice(0, 2);
 
     const formData = new FormData();
-      // Append each selected file to the FormData object
-      this.selectedFileData.forEach(file => {
-        formData.append('images', file);
-      });
+    // Append each selected file to the FormData object
+    this.selectedFileData.forEach(file => {
+      formData.append('images', file);
+    });
 
     this.api.getImageUrl(formData).subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         console.log(res);
-        this.imageUrl=res.data;
-        this.preFilledData={...this.preFilledData,images:this.imageUrl};
+        this.imageUrl = res.data;
+        this.preFilledData = { ...this.preFilledData, images: this.imageUrl };
         console.log(this.preFilledData);
       },
-      error:(err:any)=>{
+      error: (err: any) => {
         console.log(err);
       }
     })
   }
   // create tours 
   onSubmitAddForm(formData: any) {
-    
+
     console.log(formData);
     console.log(this.dynamicForms);
-    formData={...formData,tips:this.dynamicForms,images:this.imageUrl};
+    formData = { ...formData, tips: this.dynamicForms, images: this.imageUrl };
     console.log(formData);
 
     this.api.createTours(formData).subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         console.log(res);
         this.getTours();
-        this.message='Tour Added Successfully';
+        this.message = 'Tour Added Successfully';
         // Reset `message` to allow for the same message again later
         setTimeout(() => {
           this.message = ''; // Clears message without triggering additional toast
-        }, 0);
-      },
-      error:(err:any)=>{
-        console.log(err);
-        this.messageServies.add({ severity: 'error', summary: 'Error', detail: err.error.error.message });
 
+        }, 0);
+        setTimeout(() => {
+          this.showDialog(false);
+        }, 1500);
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.messageServies.add({ severity: 'error', summary: 'Error', detail: err.error.message });
       }
     })
 
   }
   // update tours 
   onSubmitUpdateForm(formData: any) {
-    
+
     console.log(formData);
     console.log(this.dynamicForms);
-    formData={...formData,tips:this.dynamicForms};
+    formData = { ...formData, tips: this.dynamicForms };
+    
     console.log(formData);
 
-    this.api.updateTour(formData,this.tours_id).subscribe({
-      next:(res:any)=>{
+    this.api.updateTour(formData, this.tours_id).subscribe({
+      next: (res: any) => {
         console.log(res);
-        this.message='Tour Updated Successfully!'
+        this.message = 'Tour Updated Successfully!'
         this.getTours();
         // Reset `message` to allow for the same message again later
         setTimeout(() => {
           this.message = ''; // Clears message without triggering additional toast
         }, 0);
+        setTimeout(() => {
+          this.showDialog(false);
+        }, 1500);
       },
-      error:(err:any)=>{
+      error: (err: any) => {
         console.log(err);
+        this.messageServies.add({ severity: 'error', summary: 'Error', detail: err.error.message });
       }
     })
 

@@ -67,3 +67,11 @@ app-custom-form .image-container .image{
 app-custom-table .p-datatable{
     height: calc(100vh - 185px);
 }
+app-admin-login-screen .pi {
+    line-height: unset;
+}
+app-admin-login-screen .pi-spin {
+    
+    -webkit-animation: fa-spin 1s infinite linear;
+    animation: fa-spin 1s infinite linear;
+}

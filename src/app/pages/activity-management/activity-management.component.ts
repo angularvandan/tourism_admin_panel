@@ -214,6 +214,10 @@ export class ActivityManagementComponent implements OnInit{
         setTimeout(() => {
           this.message = ''; // Clears message without triggering additional toast
         }, 0);
+        
+        setTimeout(() => {
+          this.showDialog(false);
+        }, 1500);
       },
       error:(err:any)=>{
         console.log(err);
@@ -268,6 +272,12 @@ export class ActivityManagementComponent implements OnInit{
         setTimeout(() => {
           this.message = ''; // Clears message without triggering additional toast
         }, 0);
+        setTimeout(() => {
+          this.message = ''; // Clears message without triggering additional toast
+        }, 0);
+        setTimeout(() => {
+          this.showDialog(false);
+        }, 1500);
 
       },
       error:(err:any)=>{

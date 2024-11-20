@@ -32,6 +32,7 @@ export class AdminLoginScreenComponent {
   password!: string
 
   loginForm: FormGroup;
+  loading:boolean=false;
 
   constructor(private fb: FormBuilder,private apiService:ApiService,private router:Router,private messageServies: MessageService,
   ) {
@@ -51,11 +52,15 @@ export class AdminLoginScreenComponent {
       const formData = this.loginForm.value;
       console.log('Form Submitted!', formData);
 
+      this.loading=true;
+
       this.apiService.loginUser(formData).subscribe({
         next:(res:any)=>{
           // console.log(res);
           this.router.navigate(['/dashboard']);
+          this.loading=false;
         },error:(err:any)=>{
+          this.loading=false;
           console.log(err);
           this.messageServies.add({ severity: 'error', summary: 'Error', detail: err.error.message });
         }

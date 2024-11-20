@@ -37,7 +37,9 @@
                         </div>
                         <div class="flex justify-center -mx-3">
                             <div class="w-auto px-3 mb-5">
-                                <p-button (onClick)="onSubmit()" label="Submit"></p-button>
+                                <p-button (onClick)="onSubmit()"[disabled]="loading" [icon]="loading ? 'pi pi-spin pi-spinner':''" label="Submit">
+                                    <!-- <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i> -->
+                                </p-button>
                             </div>
                         </div>
                     </form>
@@ -46,5 +48,4 @@
         </div>
     </div>
     <p-toast position="bottom-center"></p-toast>
-
 </div>

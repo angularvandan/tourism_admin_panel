@@ -116,11 +116,12 @@ export class PrivacyPolicyComponentimplements implements OnInit {
       console.log(res);
       this.getPrivacyDetails();
       this.deleteMessage="Privacy Policy Deleted Successfully"
-
+    },error=>{
+      console.log(error);
     });
   }
   
-  // create tours 
+  // create privacy 
   onSubmitAddForm(formData: any) {
     
     console.log(formData);
@@ -131,6 +132,14 @@ export class PrivacyPolicyComponentimplements implements OnInit {
       next:(res:any)=>{
         console.log(res);
         this.getPrivacyDetails();
+        this.message = 'Privacy Created Successfully!'; // Clears message without triggering additional toast
+
+        setTimeout(() => {
+          this.message = ''; // Clears message without triggering additional toast
+        }, 0);
+        setTimeout(() => {
+          this.showDialog(false);
+        }, 1500);
       },
       error:(err:any)=>{
         console.log(err);
@@ -147,6 +156,12 @@ export class PrivacyPolicyComponentimplements implements OnInit {
         console.log(res);
         this.message='Privacy Updated Successfully!'
         this.getPrivacyDetails();
+        setTimeout(() => {
+          this.message = ''; // Clears message without triggering additional toast
+        }, 0);
+        setTimeout(() => {
+          this.showDialog(false);
+        }, 1500);
       },
       error:(err:any)=>{
         console.log(err);
