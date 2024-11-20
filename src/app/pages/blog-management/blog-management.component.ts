@@ -161,7 +161,7 @@ export class BlogManagementComponent implements OnInit{
     
     this.header="Update Blog";
   }
-  // update tours 
+  // update blogs 
   onSubmitUpdateForm(formData: any) {
     
     console.log(formData);

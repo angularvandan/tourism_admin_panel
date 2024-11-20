@@ -127,6 +127,18 @@ export class CustomFormCompomemt implements OnInit {
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
+      // this is for hide update button when user enter other image 
+      if(this.formData.get('images')){
+
+        this.formData.patchValue({
+          images:null
+        })
+      }
+      else{
+        this.formData.patchValue({
+          image:null
+        })
+      }
       // Store selected files
       let selectedFiles = Array.from(input.files);
       this.file.emit(selectedFiles);
