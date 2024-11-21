@@ -88,7 +88,7 @@
                                         </label>
 
                                     </div>
-                                    <p class=" m-0 p-0 " *ngIf="field.fields.warn">{{field.fields.warn}}</p>
+                                    <p class=" m-0 p-0 text-red-400" *ngIf="field.fields.warn">{{field.fields.warn}}</p>
                                     <!-- Display file names in the form (optional) -->
                                     <div *ngIf="formData.get('images')">
                                         <ng-container *ngFor="let image of formData.get('images')?.value">

@@ -247,6 +247,10 @@ export class ToursManagementComponent implements OnInit {
   onFileSelect(data: any) {
     console.log(data);
     this.selectedFileData = data.slice(0, 2);
+    if(this.selectedFileData.length!=2){
+      this.messageServies.add({ severity: 'error', summary: 'Error', detail: 'Select two images!'});
+      return;
+    }
 
     const formData = new FormData();
     // Append each selected file to the FormData object

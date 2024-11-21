@@ -10,6 +10,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { CustomFormCompomemt } from '../../components/customForm/customform.component';
 import { CustomTableComponent } from '../../components/customTable/customtable.component';
+import { ToastModule } from 'primeng/toast';
+
 
 @Component({
   selector: 'app-blog-management',
@@ -25,6 +27,7 @@ import { CustomTableComponent } from '../../components/customTable/customtable.c
     FormsModule,
     InputTextModule,
     ButtonModule,
+    ToastModule
   ],
   templateUrl: './blog-management.component.html',
   styleUrl: './blog-management.component.css'
@@ -206,6 +209,11 @@ export class BlogManagementComponent implements OnInit{
   onFileSelect(data:any){
     console.log(data);
     this.selectedFileData = data.slice(0, 2);
+
+    if(this.selectedFileData.length!=2){
+      this.messageServies.add({ severity: 'error', summary: 'Error', detail: 'Select two images!'});
+      return;
+    }
 
     const formData = new FormData();
       // Append each selected file to the FormData object
