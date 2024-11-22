@@ -101,6 +101,9 @@ export class CustomFormCompomemt implements OnInit {
       if (controls.type === 'text') {
         validators.push(Validators.pattern('^[^0-9]+$'));  // Regex for only alphabets
       }
+      if (controls.type === 'number' && controls.fields.noZero) {
+        validators.push((control: any) => (control.value === 0 ? { noZero: true } : null)); // Custom validator
+      }
       // console.log(validators)
       this.formData.addControl(controls.fields.name, this.fb.control(controls.value, validators))
       console.log(this.formData)

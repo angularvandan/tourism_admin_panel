@@ -1,2 +1,13 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
+
+a:hover {
+    color: rgb(80, 80, 208);
+    transform:scale(1.02);
+    transition: all;
+    transition-duration: 600;
+}
+
+.active a {
+    color: rgb(80, 80, 208);
+}

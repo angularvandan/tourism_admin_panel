@@ -109,6 +109,8 @@ export class ToursManagementComponent implements OnInit {
         name: 'price_adult',
         placeholder: 'Enter price',
         required: true,
+        noZero:true,
+
         value: null
 
       },
@@ -120,6 +122,8 @@ export class ToursManagementComponent implements OnInit {
         name: 'price_child',
         placeholder: 'Enter price',
         required: true,
+        noZero:true,
+
         value: null
 
       },
@@ -131,6 +135,7 @@ export class ToursManagementComponent implements OnInit {
         name: 'price_infant',
         placeholder: 'Enter price',
         required: true,
+        noZero:true,
         value: null
 
       },
